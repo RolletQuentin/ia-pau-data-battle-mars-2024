@@ -8,6 +8,7 @@ services:
       - "8080:8080"
     depends_on:
       - backend
+      - mysql
 
   backend:
     build:
@@ -15,3 +16,17 @@ services:
       dockerfile: backend/Dockerfile
     ports:
       - "8000:8000"
+    depends_on:
+      - mysql
+
+  mysql:
+    build:
+      context: .
+      dockerfile: mysql/Dockerfile
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+      MYSQL_ROOT_PASSWORD: rootpassword
