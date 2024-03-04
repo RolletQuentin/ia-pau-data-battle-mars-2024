@@ -575,3 +575,47 @@ __Exemples__:
   codelicense: 3
 }
 ```
+
+## tblfinancementsolution
+
+__Description__ :
+```
+???
+```
+
+__Champs__ :
+```
+numfinancementsolution: Identifiant
+codesolution: foreignkey vers tblsolution
+codefinancement: foreign key vers tblfinancement
+codelicense: foreign key vers tbllicense
+```
+
+__Exemples__:
+```json
+{
+  numfinancementsolution: 2,
+  codesolution: 2,
+  codefiancement: 101,
+  codelicense: 2
+}
+```
+
+## tblgainrex
+
+__Description__ :
+```
+???
+```
+
+__Champs__ :
+```
+
+```
+
+__Exemples__:
+```json
+{
+
+}
+```
