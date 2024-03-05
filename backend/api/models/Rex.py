@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from api.models.Reference import Reference
 from api.models.TauxMonnaie import TauxMonnaie
 from api.models.Techno import Techno
-from api.models.Solution import Solution
+from api.models.SolutionRex import SolutionRex
 
 
 class Rex(BaseModel):
@@ -28,4 +28,4 @@ class Rex(BaseModel):
     techno3: Techno | None = None
     code_travaux: int | None = None
     code_reseau: int | None = None
-    solutions: list[Solution] = []
+    solutions: list[SolutionRex] = []

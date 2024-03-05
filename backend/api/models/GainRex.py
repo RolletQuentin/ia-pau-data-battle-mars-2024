@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class Gain(BaseModel):
+class GainRex(BaseModel):
     num: int
     gain_financier: int | None = None
     monnaie: str | None = None

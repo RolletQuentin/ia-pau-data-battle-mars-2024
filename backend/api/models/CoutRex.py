@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class Cout(BaseModel):
+class CoutRex(BaseModel):
     num: int
     cout_reel: int | None = None
     monnaie: str | None = None
