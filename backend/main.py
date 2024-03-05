@@ -2,6 +2,13 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import mysql.connector
 
+from models.Reference import Reference
+from models.Region import Region
+from models.Rex import Rex
+from models.Solution import Solution
+from models.TauxMonnaie import TauxMonnaie
+from models.Techno import Techno
+
 mydb = mysql.connector.connect(
     host="localhost",
     user="myuser",
@@ -77,44 +84,16 @@ async def get_all_data():
         # Execute the query
         query = """
             SELECT
-                tblrex.numrex,
-                tblrex.codemonnaie,
-                tblrex.gainfinancierrex,
-                tblrex.gainfinancierperioderex,
-                tblrex.energierex,
-                tblrex.codeuniteenergie,
-                tblrex.codeperiodeenergie,
-                tblrex.codeenergierex,
-                tblrex.gesrex,
-                tblrex.ratiogainrex,
-                tblrex.trirex,
-                tblrex.capexrex,
-                tblrex.capexperioderex,
-                tblrex.codeTechno1,
-                tblrex.codeTechno2,
-                tblrex.codeTechno3,
-                tblrex.codetravaux,
-                tblrex.codereseau,
-                tblregion.codepays,
-                tblreference.coderegion,
-                tblreference.codesecteur,
-                tblcoutrex.reelcoutrex,
-                tblcoutrex.codemonnaiecoutrex,
-                tblcoutrex.codedifficulte,
-                tblgainrex.gainfinanciergainrex,
-                tblgainrex.codemonnaiegainrex,
-                tblgainrex.codeperiodeeconomie,
-                tblgainrex.energiegainrex,
-                tblgainrex.uniteenergiegainrex,
-                tblgainrex.codeperiodeenergie,
-                tblgainrex.gesgainrex,
-                tblgainrex.trireelgainrex
+                tblrex.*,
+                tblregion.*,
+                tblreference.*,
+                tblcoutrex.*,
+                tblgainrex.*
             FROM tblrex
             JOIN tblreference ON tblreference.numreference = tblrex.codereference
             JOIN tblregion ON tblregion.numregion = tblreference.coderegion
             JOIN tblcoutrex ON tblcoutrex.coderex = tblrex.numrex
-            JOIN tblgainrex ON tblgainrex.coderex = tblrex.numrex
-            LIMIT 100;
+            JOIN tblgainrex ON tblgainrex.coderex = tblrex.numrex;
         """
         cursor.execute(query)
 
