@@ -18,7 +18,7 @@ def get_all():
             JOIN tblregion ON tblregion.numregion = tblreference.coderegion
             JOIN tblcoutrex ON tblcoutrex.coderex = tblrex.numrex
             JOIN tblgainrex ON tblgainrex.coderex = tblrex.numrex
-            LIMIT 100;
+            LIMIT 1;
         """
     cursor.execute(query)
 
