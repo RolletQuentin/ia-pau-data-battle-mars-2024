@@ -13,7 +13,7 @@ router = APIRouter(
 async def get_all_data():
     try:
         datas = rex_service.get_all()
-        return {"data": "test"}
+        return datas
 
     except Exception as e:
         # If a problem occurs, return a code 500 error (Internal Server Error)

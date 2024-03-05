@@ -11,14 +11,24 @@ def get_all():
                 tblrex.*,
                 tblregion.*,
                 tblreference.*,
+                tbltauxmonnaie.*,
                 tblcoutrex.*,
-                tblgainrex.*
+                tblgainrex.*,
+                -- technoreference.sigletechno AS sigletechnoreference,
+                techno1.sigletechno AS sigletechno1,
+                techno2.sigletechno AS sigletechno2,
+                techno3.sigletechno AS sigletechno3
             FROM tblrex
             JOIN tblreference ON tblreference.numreference = tblrex.codereference
+            JOIN tbltauxmonnaie ON tbltauxmonnaie.numtauxmonnaie = tblrex.codetauxmonnaie
             JOIN tblregion ON tblregion.numregion = tblreference.coderegion
             JOIN tblcoutrex ON tblcoutrex.coderex = tblrex.numrex
             JOIN tblgainrex ON tblgainrex.coderex = tblrex.numrex
-            LIMIT 1;
+            -- JOIN tbltechno AS technoreference ON technoreference.numtechno = tblreference.codetechno
+            JOIN tbltechno AS techno1 ON techno1.numtechno = tblrex.codeTechno1
+            JOIN tbltechno AS techno2 ON techno2.numtechno = tblrex.codeTechno2
+            JOIN tbltechno AS techno3 ON techno3.numtechno = tblrex.codeTechno3
+            LIMIT 10;
         """
     cursor.execute(query)
 
