@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-from models.Region import Region
-from models.Techno import Techno
+from api.models.Region import Region
+from api.models.Techno import Techno
 
 
 class Reference(BaseModel):

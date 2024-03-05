@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-from models.Cout import Cout
-from models.Gain import Gain
+from api.models.Cout import Cout
+from api.models.Gain import Gain
 
 
 class Solution(BaseModel):

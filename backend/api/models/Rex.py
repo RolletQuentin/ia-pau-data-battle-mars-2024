@@ -1,8 +1,8 @@
 from pydantic import BaseModel
-from models.Reference import Reference
-from models.TauxMonnaie import TauxMonnaie
-from models.Techno import Techno
-from models.Solution import Solution
+from api.models.Reference import Reference
+from api.models.TauxMonnaie import TauxMonnaie
+from api.models.Techno import Techno
+from api.models.Solution import Solution
 
 
 class Rex(BaseModel):
