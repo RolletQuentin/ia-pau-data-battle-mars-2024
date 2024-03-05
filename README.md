@@ -1,5 +1,12 @@
 # IA Pau Data Battle
 
+## Quick start
+```
+docker start <nom du conteneur mysql>
+cd backend
+venv/bin/uvicorn main:app --reload
+```
+
 ## API
 
 L'API est essentielle dans cette application. C'est elle qui va se connecter à la base de données et seulement elle, cela permet de factoriser le code, que l'on puisse tous bénéficier des données qu'un autre utilise en une seule fois sans avoir à écrire tous notre requête SQL. Cela permet aussi d'uniformiser les données et toujours avoir le même format JSON.
