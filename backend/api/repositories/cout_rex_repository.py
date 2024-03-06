@@ -1,13 +1,15 @@
 from api.dependencies import mydb
 
 
-def get_all_for_one_rex(numrex):
+def get_all_for_one_rex(code_rex):
     # Create cursor object
     cursor = mydb.cursor()
 
     # Execute the query
-    query = """
-            
+    query = f"""
+        SELECT tblcoutrex.*
+        FROM tblcoutrex
+        WHERE tblcoutrex.coderex = {code_rex};
         """
     cursor.execute(query)
 
