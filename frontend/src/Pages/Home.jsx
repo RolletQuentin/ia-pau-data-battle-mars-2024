@@ -8,6 +8,7 @@ import {
 import React from "react";
 import Footer from "../Components/Footer";
 import SolutionFinder from "../Components/SolutionFinder";
+import SolutionDisplay from "../Components/SolutionDisplay";
 
 const Home = () => {
   // content customisation variable
@@ -52,6 +53,9 @@ const Home = () => {
             </CenterContainer>
             <CenterContainer>
               <SolutionFinder />
+            </CenterContainer>
+            <CenterContainer>
+              <SolutionDisplay />
             </CenterContainer>
           </VBox>
         </MarginContainer>

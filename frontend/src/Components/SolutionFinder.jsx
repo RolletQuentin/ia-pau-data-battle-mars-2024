@@ -7,12 +7,15 @@ import {
 } from "@liro_u/react-components";
 import React, { useState } from "react";
 import TextArea from "./input/TextArea";
+import CustomButton from "./input/CustomButton";
+import CustomSelect from "./input/CustomSelect";
 
 const SolutionFinder = () => {
   // content customisation variable
   const section2Text = "Description";
   const section1Text = "Secteur d'activité";
   const validateButtonText = "Mes solutions";
+
   const descriptionTextPlaceholder =
     "Exemple : Mettre en transparance un exemple bien détaillé de ce que l’user doit écrire dans cette section. Comme ça on augmente les chances qu’il écrive pas n’importe quoi.";
 
@@ -28,10 +31,7 @@ const SolutionFinder = () => {
   const gap = "20px";
   const subSectionPercentage = "70%";
   const subSectionBorderRadius = "20px";
-  const validateButtonWidth = "30%";
-  const validateButtonColor = "var(--dark-primary)";
-  const validateButtonTextColor = "var(--light-color)";
-  const validateButtonTextFontWeight = "bold";
+
   const subSectionBoxShadow = "0px 4px 4px 0px #00000040";
 
   // css auto variable
@@ -60,33 +60,16 @@ const SolutionFinder = () => {
               fontWeight={titleFontWeight}
               fontSize={titleFontSize + "px"}
             />
-            <ColorRect
+            <CustomSelect
               backgroundColor={backgroundColor}
-              style={{
-                borderRadius: subSectionBorderRadius,
-                width: subSectionPercentage,
-                boxShadow: subSectionBoxShadow,
-              }}
-            >
-              <MarginContainer
-                margin={subSectionVerticalMargin + "px"}
-                marginLeft={subSectionHorizontalMargin + "px"}
-                marginRight={subSectionHorizontalMargin + "px"}
-              >
-                <HBox justifyContent="space-between">
-                  <Text
-                    text="drop menu"
-                    color={textColor}
-                    fontSize={subSectionFontSize + "px"}
-                  />
-                  <Text
-                    text="\/"
-                    color={textColor}
-                    fontSize={subSectionFontSize + "px"}
-                  />
-                </HBox>
-              </MarginContainer>
-            </ColorRect>
+              borderRadius={subSectionBorderRadius}
+              boxShadow={subSectionBoxShadow}
+              width={subSectionPercentage}
+              horizontalMargin={subSectionHorizontalMargin}
+              verticalMargin={subSectionVerticalMargin}
+              textColor={textColor}
+              fontSize={subSectionFontSize}
+            />
           </HBox>
           <HBox justifyContent="space-between">
             <Text
@@ -123,29 +106,15 @@ const SolutionFinder = () => {
             </ColorRect>
           </HBox>
           <HBox justifyContent="right">
-            <ColorRect
-              backgroundColor={validateButtonColor}
-              style={{
-                borderRadius: subSectionBorderRadius,
-                width: validateButtonWidth,
-                boxShadow: subSectionBoxShadow,
-                cursor: "pointer",
-              }}
+            <CustomButton
+              fontSize={subSectionFontSize}
+              horizontalMargin={subSectionHorizontalMargin}
+              verticalMargin={subSectionVerticalMargin}
+              boxShadow={subSectionBoxShadow}
               onClick={askAPIForSolutions}
-            >
-              <MarginContainer
-                margin={subSectionVerticalMargin + "px"}
-                marginLeft={subSectionHorizontalMargin + "px"}
-                marginRight={subSectionHorizontalMargin + "px"}
-              >
-                <Text
-                  text={validateButtonText}
-                  color={validateButtonTextColor}
-                  fontSize={subSectionFontSize + "px"}
-                  fontWeight={validateButtonTextFontWeight}
-                />
-              </MarginContainer>
-            </ColorRect>
+              borderRadius={subSectionBorderRadius}
+              text={validateButtonText}
+            />
           </HBox>
         </VBox>
       </MarginContainer>
