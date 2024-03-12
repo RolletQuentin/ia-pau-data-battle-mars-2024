@@ -30,6 +30,11 @@ def extractDictionnary(sql_path,output_file,element,codes):
                     # Séparation des colonnes par des virgules
                     columns = sub_line.split(',',5)                 
                     columns[5] = re.sub('<.*?>', '',columns[5])
+                    columns[5] = re.sub(r"\\'", "'", columns[5])  # Remplace \' par '
+                    columns[5] = re.sub(r"\\n", " ", columns[5])  # Remplace \n par un espace
+                    columns[5] = re.sub(r"\\r", " ", columns[5])  # Remplace \r par un espace
+                    columns[5] = re.sub(r'\\"', '"', columns[5])  # Remplace \" par "
+
                     # Écriture des colonnes autres que les trois premières dans le fichier CSV
                     output.write('|'.join(columns[3:]) + '\n')
 
