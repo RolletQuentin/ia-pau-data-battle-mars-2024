@@ -1,5 +1,7 @@
 import re
 import os
+import mysql.connector
+
 
 
 sql_path = "../../../mysql/db_backup_plateforme_2024-01-10_010001.sql"
@@ -20,7 +22,7 @@ def extractDictionnary(sql_path,output_file,element,codes):
     pattern = re.compile(rf",2,'{element}',(.{{1,4}}?),(?:{codes_pattern})," )
 
     # Ouverture et traitement du fichier SQL
-    with open(sql_file_path, 'r') as file,  open(output_file_path, 'w') as output:
+    with open(sql_file_path, 'r') as file,  open(output_file_path, 'w',encoding='utf-8') as output:
         for line in file:
             # Divise la ligne en plusieurs lignes si elle contient "),("
             split_lines = re.split(r'\),\(', line)
@@ -51,3 +53,43 @@ output_file_technologie = "technologie.csv"
 codes_technologie = [1,2,3,8,11,13,15]
 
 extractDictionnary(sql_path, output_file_technologie, "tec", codes_technologie)
+
+
+
+
+def mapSolutionsToTech():
+
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="myuser",
+        password="mypassword",
+        database="mydatabase"
+    )
+    
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_file_path = os.path.join(script_dir, "solutions_Technologies_Mapping.csv")
+    
+    cursor = mydb.cursor()
+
+    query = f"""
+        SELECT numsolution,
+            codetechno,
+            codecatsolution,
+            validsolution 
+        FROM mydatabase.tblsolution;
+    """
+
+    cursor.execute(query)
+
+    with open(output_file_path, 'w', encoding='utf-8') as output_file:
+        for row in cursor:
+            # Création d'une chaîne de caractères pour chaque ligne, où les valeurs sont séparées par des virgules
+            formatted_row = '|'.join(map(str, row))
+            # Écriture de la chaîne dans le fichier de sortie
+            output_file.write(formatted_row + '\n')
+
+    cursor.close()
+    mydb.close()
+
+
+mapSolutionsToTech()
