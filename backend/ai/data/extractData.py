@@ -34,6 +34,9 @@ def extractDictionnary(sql_path,output_file,element,codes):
                     columns[5] = re.sub(r"\\n", " ", columns[5])  # Remplace \n par un espace
                     columns[5] = re.sub(r"\\r", " ", columns[5])  # Remplace \r par un espace
                     columns[5] = re.sub(r'\\"', '"', columns[5])  # Remplace \" par "
+                    columns[5] = re.sub(r"^'", '', columns[5])  # Supprime l'apostrophe au début de la chaîne
+                    columns[5] = re.sub(r"'$", '', columns[5])  # Supprime l'apostrophe à la fin de la chaîne
+                    columns[5] = re.sub(r'\s+', ' ', columns[5]).strip()  # Nettoie les espaces multiples et enlève les espaces de début et de fin
 
                     # Écriture des colonnes autres que les trois premières dans le fichier CSV
                     output.write('|'.join(columns[3:]) + '\n')
