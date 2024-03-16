@@ -7,8 +7,8 @@ router = APIRouter(
 )
 
 
-@router.get("/get_solutions")
-async def get_all_data():
+@router.get("/get_all_technologie")
+async def get_all_technologie():
     try:
         # Create cursor object
         cursor = mydb.cursor()
