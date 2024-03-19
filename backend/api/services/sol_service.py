@@ -17,10 +17,10 @@ def get_multiple_solution(solutions,secteur_activite):
         solution = Solution(
             num=result[0],
             titre=result[1],
-            degre_confiance=0,
-            gain_monetaire=str(gains[0]),
-            gain_watt=str(gains[1]),
-            gain_co2=str(gains[2])
+            degre_confiance=gains[0],
+            gain_monetaire=str(gains[1]),
+            gain_watt=str(gains[2]),
+            gain_co2=str(gains[3])
         )
 
         data.append(solution)
