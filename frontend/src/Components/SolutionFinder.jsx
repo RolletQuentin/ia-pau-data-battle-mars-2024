@@ -5,7 +5,7 @@ import {
   Text,
   VBox,
 } from "@liro_u/react-components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextArea from "./input/TextArea";
 import CustomButton from "./input/CustomButton";
 import CustomSelect from "./input/CustomSelect";
@@ -16,8 +16,9 @@ const SolutionFinder = ({
   },
 }) => {
   // content customisation variable
-  const section2Text = "Description";
+  const section2Text = "Description *";
   const section1Text = "Secteur d'activité";
+  const subSection1Text = "Sous-secteur *";
   const validateButtonText = "Mes solutions";
 
   const descriptionTextPlaceholder =
@@ -44,12 +45,78 @@ const SolutionFinder = ({
 
   // react update variable
   const [description, setDescription] = useState("");
+  const [sectors, setSectors] = useState({});
+  const [mainCategorie, setMainCategorie] = useState(null);
+  const [subCategorie, setSubCategorie] = useState(null);
+  const [isSubSectionError, setIsSubSectionError] = useState(false);
+  const [isDescriptionError, setIsDescriptionError] = useState(false);
+
+  useEffect(() => {
+    const getAllCategories = async () => {
+      const response = await fetch(
+        process.env.REACT_APP_PROXY + "/sec/get_all_sector"
+      );
+
+      const json = await response.json();
+
+      if (response.ok) {
+        const data = json.sectors;
+        setSectors(data);
+      } else {
+      }
+    };
+    getAllCategories();
+  }, []);
 
   // API call
-  const askAPIForSolutions = () => {
-    console.log("asking api for solutions");
+  const askAPIForSolutions = async () => {
+    if (!subCategorie) {
+      setIsSubSectionError(true);
+    }
+    if (!description || description === "") {
+      setIsDescriptionError(true);
+    }
 
-    callBack([]);
+    if (description && subCategorie && description !== "") {
+      const response = await fetch(
+        process.env.REACT_APP_PROXY + "/sol/best_solutions",
+        {
+          method: "POST",
+          body: JSON.stringify({ secteur_activite: subCategorie, description }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const json = await response.json();
+
+      if (response.ok) {
+        const data = json;
+
+        callBack(data);
+      } else {
+      }
+    }
+  };
+
+  const selectMainCategorie = (value) => {
+    setMainCategorie(value);
+    setSubCategorie(null);
+  };
+
+  const selectSubCategorie = (value) => {
+    setSubCategorie(value);
+    if (isSubSectionError) {
+      setIsSubSectionError(false);
+    }
+  };
+
+  const descriptionChanged = (value) => {
+    setDescription(value);
+    if (isDescriptionError) {
+      setIsDescriptionError(false);
+    }
   };
 
   return (
@@ -67,6 +134,7 @@ const SolutionFinder = ({
               fontSize={titleFontSize + "px"}
             />
             <CustomSelect
+              options={Object.keys(sectors)}
               backgroundColor={backgroundColor}
               borderRadius={subSectionBorderRadius}
               boxShadow={subSectionBoxShadow}
@@ -76,6 +144,33 @@ const SolutionFinder = ({
               textColor={textColor}
               fontSize={subSectionFontSize}
               HGap={"calc(" + gap + " / 2)"}
+              currentValue={mainCategorie}
+              selectCallback={selectMainCategorie}
+            />
+          </HBox>
+          <HBox justifyContent="space-between">
+            <Text
+              text={subSection1Text}
+              color={textColor}
+              fontWeight={titleFontWeight}
+              fontSize={titleFontSize + "px"}
+            />
+            <CustomSelect
+              options={
+                mainCategorie ? [mainCategorie, ...sectors[mainCategorie]] : []
+              }
+              backgroundColor={backgroundColor}
+              borderRadius={subSectionBorderRadius}
+              boxShadow={subSectionBoxShadow}
+              width={subSectionPercentage}
+              horizontalMargin={subSectionHorizontalMargin}
+              verticalMargin={subSectionVerticalMargin}
+              textColor={isSubSectionError ? "red" : textColor}
+              fontSize={subSectionFontSize}
+              HGap={"calc(" + gap + " / 2)"}
+              currentValue={subCategorie}
+              selectCallback={selectSubCategorie}
+              style={isSubSectionError ? { border: "solid 1px red" } : {}}
             />
           </HBox>
           <HBox justifyContent="space-between">
@@ -96,8 +191,8 @@ const SolutionFinder = ({
             >
               <TextArea
                 placeholder={descriptionTextPlaceholder}
-                color={textColor}
-                setValue={setDescription}
+                color={isDescriptionError ? "red" : textColor}
+                setValue={descriptionChanged}
                 value={description}
                 style={{
                   backgroundColor: "#0000",
@@ -109,6 +204,9 @@ const SolutionFinder = ({
                     "calc(100% - " + subSectionHorizontalMargin * 2 + "px)",
                   height: "calc(100% - " + subSectionVerticalMargin * 2 + "px)",
                 }}
+                basicStyle={
+                  isDescriptionError ? { border: "solid 1px red" } : {}
+                }
               />
             </ColorRect>
           </HBox>

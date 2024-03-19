@@ -9,12 +9,13 @@ const SubSolutionDisplay = ({
   fontWeight = "bold",
   gap = "20px",
   percentageSplit = [10, 30, 20, 10, 10, 10, 10],
+  solution,
 }) => {
   return (
     <MarginContainer margin={margin}>
       <HBox gap={gap}>
         <Text
-          text="1686"
+          text={solution.num}
           color={textColor}
           fontSize={fontSize}
           fontWeight={fontWeight}
@@ -24,7 +25,7 @@ const SubSolutionDisplay = ({
           }}
         />
         <Text
-          text="Optimisation contrat eau / Taxes d'assainissement"
+          text={solution.titre}
           color={textColor}
           fontSize={fontSize}
           fontWeight={fontWeight}
@@ -34,7 +35,7 @@ const SubSolutionDisplay = ({
           }}
         />
         <Text
-          text="Basé sur 15 études"
+          text={"Basé sur " + solution.degre_confiance + " études"}
           color={textColor}
           fontSize={fontSize}
           fontWeight={fontWeight}
@@ -44,7 +45,7 @@ const SubSolutionDisplay = ({
           }}
         />
         <Text
-          text="1 832 066 €/an"
+          text={solution.gain_monetaire + " €/an"}
           color={textColor}
           fontSize={fontSize}
           fontWeight={fontWeight}
@@ -54,7 +55,7 @@ const SubSolutionDisplay = ({
           }}
         />
         <Text
-          text="53 GWh/an"
+          text={solution.gain_watt + " GWh/an"}
           color={textColor}
           fontSize={fontSize}
           fontWeight={fontWeight}
@@ -64,7 +65,7 @@ const SubSolutionDisplay = ({
           }}
         />
         <Text
-          text="100T"
+          text={solution.gain_co2 + "T"}
           color={textColor}
           fontSize={fontSize}
           fontWeight={fontWeight}

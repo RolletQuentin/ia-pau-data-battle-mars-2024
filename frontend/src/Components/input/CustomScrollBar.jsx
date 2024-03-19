@@ -19,6 +19,11 @@ const CustomScrollBar = forwardRef(
     const [isDragging, setIsDragging] = useState(false);
     const [initialY, setInitialY] = useState(0);
     const [initialScrollPosition, setInitialScrollPosition] = useState(0);
+    const [needRefresh, setNeedRefresh] = useState(0);
+
+    const refresh = () => {
+      setNeedRefresh(true);
+    };
 
     useEffect(() => {
       const handleChildScroll = () => {
@@ -35,6 +40,7 @@ const CustomScrollBar = forwardRef(
       if (ref) {
         ref.current = {
           handleChildScroll,
+          refresh,
         };
       }
     }, [ref, childRef, parentRef]);
@@ -47,7 +53,10 @@ const CustomScrollBar = forwardRef(
           Math.max(ratio * parentRef.current.clientHeight, minThumbHeight)
         );
       }
-    }, [childRef, parentRef, minThumbHeight]);
+      if (needRefresh === true) {
+        setNeedRefresh(false);
+      }
+    }, [childRef, parentRef, minThumbHeight, needRefresh]);
 
     const handleMouseDown = (e) => {
       e.preventDefault();

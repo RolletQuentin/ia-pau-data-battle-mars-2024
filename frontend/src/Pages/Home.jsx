@@ -11,10 +11,12 @@ import Footer from "../Components/Footer";
 import SolutionFinder from "../Components/SolutionFinder";
 import SolutionDisplay from "../Components/SolutionDisplay";
 import { Opacity } from "@liro_u/react-animation-components";
+import CustomButton from "../Components/input/CustomButton";
 
 const Home = () => {
-  const [displaySolution, setDisplaySolution] = useState(false);
+  const [pageState, setPageState] = useState(0);
   const [windowJustOpened, setWindowJustOpen] = useState(true);
+  const [solutions, setSolutions] = useState([]);
 
   // content customisation variable
   const backgroundImageSrc = "/wallpaper/forest.jpg";
@@ -24,7 +26,7 @@ const Home = () => {
   ];
 
   // css customisation variable
-  const verticalMargin = "100px";
+  const verticalMargin = "50px";
   const horizontalMargin = "200px";
   const textFontWeight = "bold";
   const textFontSize = "35px";
@@ -65,15 +67,16 @@ const Home = () => {
   `;
 
   // functions
-  const findSolutions = (solutions) => {
-    setDisplaySolution(true);
+  const findSolutions = (s) => {
+    setSolutions(s);
+    setPageState(2);
     if (windowJustOpened) {
       setWindowJustOpen(false);
     }
   };
 
   const goBackToSearch = () => {
-    setDisplaySolution(false);
+    setPageState(1);
   };
 
   return (
@@ -109,9 +112,10 @@ const Home = () => {
               gap={gap}
               mainBoxStyle={{
                 position: "absolute",
-                animationName: displaySolution ? "hide" : "show",
+                animationName: pageState === 0 ? "show" : "hide",
                 animationDuration: "0.5s",
                 animationFillMode: "forwards",
+                height: "80vh",
               }}
             >
               <CenterContainer>
@@ -130,6 +134,33 @@ const Home = () => {
                 </VBox>
               </CenterContainer>
               <CenterContainer>
+                <CustomButton
+                  buttonWidth="300px"
+                  text="Découvrir comment"
+                  fontSize={20}
+                  verticalMargin={25}
+                  buttonColor="var(--dark-primary2)"
+                  buttonColorHover="var(--dark-primary)"
+                  onClick={goBackToSearch}
+                />
+              </CenterContainer>
+            </VBox>
+            <VBox
+              gap={gap}
+              mainBoxStyle={{
+                position: "absolute",
+                animationName:
+                  pageState === 0
+                    ? "startingSolutionDisplay"
+                    : pageState === 1
+                    ? "show"
+                    : "hide",
+                animationDuration: "0.5s",
+                animationFillMode: "forwards",
+                height: "80vh",
+              }}
+            >
+              <CenterContainer>
                 <SolutionFinder callBack={findSolutions} />
               </CenterContainer>
             </VBox>
@@ -139,11 +170,12 @@ const Home = () => {
                 position: "absolute",
                 animationName: windowJustOpened
                   ? "startingSolutionDisplay"
-                  : displaySolution
+                  : pageState === 2
                   ? "show"
                   : "hide",
                 animationDuration: "0.5s",
                 animationFillMode: "forwards",
+                height: "80vh",
               }}
             >
               <Opacity
@@ -168,7 +200,7 @@ const Home = () => {
                 </CenterContainer>
               </Opacity>
               <CenterContainer>
-                <SolutionDisplay />
+                <SolutionDisplay solutions={solutions} />
               </CenterContainer>
             </VBox>
           </HBox>
