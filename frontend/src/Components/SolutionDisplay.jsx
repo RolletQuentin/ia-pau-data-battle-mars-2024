@@ -5,11 +5,11 @@ import {
   Text,
   VBox,
 } from "@liro_u/react-components";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import SubSolutionDisplay from "./SubSolutionDisplay";
 import CustomScrollBar from "./input/CustomScrollBar";
 
-const SolutionDisplay = () => {
+const SolutionDisplay = ({ solutions }) => {
   // content customisation variable
   const topHeaderText = "Estimation des gains";
   const HeaderTitles = [
@@ -53,6 +53,12 @@ const SolutionDisplay = () => {
       scrollbarRef.current.handleChildScroll();
     }
   };
+
+  useEffect(() => {
+    if (scrollbarRef.current) {
+      scrollbarRef.current.refresh();
+    }
+  }, [solutions]);
 
   return (
     <HBox
@@ -132,7 +138,7 @@ const SolutionDisplay = () => {
                   ref={childRef}
                 >
                   <VBox>
-                    {Array.from({ length: 40 }).map((_, index) => (
+                    {solutions.map((solution, index) => (
                       <SubSolutionDisplay
                         key={index}
                         margin={globalMargin}
@@ -140,6 +146,7 @@ const SolutionDisplay = () => {
                         fontSize={subSectionFontSize}
                         fontWeight={subSectionFontWeight}
                         percentageSplit={percentageSplit}
+                        solution={solution}
                       />
                     ))}
                   </VBox>
@@ -154,7 +161,7 @@ const SolutionDisplay = () => {
         parentRef={parentRef}
         childRef={childRef}
         ThumbColor="var(--dark-primary)"
-        backgroundColor={backgroundColor + backgroundColorAlpha}
+        backgroundColor={backgroundColor}
       />
     </HBox>
   );

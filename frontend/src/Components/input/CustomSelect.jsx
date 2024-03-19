@@ -5,7 +5,7 @@ import {
   Text,
   VBox,
 } from "@liro_u/react-components";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CustomScrollBar from "./CustomScrollBar";
 
 const CustomSelect = ({
@@ -19,6 +19,15 @@ const CustomSelect = ({
   horizontalMargin = fontSize,
   maxHeight = "100px",
   HGap,
+  textMargin = "20px",
+  currentValue,
+  autoCloseWhenSelect = true,
+  selectedBackgroundColor = "var(--primary)",
+  selectCallback = (value) => {},
+  options,
+  noOptionsError = "vous devez choisir un secteur d'activité",
+  noOptionsSelectedError = "pas de valeur sélectionné pour le moment",
+  style,
   ...content
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,6 +42,17 @@ const CustomSelect = ({
     }
   };
 
+  useEffect(() => {
+    scrollbarRef.current.refresh();
+  }, [options]);
+
+  const select = (value) => {
+    if (autoCloseWhenSelect) {
+      setIsOpen(false);
+    }
+    selectCallback(value);
+  };
+
   return (
     <ColorRect
       backgroundColor={backgroundColor}
@@ -40,6 +60,7 @@ const CustomSelect = ({
         borderRadius,
         width,
         boxShadow,
+        ...style,
       }}
       {...content}
     >
@@ -54,13 +75,17 @@ const CustomSelect = ({
         >
           <HBox
             justifyContent="space-between"
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              setIsOpen(!isOpen);
-            }}
+            style={{ cursor: options.length > 0 ? "pointer" : "" }}
+            onClick={options.length > 0 ? () => setIsOpen(!isOpen) : () => {}}
           >
             <Text
-              text="drop menu"
+              text={
+                options.length <= 0
+                  ? noOptionsError
+                  : currentValue
+                  ? currentValue
+                  : noOptionsSelectedError
+              }
               color={textColor}
               fontSize={fontSize + "px"}
             />
@@ -79,10 +104,11 @@ const CustomSelect = ({
             gap={HGap}
             style={{
               maxHeight: isOpen ? maxHeight : "0px",
-              transition: "all 0.5s",
+              transition: "all 0.5s, opacity 0.25s",
               opacity: isOpen ? "1" : "0",
               width: "100%",
               position: "relative",
+              pointerEvents: isOpen ? "" : "none",
             }}
           >
             <div
@@ -106,19 +132,28 @@ const CustomSelect = ({
                 }}
               >
                 <VBox gap={"5px"} mainBoxStyle={{ flexGrow: 1 }}>
-                  {Array.from({ length: 10 }).map((_, index) => (
+                  {options.map((value, index) => (
                     <ColorRect
                       key={index}
-                      backgroundColor={"#d7d7d7"}
+                      backgroundColor={
+                        value === currentValue
+                          ? selectedBackgroundColor
+                          : "#d7d7d7"
+                      }
                       style={{
                         borderRadius: borderRadius,
+                        cursor: "pointer",
                       }}
+                      onClick={() => select(value)}
                     >
-                      <Text
-                        text={"catégorie " + (index + 1)}
-                        color={textColor}
-                        fontSize={fontSize + "px"}
-                      />
+                      <MarginContainer marginLeft={textMargin}>
+                        <Text
+                          text={value}
+                          color={textColor}
+                          fontSize={fontSize + "px"}
+                          style={{ textAlign: "left" }}
+                        />
+                      </MarginContainer>
                     </ColorRect>
                   ))}
                 </VBox>
