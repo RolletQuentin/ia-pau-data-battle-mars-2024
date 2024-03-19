@@ -3,7 +3,6 @@ import os
 import mysql.connector
 
 
-
 sql_path = "../../../mysql/db_backup_plateforme_2024-01-10_010001.sql"
 
 
@@ -53,8 +52,6 @@ output_file_technologie = "technologie.csv"
 codes_technologie = [1,2,3,8,11,13,15]
 
 extractDictionnary(sql_path, output_file_technologie, "tec", codes_technologie)
-
-
 
 
 def mapSolutionsToTech():
