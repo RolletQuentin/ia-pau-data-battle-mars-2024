@@ -10,7 +10,11 @@ import TextArea from "./input/TextArea";
 import CustomButton from "./input/CustomButton";
 import CustomSelect from "./input/CustomSelect";
 
-const SolutionFinder = () => {
+const SolutionFinder = ({
+  callBack = (solutions) => {
+    console.log(solutions);
+  },
+}) => {
   // content customisation variable
   const section2Text = "Description";
   const section1Text = "Secteur d'activité";
@@ -44,6 +48,8 @@ const SolutionFinder = () => {
   // API call
   const askAPIForSolutions = () => {
     console.log("asking api for solutions");
+
+    callBack([]);
   };
 
   return (
@@ -69,6 +75,7 @@ const SolutionFinder = () => {
               verticalMargin={subSectionVerticalMargin}
               textColor={textColor}
               fontSize={subSectionFontSize}
+              HGap={"calc(" + gap + " / 2)"}
             />
           </HBox>
           <HBox justifyContent="space-between">
