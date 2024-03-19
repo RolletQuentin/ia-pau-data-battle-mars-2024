@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.ressources import solution
+from api.ressources import sol_ressource
 from api.ressources import rex_ressource
 
 app = FastAPI()
@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(solution.router)
+app.include_router(sol_ressource.router)
 app.include_router(rex_ressource.router)
 
 
