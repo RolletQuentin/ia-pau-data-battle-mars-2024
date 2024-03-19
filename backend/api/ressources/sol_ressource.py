@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Body
+from fastapi import APIRouter, Body
 from api.models.RequestBestSol import RequestBestSol
 
 from api.services import sol_service
