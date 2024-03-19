@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api.ressources import sol_ressource
 from api.ressources import rex_ressource
+from api.ressources import sec_ressource
 
 app = FastAPI()
 
@@ -20,6 +21,7 @@ app.add_middleware(
 
 app.include_router(sol_ressource.router)
 app.include_router(rex_ressource.router)
+app.include_router(sec_ressource.router)
 
 
 @app.get("/")
