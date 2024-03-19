@@ -10,7 +10,7 @@ router = APIRouter (
 )
 
 @router.post("/best_solutions")
-async def best_solutions(data: RequestBestSol = Body(...)) -> Solution:
+async def best_solutions(data: RequestBestSol = Body(...)) -> list[Solution]:
         secteur_activite = data.secteur_activite
         description = data.description
         solutions =  model_PAT(description,secteur_activite)        
