@@ -46,6 +46,7 @@ const CustomButton = ({
         backgroundRepeat: "no-repeat",
         backgroundPosition,
         backgroundSize: (isHovered ? "100%" : "0%") + " 100%",
+        height: "fit-content",
       }}
       onClick={onClick}
       {...content}

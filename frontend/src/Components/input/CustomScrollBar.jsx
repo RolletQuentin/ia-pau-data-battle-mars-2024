@@ -20,6 +20,7 @@ const CustomScrollBar = forwardRef(
     const [initialY, setInitialY] = useState(0);
     const [initialScrollPosition, setInitialScrollPosition] = useState(0);
     const [needRefresh, setNeedRefresh] = useState(0);
+    const [visible, setVisible] = useState(true);
 
     const refresh = () => {
       setNeedRefresh(true);
@@ -49,6 +50,7 @@ const CustomScrollBar = forwardRef(
       if (childRef.current && parentRef.current) {
         const ratio =
           childRef.current.clientHeight / childRef.current.scrollHeight;
+        setVisible(ratio !== 1);
         setScrollThumbHeight(
           Math.max(ratio * parentRef.current.clientHeight, minThumbHeight)
         );
@@ -107,9 +109,11 @@ const CustomScrollBar = forwardRef(
     return (
       <MarginContainer
         style={{
-          width: "10px",
           backgroundColor: backgroundColor,
           borderRadius: "30px",
+          opacity: visible ? 1 : 0,
+          width: "10px",
+          pointerEvents: visible ? "" : "none",
         }}
       >
         <div

@@ -26,8 +26,19 @@ const Home = () => {
   ];
 
   // css customisation variable
+  const backgroundColor = "#ffffff";
+  const backgroundColorAlpha = "73";
+  const backgroundBlur = "blur(20px)";
+
+  const titleFontSize = 20;
+  const textColor = "var(--dark-primary)";
+  const subSectionFontSize = 15;
+  const titleFontWeight = "bold";
+  const componentGap = "20px";
+
   const verticalMargin = "50px";
   const horizontalMargin = "200px";
+
   const textFontWeight = "bold";
   const textFontSize = "35px";
   const gap = "70px";
@@ -161,7 +172,17 @@ const Home = () => {
               }}
             >
               <CenterContainer>
-                <SolutionFinder callBack={findSolutions} />
+                <SolutionFinder
+                  callBack={findSolutions}
+                  backgroundColor={backgroundColor}
+                  backgroundColorAlpha={backgroundColorAlpha}
+                  backgroundBlur={backgroundBlur}
+                  titleFontSize={titleFontSize}
+                  textColor={textColor}
+                  subSectionFontSize={subSectionFontSize}
+                  titleFontWeight={titleFontWeight}
+                  gap={componentGap}
+                />
               </CenterContainer>
             </VBox>
             <VBox
@@ -200,7 +221,17 @@ const Home = () => {
                 </CenterContainer>
               </Opacity>
               <CenterContainer>
-                <SolutionDisplay solutions={solutions} />
+                <SolutionDisplay
+                  solutions={solutions}
+                  backgroundColor={backgroundColor}
+                  backgroundColorAlpha={backgroundColorAlpha}
+                  backgroundBlur={backgroundBlur}
+                  titleFontSize={titleFontSize}
+                  textColor={textColor}
+                  subSectionFontSize={subSectionFontSize}
+                  titleFontWeight={titleFontWeight}
+                  gap={componentGap}
+                />
               </CenterContainer>
             </VBox>
           </HBox>
