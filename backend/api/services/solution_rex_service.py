@@ -8,10 +8,7 @@ from api.services import gain_rex_service, cout_rex_service
 def get_solutions_for_one_rex(code_rex):
     gains: list[GainRex] = gain_rex_service.get_all_for_one_rex(code_rex)
     couts: list[CoutRex] = cout_rex_service.get_all_for_one_rex(code_rex)
-
-    print(gains)
-    print(couts)
-
+    
     data = []
     num_solutions = []
 
