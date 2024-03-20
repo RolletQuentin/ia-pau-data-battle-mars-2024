@@ -25,7 +25,7 @@ const CustomSelect = ({
   selectedBackgroundColor = "var(--primary)",
   selectCallback = (value) => {},
   options,
-  noOptionsError = "vous devez choisir un secteur d'activité",
+  noOptionsError = "pas d'options",
   noOptionsSelectedError = "pas de valeur sélectionné pour le moment",
   style,
   ...content
@@ -75,7 +75,7 @@ const CustomSelect = ({
         >
           <HBox
             justifyContent="space-between"
-            style={{ cursor: options.length > 0 ? "pointer" : "" }}
+            style={{ cursor: options.length > 0 ? "pointer" : "not-allowed" }}
             onClick={options.length > 0 ? () => setIsOpen(!isOpen) : () => {}}
           >
             <Text
