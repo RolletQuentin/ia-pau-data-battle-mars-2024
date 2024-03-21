@@ -10,7 +10,7 @@ router = APIRouter(
 
 
 @router.get("/get_all")
-async def get_all_data():
+async def get_all_data() -> list[Rex]:
     try:
         datas = rex_service.get_all()
         return datas
