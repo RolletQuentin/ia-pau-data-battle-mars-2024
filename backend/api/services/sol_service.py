@@ -12,20 +12,22 @@ def get_multiple_solution(solutions,secteur_activite):
     data = []
 
     results = sol_repository.get_multiple_solution(solutions)
-
+    id_sector = sec_repository.get_id_sector(str(secteur_activite))
+    
+    print(id_sector)
     for result in results:
         
         
-        gains = gain_rex_service.predict_gain_solution(result[0]) #Ajouter secteur_activite
+        gains = gain_rex_service.predict_gain_solution(result[0],id_sector)
         print(gains)
         
         solution = Solution(
             num=result[0],
             titre=result[1],
             degre_confiance=gains.number_of_based_solutions,
-            gain_monetaire=str(gains.average_financial_gain),
-            gain_watt=str(gains.average_energy_gain),
-            gain_co2=str(gains.average_ges_gain)
+            gain_monetaire=gains.average_financial_gain,
+            gain_watt=gains.average_energy_gain,
+            gain_co2=gains.average_ges_gain
         )
 
         data.append(solution)
