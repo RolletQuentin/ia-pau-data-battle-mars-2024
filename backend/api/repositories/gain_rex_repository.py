@@ -26,15 +26,17 @@ def get_all_for_one_rex(code_rex):
     return data_with_columns
 
 
-def get_all_for_one_solution(code_solution):
+def get_all_for_one_solution(code_solution, code_secteur):
     # Create cursor object
     cursor = mydb.cursor()
 
     # Execute the query
     query = f"""
-        SELECT tblgainrex.*
-        FROM tblgainrex
-        WHERE tblgainrex.codesolution = {code_solution};
+        SELECT tblgainrex.*, tblreference.codesecteur FROM mydatabase.tblgainrex
+        JOIN tblrex ON tblrex.numrex = tblgainrex.coderex
+        JOIN tblreference ON tblreference.numreference = tblrex.codereference
+        WHERE tblgainrex.codesolution = {code_solution}
+        AND tblreference.codesecteur = {code_secteur};
         """
     cursor.execute(query)
 

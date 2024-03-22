@@ -26,8 +26,9 @@ def get_all_for_one_rex(code_rex):
         ))
 
 
-def get_all_for_one_solution(code_solution):
-    results = gain_rex_repository.get_all_for_one_solution(code_solution)
+def get_all_for_one_solution(code_solution, code_secteur):
+    results = gain_rex_repository.get_all_for_one_solution(
+        code_solution, code_secteur)
     data = []
     for result in results:
         data.append(GainRex(
@@ -48,41 +49,42 @@ def get_all_for_one_solution(code_solution):
     return data
 
 
-def predict_gain_solution(code_solution):
+def predict_gain_solution(code_solution, code_secteur):
     """Predict the gain for a solution. The prediction is based on the gain of the solutions that are similar to the given solution.
 
     Args:
         code_solution (int): The code of the solution
     """
     # Get all the gains for the given solution
-    gains = get_all_for_one_solution(code_solution)
+    gains = get_all_for_one_solution(code_solution, code_secteur)
 
-    # Get the average gain_financier for the given solution
+    # Get the average gain_financier for the given solution. Return None if there is no gain_financier
     financier_gains = [
         gain.gain_financier for gain in gains if gain.gain_financier is not None]
     average_gain_financier = sum(financier_gains) / \
-        len(financier_gains) if financier_gains else 0
+        len(financier_gains) if financier_gains else None
 
-    # Give the average gain_energie for the given solution
+    # Give the average gain_energie for the given solution. Return None if there is no gain_energie
     energie_gains = [
         gain.gain_energie for gain in gains if gain.gain_energie is not None]
     average_gain_energie = sum(energie_gains) / \
-        len(energie_gains) if energie_gains else 0
+        len(energie_gains) if energie_gains else None
 
     # Give the average gain_ges for the given solution
     ges_gains = [gain.gain_ges for gain in gains if gain.gain_ges is not None]
-    average_gain_ges = sum(ges_gains) / len(ges_gains) if ges_gains else 0
+    average_gain_ges = sum(ges_gains) / len(ges_gains) if ges_gains else None
 
     # Give the average gain_reel for the given solution
     reel_gains = [
         gain.gain_reel for gain in gains if gain.gain_reel is not None]
-    average_gain_reel = sum(reel_gains) / len(reel_gains) if reel_gains else 0
+    average_gain_reel = sum(reel_gains) / \
+        len(reel_gains) if reel_gains else None
 
     # Give the average tri_reel for the given solution
     tri_reel_gains = [
         gain.tri_reel for gain in gains if gain.tri_reel is not None]
     average_tri_reel = sum(tri_reel_gains) / \
-        len(tri_reel_gains) if tri_reel_gains else 0
+        len(tri_reel_gains) if tri_reel_gains else None
 
     return AverageGain(
         number_of_based_solutions=len(gains),
