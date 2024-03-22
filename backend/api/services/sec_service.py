@@ -1,4 +1,4 @@
-from api.repositories.sec_repository import get_all_sector
+from api.repositories import sec_repository
 
 from api.models.Sector import Sector
 
@@ -6,7 +6,7 @@ def get_all_sector():
     data = []
 
     sectors_dict = {}
-    results = get_all_sector()
+    results = sec_repository.get_all_sector()
 
      # Traitement de chaque ligne de résultat
     for main_category, sub_category in results:
