@@ -9,9 +9,9 @@ def get_all_for_one_rex(code_rex):
     query = f"""
         SELECT tblgainrex.*
         FROM tblgainrex
-        WHERE tblgainrex.coderex = {code_rex};
+        WHERE tblgainrex.coderex = %s;
         """
-    cursor.execute(query)
+    cursor.execute(query, (code_rex,))
 
     # Get the results and column names
     results = cursor.fetchall()
@@ -35,10 +35,10 @@ def get_all_for_one_solution(code_solution, code_secteur):
         SELECT tblgainrex.*, tblreference.codesecteur FROM mydatabase.tblgainrex
         JOIN tblrex ON tblrex.numrex = tblgainrex.coderex
         JOIN tblreference ON tblreference.numreference = tblrex.codereference
-        WHERE tblgainrex.codesolution = {code_solution}
-        AND tblreference.codesecteur = {code_secteur};
+        WHERE tblgainrex.codesolution = %s
+        AND tblreference.codesecteur = %s;
         """
-    cursor.execute(query)
+    cursor.execute(query, (code_solution, code_secteur,))
 
     # Get the results and column names
     results = cursor.fetchall()
