@@ -61,3 +61,34 @@ def get_list_sector():
     
     return sector_list
 
+
+
+def get_id_sector(sector):
+    # Création de l'objet cursor
+    cursor = mydb.cursor()
+    # Création de la requête avec paramètres
+    query = """
+        SELECT 
+            codeappelobjet
+        FROM 
+            tbldictionnaire
+        WHERE 
+            codelangue = 2 AND 
+            typedictionnaire = "sec" AND 
+            indexdictionnaire = 1 AND
+            traductiondictionnaire = %s;
+    """
+    
+    cursor.execute(query,(sector,))
+
+    # Récupération des résultats et conversion en une liste de chaînes
+    result = cursor.fetchone()
+
+    # Fermeture du curseur après l'opération
+    cursor.close()
+    
+    # Vérifiez si un résultat a été trouvé et retournez-le; sinon, retournez None
+    return result[0]
+
+
+
