@@ -23,8 +23,9 @@ def get_all_for_one_rex(code_rex):
     return data
 
 
-def get_all_for_one_solution(code_solution):
-    results = cout_rex_repository.get_all_for_one_solution(code_solution)
+def get_all_for_one_solution(code_solution, code_secteur):
+    results = cout_rex_repository.get_all_for_one_solution(
+        code_solution, code_secteur)
     data = []
     for result in results:
         data.append(CoutRex(
@@ -40,18 +41,18 @@ def get_all_for_one_solution(code_solution):
     return data
 
 
-def predict_cout_solution(code_solution):
+def predict_cout_solution(code_solution, code_secteur):
     """Predict the cout for a solution. The prediction is based on the cout of the solutions that are similar to the given solution.
 
     Args:
         code_solution (int): The code of the solution
     """
     # Get all the couts for the given solution
-    couts = get_all_for_one_solution(code_solution)
+    couts = get_all_for_one_solution(code_solution, code_secteur)
 
     # Get the average cout_reel for the given solution
     couts = [cout.cout_reel for cout in couts if cout.cout_reel is not None]
-    average_cout = sum(couts) / len(couts)
+    average_cout = sum(couts) / len(couts) if couts else None
 
     return AverageCout(
         number_of_based_solutions=len(couts),
