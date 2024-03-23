@@ -93,7 +93,7 @@ const SubSolutionDisplay = ({
     <MarginContainer margin={margin}>
       <HBox gap={gap}>
         <Text
-          text={solution.num}
+          text={solution.num ? solution.num : "pas de data"}
           color={textColor}
           fontSize={fontSize}
           fontWeight={fontWeight}
@@ -103,7 +103,7 @@ const SubSolutionDisplay = ({
           }}
         />
         <Text
-          text={solution.titre}
+          text={solution.titre ? solution.titre : "pas de data"}
           color={textColor}
           fontSize={fontSize}
           fontWeight={fontWeight}
@@ -123,7 +123,11 @@ const SubSolutionDisplay = ({
           }}
         />
         <Text
-          text={solution.gain_monetaire + " €/an"}
+          text={
+            solution.gain_monetaire
+              ? solution.gain_monetaire + " €/an"
+              : "pas de data"
+          }
           color={textColor}
           fontSize={fontSize}
           fontWeight={fontWeight}
@@ -133,7 +137,9 @@ const SubSolutionDisplay = ({
           }}
         />
         <Text
-          text={solution.gain_watt + " GWh/an"}
+          text={
+            solution.gain_watt ? solution.gain_watt + " GWh/an" : "pas de data"
+          }
           color={textColor}
           fontSize={fontSize}
           fontWeight={fontWeight}
@@ -143,7 +149,7 @@ const SubSolutionDisplay = ({
           }}
         />
         <Text
-          text={solution.gain_co2 + "T"}
+          text={solution.gain_co2 ? solution.gain_co2 + "T" : "pas de data"}
           color={textColor}
           fontSize={fontSize}
           fontWeight={fontWeight}
