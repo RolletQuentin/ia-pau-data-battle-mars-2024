@@ -9,9 +9,17 @@ from sentence_transformers import SentenceTransformer, util
 import numpy as np
 import os
 
+
+
+
 def load_and_merge_data(csv_file='../data/solutions.csv'):
+    # Obtention du chemin absolu du répertoire contenant le script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Construction du chemin d'accès au fichier SQL relatif à l'emplacement du script
+    csv_file_path = os.path.join(script_dir, csv_file)
+
     # Charger le fichier CSV en spécifiant le séparateur '|'
-    df = pd.read_csv(csv_file, sep='|', header=None)
+    df = pd.read_csv(csv_file_path, sep='|', header=None)
     # Renommer les colonnes
     df.columns = ['id_solution', 'categorie', 'texte']
     # Filtrer les lignes pour les catégories spécifiées
@@ -86,6 +94,10 @@ def calculate_average_embedding(text, quantize=False, precision="binary"):
     return average_embedding
 
 def genere_embedding(data, output_file, quantize=False, precision="binary"):
+    # Obtention du chemin absolu du répertoire contenant le script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_file_path = os.path.join(script_dir, output_file)
+    
     # Appliquer la fonction pour calculer l'embedding moyen à chaque texte
     if quantize:
         embeddings = data['clean_text'].apply(calculate_average_embedding, quantize=True)
@@ -102,7 +114,7 @@ def genere_embedding(data, output_file, quantize=False, precision="binary"):
     df_embeddings = pd.DataFrame(new_data)
     
     # Storer les embeddings dans un fichier
-    with open(output_file, "wb") as fOut:
+    with open(output_file_path, "wb") as fOut:
         pickle.dump(df_embeddings, fOut, protocol=pickle.HIGHEST_PROTOCOL)
     
     print("Les embeddings ont été storer avec succès.")
@@ -139,17 +151,24 @@ nlp = spacy.load("fr_core_news_sm")
 model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 
 def model_PAT(secteur, description):
+    # Obtention du chemin absolu du répertoire contenant le script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
     # Définition du nom du fichier d'embeddings
     embeddings_file = "model1_embeddings.pkl"
+
+    # Construction du chemin d'accès au fichier SQL relatif à l'emplacement du script
+    embeddings_file_path = os.path.join(script_dir, embeddings_file)
+
     # Vérifier si le fichier d'embeddings existe
-    if not os.path.exists(embeddings_file):
+    if not os.path.exists(embeddings_file_path):
         print("Le fichier d'embeddings n'existe pas. Génération des embeddings en cours...")
         # Affachage des données chargées
         df_solutions = load_and_merge_data()
         # Appliquons le traitement à la colonne text de notre df_solutions
         df_solutions['clean_text'] = df_solutions['text'].apply(pre_processing)
         # Générer les embeddings et les sauvegarder dans le fichier
-        genere_embedding(df_solutions, embeddings_file)
+        genere_embedding(df_solutions, embeddings_file_path)
         print("Les embeddings ont été générés et sauvegardés avec succès.")
 
     # On commence par concaténer notre secteur et notre description.
@@ -159,7 +178,7 @@ def model_PAT(secteur, description):
     clean_text = pre_processing(text)
 
     # Ensuite on cherche nos similarités 
-    solutions = find_solution(clean_text, embeddings_file)
+    solutions = find_solution(clean_text, embeddings_file_path)
 
     # On return une liste contenant uniquement le numéros des solutions
     id_solutions = []
@@ -168,22 +187,22 @@ def model_PAT(secteur, description):
 
     return id_solutions
 
-# if __name__ == "__main__":
-#     # Malheureusement nous n'avons pas reçu le domaine d
-#     # Malheureusement nous n'avons pas reçu le domaine d'activité correspondant aux
-#     # requetes avec Kerdos.Et pour certaines requetes nous n'avons pas l'Id_solution non
-#     # plus, dans ce cas il est remplacé par -1.
-#     dataset_test_kerdos = [
-#         ["Id_solution", "Domaine_activite", "Description"],
-#         [724, "", "C'est quoi la HP flottante ?"],
-#         [914, "", "Je voudrais dimensionner un panneau solaire."],
-#         [719, "", "Quel gain pour un variateur de vitesse ?"],
-#         [-1, "", "J'aimerais avoir une régulation optimisée de mon groupe froid."],
-#         [-1, "", "Comment faire pour réduire la consommation de mon compresseur d'air comprimé ?"]
-#     ]
+if __name__ == "__main__":
+    # Malheureusement nous n'avons pas reçu le domaine d
+    # Malheureusement nous n'avons pas reçu le domaine d'activité correspondant aux
+    # requetes avec Kerdos.Et pour certaines requetes nous n'avons pas l'Id_solution non
+    # plus, dans ce cas il est remplacé par -1.
+    dataset_test_kerdos = [
+        ["Id_solution", "Domaine_activite", "Description"],
+        [724, "", "C'est quoi la HP flottante ?"],
+        [914, "", "Je voudrais dimensionner un panneau solaire."],
+        [719, "", "Quel gain pour un variateur de vitesse ?"],
+        [-1, "", "J'aimerais avoir une régulation optimisée de mon groupe froid."],
+        [-1, "", "Comment faire pour réduire la consommation de mon compresseur d'air comprimé ?"]
+    ]
 
-#     # On va tester sur notre dataset_test
-#     for i in range(1, len(dataset_test_kerdos)):
-#         print("--------------------------------------------")
-#         print("Solution attendue : ", dataset_test_kerdos[i][0])
-#         print(model_PAT(dataset_test_kerdos[i][1], dataset_test_kerdos[i][2]))
+    # On va tester sur notre dataset_test
+    for i in range(1, len(dataset_test_kerdos)):
+        print("--------------------------------------------")
+        print("Solution attendue : ", dataset_test_kerdos[i][0])
+        print(model_PAT(dataset_test_kerdos[i][1], dataset_test_kerdos[i][2]))
