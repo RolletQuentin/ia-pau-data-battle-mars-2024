@@ -8,17 +8,15 @@ from api.models.Solution import Solution
 import re
 
 
-def get_multiple_solution(solutions,secteur_activite):
+def get_multiple_solution(solutions, secteur_activite):
     data = []
-
     results = sol_repository.get_multiple_solution(solutions)
     id_sector = sec_repository.get_id_sector(str(secteur_activite))
     
     print(id_sector)
+    result_mapping = {}  # Create a mapping from solution number to the solution object
     for result in results:
-        
-        
-        gains = gain_rex_service.predict_gain_solution(result[0],id_sector)
+        gains = gain_rex_service.predict_gain_solution(result[0], id_sector)
         print(gains)
         
         solution = Solution(
@@ -29,10 +27,15 @@ def get_multiple_solution(solutions,secteur_activite):
             gain_watt=gains.average_energy_gain,
             gain_co2=gains.average_ges_gain
         )
-
-        data.append(solution)
+        result_mapping[result[0]] = solution  # Map the solution number to the solution object
+    
+    # Create the ordered data list based on the order of solution numbers in 'solutions'
+    for num in solutions:
+        if num in result_mapping:  # Check if the solution number is in the mapping
+            data.append(result_mapping[num])
     
     return data
+
 
 
 def check_sector(sector):
