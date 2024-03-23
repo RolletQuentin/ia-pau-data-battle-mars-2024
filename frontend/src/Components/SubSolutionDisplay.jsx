@@ -81,7 +81,7 @@ const SubSolutionDisplay = ({
     const json = await response.json();
 
     if (response.ok) {
-      const data = json;
+      const data = testSolutionData; // data
 
       callBack(data);
     } else {

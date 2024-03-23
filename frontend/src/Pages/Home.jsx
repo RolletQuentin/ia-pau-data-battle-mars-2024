@@ -18,7 +18,26 @@ const Home = () => {
   const [pageState, setPageState] = useState(0);
   const [previousPageState, setPreviousPageState] = useState(-1);
   const [solutions, setSolutions] = useState([]);
-  const [solution, setSolution] = useState(null);
+  const [solution, setSolution] = useState({
+    numSolution: 54,
+    titleSolution: "truc",
+    technologie: "truc",
+    definition: null,
+    application: null,
+    bilanEnergie: null,
+    estimPersoGain: null,
+    estimGenGain: {
+      cout: {
+        pouce: null,
+        difficulte: [],
+      },
+      gain: {
+        gain: null,
+        positif: [],
+      },
+    },
+    etudeCas: [],
+  });
 
   // content customisation variable
   const backgroundImageSrc = "/wallpaper/forest.jpg";
@@ -90,6 +109,7 @@ const Home = () => {
   };
 
   const findSolutionDetails = (s) => {
+    console.log(s);
     setSolution(s);
     changePageState(3);
   };
