@@ -15,7 +15,8 @@ def get_all_for_one_rex(code_rex):
             code_solution=result["codesolution"],
             code_rex=result["coderex"],
             gain_financier=result["gainfinanciergainrex"],
-            monnaie=monnaie_service.get_monnaie(result["codemonnaiegainrex"]),
+            monnaie=monnaie_service.get_short_monnaie(
+                result["codemonnaiegainrex"]),
             code_periode_economie=result["codeperiodeeconomie"],
             gain_energie=result["energiegainrex"],
             unite_energie=result["uniteenergiegainrex"],
@@ -36,7 +37,8 @@ def get_all_for_one_solution(code_solution, code_secteur):
             code_solution=result["codesolution"],
             code_rex=result["coderex"],
             gain_financier=result["gainfinanciergainrex"],
-            monnaie=monnaie_service.get_monnaie(result["codemonnaiegainrex"]),
+            monnaie=monnaie_service.get_short_monnaie(
+                result["codemonnaiegainrex"]),
             code_periode_economie=result["codeperiodeeconomie"],
             gain_energie=result["energiegainrex"],
             unite_energie=result["uniteenergiegainrex"],
@@ -58,9 +60,10 @@ def predict_gain_solution(code_solution, code_secteur):
     # Get all the gains for the given solution
     gains = get_all_for_one_solution(code_solution, code_secteur)
 
-    # Get the average gain_financier for the given solution. Return None if there is no gain_financier
-    financier_gains = [
-        gain.gain_financier for gain in gains if gain.gain_financier is not None]
+    # Get the average gain_financier (in euros) for the given solution. Return None if there is no gain_financier
+    financier_gains = [monnaie_service.convert_to_euro(
+        gain.monnaie.num, gain.gain_financier) for gain in gains if gain.gain_financier is not None]
+
     average_gain_financier = sum(financier_gains) / \
         len(financier_gains) if financier_gains else None
 

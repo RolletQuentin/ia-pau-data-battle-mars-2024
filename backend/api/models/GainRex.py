@@ -1,12 +1,14 @@
 from pydantic import BaseModel
 
+from api.models.Monnaie import Monnaie
+
 
 class GainRex(BaseModel):
     num: int
     code_solution: int
     code_rex: int
     gain_financier: float | None = None
-    monnaie: str | None = None
+    monnaie: Monnaie | None = None
     code_periode_economie: int | None = None
     gain_energie: float | None = None
     unite_energie: int | None = None
