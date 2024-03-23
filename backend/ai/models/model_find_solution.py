@@ -187,22 +187,22 @@ def model_PAT(secteur, description):
 
     return id_solutions
 
-# if __name__ == "__main__":
-#     # Malheureusement nous n'avons pas reçu le domaine d
-#     # Malheureusement nous n'avons pas reçu le domaine d'activité correspondant aux
-#     # requetes avec Kerdos.Et pour certaines requetes nous n'avons pas l'Id_solution non
-#     # plus, dans ce cas il est remplacé par -1.
-#     dataset_test_kerdos = [
-#         ["Id_solution", "Domaine_activite", "Description"],
-#         [724, "", "C'est quoi la HP flottante ?"],
-#         [914, "", "Je voudrais dimensionner un panneau solaire."],
-#         [719, "", "Quel gain pour un variateur de vitesse ?"],
-#         [-1, "", "J'aimerais avoir une régulation optimisée de mon groupe froid."],
-#         [-1, "", "Comment faire pour réduire la consommation de mon compresseur d'air comprimé ?"]
-#     ]
+if __name__ == "__main__":
+    # Malheureusement nous n'avons pas reçu le domaine d
+    # Malheureusement nous n'avons pas reçu le domaine d'activité correspondant aux
+    # requetes avec Kerdos.Et pour certaines requetes nous n'avons pas l'Id_solution non
+    # plus, dans ce cas il est remplacé par -1.
+    dataset_test_kerdos = [
+        ["Id_solution", "Domaine_activite", "Description"],
+        [724, "", "C'est quoi la HP flottante ?"],
+        [914, "", "Je voudrais dimensionner un panneau solaire."],
+        [719, "", "Quel gain pour un variateur de vitesse ?"],
+        [-1, "", "J'aimerais avoir une régulation optimisée de mon groupe froid."],
+        [-1, "", "Comment faire pour réduire la consommation de mon compresseur d'air comprimé ?"]
+    ]
 
-#     # On va tester sur notre dataset_test
-#     for i in range(1, len(dataset_test_kerdos)):
-#         print("--------------------------------------------")
-#         print("Solution attendue : ", dataset_test_kerdos[i][0])
-#         print(model_PAT(dataset_test_kerdos[i][1], dataset_test_kerdos[i][2]))
+    # On va tester sur notre dataset_test
+    for i in range(1, len(dataset_test_kerdos)):
+        print("--------------------------------------------")
+        print("Solution attendue : ", dataset_test_kerdos[i][0])
+        print(model_PAT(dataset_test_kerdos[i][1], dataset_test_kerdos[i][2]))
