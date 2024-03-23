@@ -11,6 +11,9 @@ import CustomScrollBar from "./input/CustomScrollBar";
 
 const SolutionDisplay = ({
   solutions,
+  callBack = (solutions) => {
+    console.log(solutions);
+  },
   // css customisation variable
   backgroundColor = "#ededed",
   backgroundColorAlpha = "a3",
@@ -122,10 +125,10 @@ const SolutionDisplay = ({
                   </HBox>
                 </MarginContainer>
               </ColorRect>
-              <div style={{ overflow: "hidden", height: "300px" }}>
+              <div style={{ overflow: "hidden", height: "350px" }}>
                 <div
                   style={{
-                    height: "300px",
+                    height: "350px",
                     overflowY: "scroll",
                     marginRight: "-20px", // Adjust for scrollbar width
                   }}
@@ -135,6 +138,7 @@ const SolutionDisplay = ({
                   <VBox>
                     {solutions.map((solution, index) => (
                       <SubSolutionDisplay
+                        callBack={callBack}
                         key={index}
                         margin={globalMargin}
                         textColor={textColor}
