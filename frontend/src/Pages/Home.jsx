@@ -12,11 +12,32 @@ import SolutionFinder from "../Components/SolutionFinder";
 import SolutionDisplay from "../Components/SolutionDisplay";
 import { Opacity } from "@liro_u/react-animation-components";
 import CustomButton from "../Components/input/CustomButton";
+import SolutionDetails from "../Components/SolutionDetails";
 
 const Home = () => {
   const [pageState, setPageState] = useState(0);
-  const [windowJustOpened, setWindowJustOpen] = useState(true);
+  const [previousPageState, setPreviousPageState] = useState(-1);
   const [solutions, setSolutions] = useState([]);
+  const [solution, setSolution] = useState({
+    numSolution: 54,
+    titleSolution: "truc",
+    technologie: "truc",
+    definition: null,
+    application: null,
+    bilanEnergie: null,
+    estimPersoGain: null,
+    estimGenGain: {
+      cout: {
+        pouce: null,
+        difficulte: [],
+      },
+      gain: {
+        gain: null,
+        positif: [],
+      },
+    },
+    etudeCas: [],
+  });
 
   // content customisation variable
   const backgroundImageSrc = "/wallpaper/forest.jpg";
@@ -77,17 +98,28 @@ const Home = () => {
     }
   `;
 
+  const changePageState = (n) => {
+    setPreviousPageState(pageState);
+    setPageState(n);
+  };
   // functions
   const findSolutions = (s) => {
     setSolutions(s);
-    setPageState(2);
-    if (windowJustOpened) {
-      setWindowJustOpen(false);
-    }
+    changePageState(2);
+  };
+
+  const findSolutionDetails = (s) => {
+    console.log(s);
+    setSolution(s);
+    changePageState(3);
+  };
+
+  const goBackToSolutions = () => {
+    changePageState(2);
   };
 
   const goBackToSearch = () => {
-    setPageState(1);
+    changePageState(1);
   };
 
   return (
@@ -123,7 +155,12 @@ const Home = () => {
               gap={gap}
               mainBoxStyle={{
                 position: "absolute",
-                animationName: pageState === 0 ? "show" : "hide",
+                animationName:
+                  previousPageState === 0
+                    ? "hide"
+                    : pageState === 0
+                    ? "show"
+                    : "startingSolutionDisplay",
                 animationDuration: "0.5s",
                 animationFillMode: "forwards",
                 height: "80vh",
@@ -161,11 +198,11 @@ const Home = () => {
               mainBoxStyle={{
                 position: "absolute",
                 animationName:
-                  pageState === 0
-                    ? "startingSolutionDisplay"
+                  previousPageState === 1
+                    ? "hide"
                     : pageState === 1
                     ? "show"
-                    : "hide",
+                    : "startingSolutionDisplay",
                 animationDuration: "0.5s",
                 animationFillMode: "forwards",
                 height: "80vh",
@@ -189,11 +226,12 @@ const Home = () => {
               gap={gap}
               mainBoxStyle={{
                 position: "absolute",
-                animationName: windowJustOpened
-                  ? "startingSolutionDisplay"
-                  : pageState === 2
-                  ? "show"
-                  : "hide",
+                animationName:
+                  previousPageState === 2
+                    ? "hide"
+                    : pageState === 2
+                    ? "show"
+                    : "startingSolutionDisplay",
                 animationDuration: "0.5s",
                 animationFillMode: "forwards",
                 height: "80vh",
@@ -231,6 +269,56 @@ const Home = () => {
                   subSectionFontSize={subSectionFontSize}
                   titleFontWeight={titleFontWeight}
                   gap={componentGap}
+                  callBack={findSolutionDetails}
+                />
+              </CenterContainer>
+            </VBox>
+            <VBox
+              gap={gap}
+              mainBoxStyle={{
+                position: "absolute",
+                animationName:
+                  previousPageState === 3
+                    ? "hide"
+                    : pageState === 3
+                    ? "show"
+                    : "startingSolutionDisplay",
+                animationDuration: "0.5s",
+                animationFillMode: "forwards",
+                height: "80vh",
+              }}
+            >
+              <Opacity
+                opacityStart={"0"}
+                opacityEnd={"1"}
+                delay={"200"}
+                time={"0.7"}
+              >
+                <CenterContainer>
+                  <i
+                    style={{
+                      border: "solid black",
+                      borderWidth: "0 5px 5px 0",
+                      display: "inline-block",
+                      padding: "10px",
+                      borderColor: "var(--light-color)",
+                      transform: "rotate(-135deg)",
+                      cursor: "pointer",
+                    }}
+                    onClick={goBackToSolutions}
+                  />
+                </CenterContainer>
+              </Opacity>
+              <CenterContainer>
+                <SolutionDetails
+                  backgroundColor={backgroundColor}
+                  backgroundColorAlpha={backgroundColorAlpha}
+                  backgroundBlur={backgroundBlur}
+                  titleFontSize={titleFontSize}
+                  textColor={textColor}
+                  titleFontWeight={titleFontWeight}
+                  gap={componentGap}
+                  solutionData={solution}
                 />
               </CenterContainer>
             </VBox>

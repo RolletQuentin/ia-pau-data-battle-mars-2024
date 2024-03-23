@@ -162,7 +162,7 @@ const SolutionFinder = ({
               currentValue={mainCategorie}
               selectCallback={selectMainCategorie}
               style={
-                isMainSectionError ? { border: "solid 1px " + errorColor } : {}
+                isMainSectionError ? { border: "solid 2px " + errorColor } : {}
               }
               noOptionsError="vous devez choisir un secteur d'activité"
               noOptionsSelectedError="vous n'avez pas choisi de secteur d'activité"
@@ -200,7 +200,7 @@ const SolutionFinder = ({
               currentValue={subCategorie}
               selectCallback={selectSubCategorie}
               style={
-                isSubSectionError ? { border: "solid 1px " + errorColor } : {}
+                isSubSectionError ? { border: "solid 2px " + errorColor } : {}
               }
               noOptionsError="vous devez choisir un secteur d'activité"
               noOptionsSelectedError="vous n'avez pas choisi de sous-secteur"
@@ -239,7 +239,7 @@ const SolutionFinder = ({
                 }}
                 basicStyle={
                   isDescriptionError
-                    ? { border: "solid 1px " + errorColor }
+                    ? { border: "solid 2px " + errorColor }
                     : {}
                 }
               />

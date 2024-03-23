@@ -9,6 +9,7 @@ const CustomScrollBar = forwardRef(
       backgroundColor,
       ThumbColor,
       minThumbHeight = 20,
+      widthParent = "10px",
       ...content
     },
     ref
@@ -112,7 +113,7 @@ const CustomScrollBar = forwardRef(
           backgroundColor: backgroundColor,
           borderRadius: "30px",
           opacity: visible ? 1 : 0,
-          width: "10px",
+          width: widthParent,
           pointerEvents: visible ? "" : "none",
         }}
       >
