@@ -1,6 +1,6 @@
 from api.dependencies import mydb
 
-def get_multiple_solution(solutions,secteur_activite):
+def get_multiple_solution(solutions):
     # Create cursor object
     cursor = mydb.cursor()
     # Prepare the placeholders for the query - one '%s' per solution
