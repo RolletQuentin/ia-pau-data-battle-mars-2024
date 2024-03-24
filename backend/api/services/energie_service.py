@@ -1,3 +1,6 @@
+from api.repositories import gain_rex_repository
+
+
 def normalization(amount, nom_energie):
 
     normalized_amount = amount
@@ -124,3 +127,21 @@ def normalization(amount, nom_energie):
         normalized_nom_energie = "kWh cumac"
 
     return normalized_amount, normalized_nom_energie
+
+
+def predict_ges(code_secteur: int, average_gain_energie: float):
+
+    all_gains_from_sector = gain_rex_repository.get_all_for_one_secteur_ges(
+        code_secteur)
+
+    # Get the coefficient between the gain_energie and the gain_ges for the given sector
+    coefficient = 0
+    for gain in all_gains_from_sector:
+        if gain["energiegainrex"] is not None and gain["gesgainrex"] is not None:
+            coefficient += gain["gesgainrex"] / gain["energiegainrex"]
+
+    # Calculate the average gain_ges for the given solution
+    predicted_gain_ges = average_gain_energie * \
+        coefficient / len(all_gains_from_sector)
+
+    return predicted_gain_ges
