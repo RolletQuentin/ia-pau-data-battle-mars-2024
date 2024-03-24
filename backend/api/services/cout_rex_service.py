@@ -15,7 +15,8 @@ def get_all_for_one_rex(code_rex):
             code_solution=result["codesolution"],
             code_rex=result["coderex"],
             cout_reel=result["reelcoutrex"],
-            monnaie=monnaie_service.get_monnaie(result["codemonnaiecoutrex"]),
+            monnaie=monnaie_service.get_short_monnaie(
+                result["codemonnaiecoutrex"]),
             code_unite_cout=result["codeunitecoutrex"],
             code_difficulte=result["codedifficulte"]
         ))
@@ -33,7 +34,8 @@ def get_all_for_one_solution(code_solution, code_secteur):
             code_solution=result["codesolution"],
             code_rex=result["coderex"],
             cout_reel=result["reelcoutrex"],
-            monnaie=monnaie_service.get_monnaie(result["codemonnaiecoutrex"]),
+            monnaie=monnaie_service.get_short_monnaie(
+                result["codemonnaiecoutrex"]),
             code_unite_cout=result["codeunitecoutrex"],
             code_difficulte=result["codedifficulte"]
         ))
@@ -51,7 +53,8 @@ def predict_cout_solution(code_solution, code_secteur):
     couts = get_all_for_one_solution(code_solution, code_secteur)
 
     # Get the average cout_reel for the given solution
-    couts = [cout.cout_reel for cout in couts if cout.cout_reel is not None]
+    couts = [monnaie_service.convert_to_euro(
+        cout.monnaie.num, cout.cout_reel) for cout in couts if cout.cout_reel is not None]
     average_cout = sum(couts) / len(couts) if couts else None
 
     return AverageCout(

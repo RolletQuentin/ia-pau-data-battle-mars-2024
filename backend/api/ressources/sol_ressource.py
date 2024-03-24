@@ -5,9 +5,10 @@ from api.services import sol_service
 from api.services import gain_rex_service
 from api.services import cout_rex_service
 
-from ai.models.model_find_solution import model_PAT
+from ai.models.model_find_solution import model_find_solution
 
 from api.models.Solution import Solution
+from api.models.DataSolution import DataSolution
 from api.models.GainRex import GainRex
 from api.models.CoutRex import CoutRex
 from api.models.AverageGain import AverageGain
@@ -28,8 +29,14 @@ async def best_solutions(data: RequestBestSol = Body(...)) -> list[Solution]:
     if not sol_service.check_description(description):
         raise HTTPException(
             status_code=422, detail="Description vide ou taille > 2048 caractere")
-    solutions = model_PAT(description, secteur_activite)
+    solutions = model_find_solution(description, secteur_activite)
     data = sol_service.get_multiple_solution(solutions, secteur_activite)
+    return data
+
+
+@router.get("data_solution/{code_solution}")
+async def get_data_solution(code_solution: int) -> DataSolution:
+    data = sol_service.get_data_solution(code_solution)
     return data
 
 
