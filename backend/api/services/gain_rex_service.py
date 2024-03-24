@@ -66,6 +66,9 @@ def predict_gain_solution(code_solution, code_secteur):
     # Get all the gains for the given solution
     gains = get_all_for_one_solution(code_solution, code_secteur)
 
+    ############################################################################
+    # gain_financier
+    ############################################################################
     # Get the average gain_financier (in euros) for the given solution. Return None if there is no gain_financier
     financier_gains = [monnaie_service.convert_to_euro(
         gain.monnaie.num, gain.gain_financier) for gain in gains if gain.gain_financier is not None]
@@ -73,6 +76,9 @@ def predict_gain_solution(code_solution, code_secteur):
     average_gain_financier = sum(financier_gains) / \
         len(financier_gains) if financier_gains else None
 
+    ############################################################################
+    # gain_energie
+    ############################################################################
     # Give the average gain_energie for the given solution. Return None if there is no gain_energie
     energie_gains = [
         (gain.gain_energie, gain.nom_unite_energie) for gain in gains if gain.gain_energie is not None]
@@ -82,24 +88,47 @@ def predict_gain_solution(code_solution, code_secteur):
         energie_gain[0], energie_gain[1]) for energie_gain in energie_gains]
 
     # Keep the energy gains with the most same unit
-    nom_unite_energie = Counter(
-        [energie_gain[1] for energie_gain in normalized_energie_gains]).most_common(1)[0][0]
-    normalized_energie_gains = [
-        energie_gain[0] for energie_gain in normalized_energie_gains if energie_gain[1] == nom_unite_energie]
+    nom_unite_energie = None
+    if normalized_energie_gains:
+        nom_unite_energie = Counter(
+            [energie_gain[1] for energie_gain in normalized_energie_gains]).most_common(1)[0][0]
+        normalized_energie_gains = [
+            energie_gain[0] for energie_gain in normalized_energie_gains if energie_gain[1] == nom_unite_energie]
 
     average_gain_energie = sum(normalized_energie_gains) / \
         len(normalized_energie_gains) if normalized_energie_gains else None
 
+    ############################################################################
+    # gain_ges
+    ############################################################################
     # Give the average gain_ges for the given solution
     ges_gains = [gain.gain_ges for gain in gains if gain.gain_ges is not None]
     average_gain_ges = sum(ges_gains) / len(ges_gains) if ges_gains else None
+    predicted_gain_ges = None
 
+    # Calculate the predicted ges for the sector
+    if average_gain_energie:
+        predicted_gain_ges = energie_service.predict_ges(
+            code_secteur, average_gain_energie)
+
+    # Calculate the average_gain_ges with a linear combination of the average_gain_ges and the predicted_gain_ges
+    if average_gain_ges is not None and predicted_gain_ges is not None:
+        average_gain_ges = average_gain_ges * 0.5 + predicted_gain_ges * 0.5
+    elif average_gain_ges is None and predicted_gain_ges is not None:
+        average_gain_ges = predicted_gain_ges
+
+    ############################################################################
+    # gain_reel
+    ############################################################################
     # Give the average gain_reel for the given solution
     reel_gains = [
         gain.gain_reel for gain in gains if gain.gain_reel is not None]
     average_gain_reel = sum(reel_gains) / \
         len(reel_gains) if reel_gains else None
 
+    ############################################################################
+    # tri_reel
+    ############################################################################
     # Give the average tri_reel for the given solution
     tri_reel_gains = [
         gain.tri_reel for gain in gains if gain.tri_reel is not None]
