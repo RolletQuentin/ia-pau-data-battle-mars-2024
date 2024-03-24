@@ -7,8 +7,31 @@ def get_all_for_one_rex(code_rex):
 
     # Execute the query
     query = f"""
-        SELECT tblgainrex.*
-        FROM tblgainrex
+        SELECT
+            tblgainrex.*,
+            tblreference.codesecteur,
+            tblreference.datereference,
+            tblmonnaie.shortmonnaie,
+            tbldictionnaireenergie.traductiondictionnairecategories AS nomenergie,
+            tbldictionnaireperiodeeconomie.traductiondictionnairecategories AS nomperiodeeconomie,
+            tbldictionnaireperiodeenergie.traductiondictionnairecategories AS nomperiodeenergie
+        FROM
+            tblgainrex
+        LEFT JOIN tblrex ON tblrex.numrex = tblgainrex.coderex
+        LEFT JOIN tblreference ON tblreference.numreference = tblrex.codereference
+        LEFT JOIN tblmonnaie ON tblmonnaie.nummonnaie = tblgainrex.codemonnaiegainrex
+        JOIN tbldictionnairecategories AS tbldictionnaireenergie ON
+            tbldictionnaireenergie.codeappelobjet = tblgainrex.uniteenergiegainrex
+            AND tbldictionnaireenergie.codelangue = 2
+            AND tbldictionnaireenergie.typedictionnairecategories = "uni"
+        LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeeconomie ON
+            tbldictionnaireperiodeeconomie.codeappelobjet = tblgainrex.codeperiodeeconomie
+            AND tbldictionnaireperiodeeconomie.codelangue = 2
+            AND tbldictionnaireperiodeeconomie.typedictionnairecategories = "per"
+        LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeenergie ON
+            tbldictionnaireperiodeenergie.codeappelobjet = tblgainrex.codeperiodeenergie
+            AND tbldictionnaireperiodeenergie.codelangue = 2
+            AND tbldictionnaireperiodeenergie.typedictionnairecategories = "per"
         WHERE tblgainrex.coderex = %s;
         """
     cursor.execute(query, (code_rex,))
@@ -32,11 +55,33 @@ def get_all_for_one_solution(code_solution, code_secteur):
 
     # Execute the query
     query = f"""
-        SELECT tblgainrex.*, tblreference.codesecteur FROM mydatabase.tblgainrex
-        JOIN tblrex ON tblrex.numrex = tblgainrex.coderex
-        JOIN tblreference ON tblreference.numreference = tblrex.codereference
+        SELECT
+            tblgainrex.*,
+            tblreference.codesecteur,
+            tblreference.datereference,
+            tblmonnaie.shortmonnaie,
+            tbldictionnaireenergie.traductiondictionnairecategories AS nomenergie,
+            tbldictionnaireperiodeeconomie.traductiondictionnairecategories AS nomperiodeeconomie,
+            tbldictionnaireperiodeenergie.traductiondictionnairecategories AS nomperiodeenergie
+        FROM
+            tblgainrex
+        LEFT JOIN tblrex ON tblrex.numrex = tblgainrex.coderex
+        LEFT JOIN tblreference ON tblreference.numreference = tblrex.codereference
+        LEFT JOIN tblmonnaie ON tblmonnaie.nummonnaie = tblgainrex.codemonnaiegainrex
+        JOIN tbldictionnairecategories AS tbldictionnaireenergie ON
+            tbldictionnaireenergie.codeappelobjet = tblgainrex.uniteenergiegainrex
+            AND tbldictionnaireenergie.codelangue = 2
+            AND tbldictionnaireenergie.typedictionnairecategories = "uni"
+        LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeeconomie ON
+            tbldictionnaireperiodeeconomie.codeappelobjet = tblgainrex.codeperiodeeconomie
+            AND tbldictionnaireperiodeeconomie.codelangue = 2
+            AND tbldictionnaireperiodeeconomie.typedictionnairecategories = "per"
+        LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeenergie ON
+            tbldictionnaireperiodeenergie.codeappelobjet = tblgainrex.codeperiodeenergie
+            AND tbldictionnaireperiodeenergie.codelangue = 2
+            AND tbldictionnaireperiodeenergie.typedictionnairecategories = "per"
         WHERE tblgainrex.codesolution = %s
-        AND tblreference.codesecteur = %s;
+          AND tblreference.codesecteur = %s;
         """
     cursor.execute(query, (code_solution, code_secteur,))
 

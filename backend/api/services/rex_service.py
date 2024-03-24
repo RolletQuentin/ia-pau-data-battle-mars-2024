@@ -39,10 +39,12 @@ def get_all():
                     is_recup_chaleur=False if result["isrecupchaleur"] == 0 else True
                 ),
                 code_public=result["codepublic"],
-                monnaie=monnaie_service.get_monnaie(result["codemonnaie"]),
+                monnaie=monnaie_service.get_short_monnaie(
+                    result["codemonnaie"]),
                 taux_monnaie=TauxMonnaie(
                     num=result["codetauxmonnaie"],
-                    monnaie=monnaie_service.get_monnaie(result["codemonnaie"]),
+                    monnaie=monnaie_service.get_short_monnaie(
+                        result["codemonnaie"]),
                     annee=result["anneetauxmonnaie"],
                     valeur_taux=result["valeurtauxmonnaie"]
                 ),
