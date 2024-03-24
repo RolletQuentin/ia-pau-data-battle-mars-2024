@@ -15,7 +15,7 @@ import os
 def load_and_merge_data(csv_file='../data/solutions.csv'):
     # Obtention du chemin absolu du répertoire contenant le script
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    # Construction du chemin d'accès au fichier SQL relatif à l'emplacement du script
+    # Construction du chemin d'accès au fichier relatif à l'emplacement du script
     csv_file_path = os.path.join(script_dir, csv_file)
 
     # Charger le fichier CSV en spécifiant le séparateur '|'
@@ -148,16 +148,16 @@ def find_solution(text_to_compare, embeddings_file, quantize=False, precision="b
 nlp = spacy.load("fr_core_news_sm")
 
 # Charger le modèle
-model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+model = SentenceTransformer("paraphrase-multilingual-mpnet-base-v2")
 
 def model_find_solution(secteur, description):
     # Obtention du chemin absolu du répertoire contenant le script
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
     # Définition du nom du fichier d'embeddings
-    embeddings_file = "model1_embeddings.pkl"
+    embeddings_file = "paraphrase-multilingual-mpnet-base-v2_embeddings.pkl"
 
-    # Construction du chemin d'accès au fichier SQL relatif à l'emplacement du script
+    # Construction du chemin d'accès au fichier relatif à l'emplacement du script
     embeddings_file_path = os.path.join(script_dir, embeddings_file)
 
     # Vérifier si le fichier d'embeddings existe
@@ -194,15 +194,17 @@ if __name__ == "__main__":
     # plus, dans ce cas il est remplacé par -1.
     dataset_test_kerdos = [
         ["Id_solution", "Domaine_activite", "Description"],
-        [724, "", "C'est quoi la HP flottante ?"],
+        [724, "","C'est quoi la HP flottante ?"],
         [914, "", "Je voudrais dimensionner un panneau solaire."],
         [719, "", "Quel gain pour un variateur de vitesse ?"],
         [-1, "", "J'aimerais avoir une régulation optimisée de mon groupe froid."],
-        [-1, "", "Comment faire pour réduire la consommation de mon compresseur d'air comprimé ?"]
+        [-1, "", "Comment faire pour réduire la consommation de mon compresseur d'air comprimé ?"],
+        [-1, "Pharmacie", "Quelles méthodes existent pour augmenter l'efficacité de la production des médicaments ?"],
+        [-1, "Pharmacy", "What methods exist to increase the efficiency of drug production?"]
     ]
 
     # On va tester sur notre dataset_test
     for i in range(1, len(dataset_test_kerdos)):
         print("--------------------------------------------")
         print("Solution attendue : ", dataset_test_kerdos[i][0])
-        print(model_PAT(dataset_test_kerdos[i][1], dataset_test_kerdos[i][2]))
+        print(model_find_solution(dataset_test_kerdos[i][1], dataset_test_kerdos[i][2]))
