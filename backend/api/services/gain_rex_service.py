@@ -1,9 +1,12 @@
+from collections import Counter
+
 from api.models.GainRex import GainRex
 from api.models.AverageGain import AverageGain
 
 from api.repositories import gain_rex_repository
 
 from api.services import monnaie_service
+from api.services import energie_service
 
 
 def get_all_for_one_rex(code_rex):
@@ -45,7 +48,10 @@ def get_all_for_one_solution(code_solution, code_secteur):
             code_periode_energie=result["codeperiodeenergie"],
             gain_ges=result["gesgainrex"],
             gain_reel=result["reelgainrex"],
-            tri_reel=result["trireelgainrex"]
+            tri_reel=result["trireelgainrex"],
+            nom_periode_economie=result["nomperiodeeconomie"],
+            nom_unite_energie=result["nomenergie"],
+            nom_periode_energie=result["nomperiodeenergie"]
         ))
 
     return data
@@ -69,9 +75,20 @@ def predict_gain_solution(code_solution, code_secteur):
 
     # Give the average gain_energie for the given solution. Return None if there is no gain_energie
     energie_gains = [
-        gain.gain_energie for gain in gains if gain.gain_energie is not None]
-    average_gain_energie = sum(energie_gains) / \
-        len(energie_gains) if energie_gains else None
+        (gain.gain_energie, gain.nom_unite_energie) for gain in gains if gain.gain_energie is not None]
+
+    # Normalize the energie_gains
+    normalized_energie_gains = [energie_service.normalization(
+        energie_gain[0], energie_gain[1]) for energie_gain in energie_gains]
+
+    # Keep the energy gains with the most same unit
+    nom_unite_energie = Counter(
+        [energie_gain[1] for energie_gain in normalized_energie_gains]).most_common(1)[0][0]
+    normalized_energie_gains = [
+        energie_gain[0] for energie_gain in normalized_energie_gains if energie_gain[1] == nom_unite_energie]
+
+    average_gain_energie = sum(normalized_energie_gains) / \
+        len(normalized_energie_gains) if normalized_energie_gains else None
 
     # Give the average gain_ges for the given solution
     ges_gains = [gain.gain_ges for gain in gains if gain.gain_ges is not None]
@@ -95,5 +112,6 @@ def predict_gain_solution(code_solution, code_secteur):
         average_energy_gain=average_gain_energie,
         average_ges_gain=average_gain_ges,
         average_real_gain=average_gain_reel,
-        average_real_tri=average_tri_reel
+        average_real_tri=average_tri_reel,
+        nom_unite_energie=nom_unite_energie
     )

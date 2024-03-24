@@ -8,3 +8,6 @@ class AverageGain(BaseModel):
     average_ges_gain: float | None = None
     average_real_gain: float | None = None
     average_real_tri: float | None = None
+    nom_unite_energie: str | None = None
+    nom_periode_energie: str | None = None
+    nom_periode_economie: str | None = None

@@ -16,3 +16,6 @@ class GainRex(BaseModel):
     gain_ges: float | None = None
     gain_reel: float | None = None
     tri_reel: float | None = None
+    nom_periode_energie: str | None = None
+    nom_unite_energie: str | None = None
+    nom_periode_economie: str | None = None
