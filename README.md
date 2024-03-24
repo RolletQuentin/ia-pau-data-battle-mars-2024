@@ -99,3 +99,21 @@ Une fois sur l'application, connectez-vous à la database grâce au credentials 
 - password : mypassword
 
 Il faut ensuite aller dans l'onglet `Structures` et bienvenue sur la base de données !
+
+## Frontend
+
+```shell
+cd frontend
+```
+
+Installation des dépendances :
+```shell
+npm install
+```
+
+Lancer le serveur en mode de développement :
+```shell
+npm start
+```
+
+Pour accéder à l'application, accédez à http://localhost:3000
