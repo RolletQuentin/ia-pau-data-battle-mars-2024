@@ -148,14 +148,14 @@ def find_solution(text_to_compare, embeddings_file, quantize=False, precision="b
 nlp = spacy.load("fr_core_news_sm")
 
 # Charger le modèle
-model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+model = SentenceTransformer("paraphrase-multilingual-mpnet-base-v2")
 
 def model_PAT(secteur, description):
     # Obtention du chemin absolu du répertoire contenant le script
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
     # Définition du nom du fichier d'embeddings
-    embeddings_file = "model1_embeddings.pkl"
+    embeddings_file = "paraphrase-multilingual-mpnet-base-v2_embeddings.pkl"
 
     # Construction du chemin d'accès au fichier relatif à l'emplacement du script
     embeddings_file_path = os.path.join(script_dir, embeddings_file)
