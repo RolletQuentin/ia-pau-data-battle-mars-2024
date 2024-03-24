@@ -194,11 +194,13 @@ if __name__ == "__main__":
     # plus, dans ce cas il est remplacé par -1.
     dataset_test_kerdos = [
         ["Id_solution", "Domaine_activite", "Description"],
-        [724, "", "C'est quoi la HP flottante ?"],
+        [724, "","C'est quoi la HP flottante ?"],
         [914, "", "Je voudrais dimensionner un panneau solaire."],
         [719, "", "Quel gain pour un variateur de vitesse ?"],
         [-1, "", "J'aimerais avoir une régulation optimisée de mon groupe froid."],
-        [-1, "", "Comment faire pour réduire la consommation de mon compresseur d'air comprimé ?"]
+        [-1, "", "Comment faire pour réduire la consommation de mon compresseur d'air comprimé ?"],
+        [-1, "Pharmacie", "Quelles méthodes existent pour augmenter l'efficacité de la production des médicaments ?"],
+        [-1, "Pharmacy", "What methods exist to increase the efficiency of drug production?"]
     ]
 
     # On va tester sur notre dataset_test
