@@ -68,7 +68,7 @@ def get_all_for_one_solution(code_solution, code_secteur):
         LEFT JOIN tblrex ON tblrex.numrex = tblgainrex.coderex
         LEFT JOIN tblreference ON tblreference.numreference = tblrex.codereference
         LEFT JOIN tblmonnaie ON tblmonnaie.nummonnaie = tblgainrex.codemonnaiegainrex
-        JOIN tbldictionnairecategories AS tbldictionnaireenergie ON
+        LEFT JOIN tbldictionnairecategories AS tbldictionnaireenergie ON
             tbldictionnaireenergie.codeappelobjet = tblgainrex.uniteenergiegainrex
             AND tbldictionnaireenergie.codelangue = 2
             AND tbldictionnaireenergie.typedictionnairecategories = "uni"
