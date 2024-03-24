@@ -15,7 +15,7 @@ import os
 def load_and_merge_data(csv_file='../data/solutions.csv'):
     # Obtention du chemin absolu du répertoire contenant le script
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    # Construction du chemin d'accès au fichier SQL relatif à l'emplacement du script
+    # Construction du chemin d'accès au fichier relatif à l'emplacement du script
     csv_file_path = os.path.join(script_dir, csv_file)
 
     # Charger le fichier CSV en spécifiant le séparateur '|'
@@ -157,7 +157,7 @@ def model_PAT(secteur, description):
     # Définition du nom du fichier d'embeddings
     embeddings_file = "model1_embeddings.pkl"
 
-    # Construction du chemin d'accès au fichier SQL relatif à l'emplacement du script
+    # Construction du chemin d'accès au fichier relatif à l'emplacement du script
     embeddings_file_path = os.path.join(script_dir, embeddings_file)
 
     # Vérifier si le fichier d'embeddings existe
