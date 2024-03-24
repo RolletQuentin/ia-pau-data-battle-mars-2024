@@ -34,23 +34,23 @@ async def best_solutions(data: RequestBestSol = Body(...)) -> list[Solution]:
     return data
 
 
-@router.get("data_solution/{code_solution}")
+@router.get("/data_solution/{code_solution}")
 async def get_data_solution(code_solution: int) -> DataSolution:
     data = sol_service.get_data_solution(code_solution)
     return data
 
 
-@router.get("/gains/{code_solution}/{code_secteur}")
-async def get_gains(code_solution: int, code_secteur: int) -> list[GainRex]:
+@router.get("/gains/{code_solution}")
+async def get_gains(code_solution: int) -> list[GainRex]:
     data = gain_rex_service.get_all_for_one_solution(
-        code_solution, code_secteur)
+        code_solution)
     return data
 
 
-@router.get("/couts/{code_solution}/{code_secteur}")
-async def get_couts(code_solution: int, code_secteur: int) -> list[CoutRex]:
+@router.get("/couts/{code_solution}")
+async def get_couts(code_solution: int) -> list[CoutRex]:
     data = cout_rex_service.get_all_for_one_solution(
-        code_solution, code_secteur)
+        code_solution)
     return data
 
 
