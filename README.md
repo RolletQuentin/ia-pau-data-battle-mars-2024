@@ -30,7 +30,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Lancer le serveur Python :
+4. Installer le modèle spaCy pour le français :
+```shell
+python3 -m spacy download fr_core_news_sm
+```
+
+5. Lancer le serveur Python :
 ```shell
 uvicorn main:app --reload
 ```
@@ -94,3 +99,26 @@ Une fois sur l'application, connectez-vous à la database grâce au credentials 
 - password : mypassword
 
 Il faut ensuite aller dans l'onglet `Structures` et bienvenue sur la base de données !
+
+## Frontend
+
+Créer un fichier `.env` dans le dossier `frontend` dont le contenu est le suivant :
+```
+REACT_APP_PROXY=http://localhost:8000
+```
+
+```shell
+cd frontend
+```
+
+Installation des dépendances :
+```shell
+npm install
+```
+
+Lancer le serveur en mode de développement :
+```shell
+npm start
+```
+
+Pour accéder à l'application, accédez à http://localhost:3000
