@@ -88,10 +88,12 @@ def predict_gain_solution(code_solution, code_secteur):
         energie_gain[0], energie_gain[1]) for energie_gain in energie_gains]
 
     # Keep the energy gains with the most same unit
-    nom_unite_energie = Counter(
-        [energie_gain[1] for energie_gain in normalized_energie_gains]).most_common(1)[0][0]
-    normalized_energie_gains = [
-        energie_gain[0] for energie_gain in normalized_energie_gains if energie_gain[1] == nom_unite_energie]
+    nom_unite_energie = None
+    if normalized_energie_gains:
+        nom_unite_energie = Counter(
+            [energie_gain[1] for energie_gain in normalized_energie_gains]).most_common(1)[0][0]
+        normalized_energie_gains = [
+            energie_gain[0] for energie_gain in normalized_energie_gains if energie_gain[1] == nom_unite_energie]
 
     average_gain_energie = sum(normalized_energie_gains) / \
         len(normalized_energie_gains) if normalized_energie_gains else None
@@ -102,10 +104,12 @@ def predict_gain_solution(code_solution, code_secteur):
     # Give the average gain_ges for the given solution
     ges_gains = [gain.gain_ges for gain in gains if gain.gain_ges is not None]
     average_gain_ges = sum(ges_gains) / len(ges_gains) if ges_gains else None
+    predicted_gain_ges = None
 
     # Calculate the predicted ges for the sector
-    predicted_gain_ges = energie_service.predict_ges(
-        code_secteur, average_gain_energie)
+    if average_gain_energie:
+        predicted_gain_ges = energie_service.predict_ges(
+            code_secteur, average_gain_energie)
 
     # Calculate the average_gain_ges with a linear combination of the average_gain_ges and the predicted_gain_ges
     if average_gain_ges is not None and predicted_gain_ges is not None:

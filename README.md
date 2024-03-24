@@ -102,6 +102,11 @@ Il faut ensuite aller dans l'onglet `Structures` et bienvenue sur la base de don
 
 ## Frontend
 
+Créer un fichier `.env` dans le dossier `frontend` dont le contenu est le suivant :
+```
+REACT_APP_PROXY=http://localhost:8000
+```
+
 ```shell
 cd frontend
 ```
