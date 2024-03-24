@@ -150,7 +150,7 @@ nlp = spacy.load("fr_core_news_sm")
 # Charger le modèle
 model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 
-def model_PAT(secteur, description):
+def model_find_solution(secteur, description):
     # Obtention du chemin absolu du répertoire contenant le script
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
