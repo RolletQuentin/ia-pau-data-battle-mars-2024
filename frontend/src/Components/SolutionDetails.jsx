@@ -212,10 +212,10 @@ const SolutionDetails = ({
                 marginTop="0"
                 marginBottom="0"
               >
-                <div style={{ overflow: "hidden", height: "500px" }}>
+                <div style={{ overflow: "hidden", height: "550px" }}>
                   <div
                     style={{
-                      height: "500px",
+                      height: "550px",
                       overflowY: "scroll",
                       marginRight: "-20px", // Adjust for scrollbar width
                     }}
@@ -839,9 +839,6 @@ const SolutionDetails = ({
                                                 }
                                                 style={{
                                                   textAlign: "left",
-                                                  display: "list-item",
-                                                  listStyle: "disc",
-                                                  listStylePosition: "outside",
                                                 }}
                                               />
                                             </VBox>
@@ -1026,11 +1023,10 @@ const SolutionDetails = ({
                               <VBox gap={gap}>
                                 {solutionData.etudeCas.map((ec, index) => {
                                   return (
-                                    <VBox gap="10px">
+                                    <VBox gap="10px" key={index}>
                                       <HBox
                                         gap={gap}
                                         justifyContent="space-around"
-                                        key={index}
                                       >
                                         {/** Sub 1 */}
                                         <VBox
@@ -1102,7 +1098,7 @@ const SolutionDetails = ({
                                       </HBox>
                                       <CenterContainer
                                         style={{
-                                          width: "80%",
+                                          width: "100%",
                                           display:
                                             index ===
                                             solutionData.etudeCas.length - 1
@@ -1138,7 +1134,7 @@ const SolutionDetails = ({
         childRef={childRef}
         ThumbColor="var(--dark-primary)"
         backgroundColor={backgroundColor}
-        widthParent="18px"
+        widthParent="10px"
       />
     </HBox>
   );

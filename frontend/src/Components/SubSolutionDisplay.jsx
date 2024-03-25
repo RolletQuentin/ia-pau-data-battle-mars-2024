@@ -7,6 +7,7 @@ import {
 } from "@liro_u/react-components";
 import React, { useState } from "react";
 import CustomButton from "./input/CustomButton";
+import { bigNumber2String, cropperFloat } from "../usefull";
 
 import { useTranslation } from "react-i18next";
 
@@ -26,62 +27,91 @@ const SubSolutionDisplay = ({
   const { t } = useTranslation();
 
   const verticalMargin = "calc(" + margin + " / 3)";
-  const lorem =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate  velit esse cillum dolore eu fugiat nulla pariatur.";
-
-  const testSolutionData = {
-    numSolution: "54",
-    titleSolution: "Moteur a haut rendement",
-    technologie: "Moteur",
-    definition: lorem,
-    application: lorem,
-    bilanEnergie: lorem,
-    estimPersoGain: {
-      degConf: 15,
-      euro: "1 832 056 €/an",
-      gwh: "53 GWh/an",
-      co2: "100T",
-      gainReel: "1 832 066 €",
-      retourInv: "2,5 ans",
-      coutFinance: "5 718 920 €",
-    },
-    estimGenGain: {
-      cout: {
-        pouce:
-          "de 20 à 30 % de surcoût pour les moteurs d'une puissance supérieure à 20 kW  [Source : Top motors].",
-        difficulte: [
-          "Sauf changement radical de technologie, les moteurs   sont de même taille et ont une augmentation de poids d’environ 15 %.",
-        ],
-      },
-      gain: {
-        gain: "de 2 à 10 % d'augmentation du rendement selon les puissance par rapport à la norme IE1  [Source : Top motors].",
-        positif: [
-          "Anticipation des contraintes légales à venir.",
-          "Gain sur la durée de vie du moteur.",
-        ],
-      },
-    },
-    etudeCas: [
-      {
-        sub1: "14. Fruits et légumes / France",
-        sub2: ["Coûts 12 000 €", "Difficulté : Long a mettre en oeuvre"],
-        sub3: [
-          "Gains Financier : 6 635 €/an",
-          "Economie d'énergie : 144 MWh/an",
-          "Economies d'électricité",
-        ],
-      },
-      {
-        sub1: "134. Ciment / Phillipine",
-      },
-      {
-        sub1: "791. Enseignement / Canada",
-        sub2: ["Ajout de moteurs pour optimiser la ventillation"],
-      },
-    ],
-  };
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const createSub2 = (sub2Data) => {
+    const sub2 = [];
+
+    if (sub2Data.cout_reel) {
+      sub2.push(
+        "Coûts : " +
+          bigNumber2String(sub2Data.cout_reel) +
+          " " +
+          (sub2Data.monnaie && sub2Data.monnaie.short_monnaie
+            ? sub2Data.monnaie.short_monnaie
+            : "€")
+      );
+    }
+
+    if (sub2Data.code_difficulte) {
+      sub2.push("Difficulté : " + sub2Data.code_difficulte);
+    }
+
+    return sub2;
+  };
+
+  const createSub3 = (sub3Data) => {
+    const sub3 = [];
+
+    if (sub3Data.gain_financier) {
+      sub3.push(
+        "Gain financier : " +
+          bigNumber2String(sub3Data.gain_financier) +
+          " " +
+          (sub3Data.monnaie && sub3Data.monnaie.short_monnaie
+            ? sub3Data.monnaie.short_monnaie
+            : "€") +
+          (sub3Data.nom_periode_economie ? sub3Data.nom_periode_economie : "")
+      );
+    }
+
+    if (sub3Data.tri_reel) {
+      sub3.push(
+        "Retour sur investissement (TRI) : " +
+          cropperFloat(sub3Data.tri_reel) +
+          " ans"
+      );
+    }
+
+    if (sub3Data.gain_energie) {
+      sub3.push(
+        "Economie d'énergie : " +
+          bigNumber2String(sub3Data.gain_energie) +
+          " " +
+          (sub3Data.nom_unite_energie ? sub3Data.nom_unite_energie : "") +
+          (sub3Data.nom_periode_energie ? sub3Data.nom_periode_energie : "")
+      );
+    }
+
+    if (sub3Data.gain_ges) {
+      sub3.push(
+        "Emissions GES évitées : " +
+          bigNumber2String(sub3Data.gain_ges) +
+          " tCO2eq/an"
+      );
+    }
+
+    if (sub3Data.gain_reel) {
+      sub3.push("Gain reel : " + bigNumber2String(sub3Data.gain_reel) + " €");
+    }
+
+    return sub3;
+  };
+
+  const createEtudeCas = (givenEtudeCas) => {
+    const etudeCas = [];
+
+    givenEtudeCas.forEach((ec, index) => {
+      etudeCas[index] = {
+        sub1: ec.numRex + ". " + ec.sector + " / " + "PAYS_A_IMPLEMENTER",
+        sub2: ec.cout ? createSub2(ec.cout) : [],
+        sub3: ec.gain ? createSub3(ec.gain) : [],
+      };
+    });
+
+    return etudeCas;
+  };
 
   const askAPIForSolutionDetails = async () => {
     setIsLoading(true);
@@ -97,11 +127,71 @@ const SubSolutionDisplay = ({
     const json = await response.json();
 
     if (response.ok) {
-      const data = testSolutionData; // data
+      console.log(json);
+      const data = {
+        numSolution: json.numSolution,
+        titleSolution: json.titre,
+        technologie: json.technologie,
+        definition: json.definition,
+        application: json.application,
+        bilanEnergie: json.bilanEnergie,
+        estimPersoGain: {
+          degConf: json.estimPerso.estimPersoGain.number_of_based_solutions,
+          euro: json.estimPerso.estimPersoGain.average_financial_gain
+            ? bigNumber2String(
+                json.estimPerso.estimPersoGain.average_financial_gain
+              ) +
+              " €" +
+              (json.estimPerso.estimPersoGain.nom_periode_economie
+                ? json.estimPerso.estimPersoGain.nom_periode_economie
+                : "")
+            : noData,
+          gwh: json.estimPerso.estimPersoGain.average_energy_gain
+            ? bigNumber2String(
+                json.estimPerso.estimPersoGain.average_energy_gain
+              ) +
+              " " +
+              (json.estimPerso.estimPersoGain.nom_unite_energie
+                ? json.estimPerso.estimPersoGain.nom_unite_energie +
+                  (json.estimPerso.estimPersoGain.nom_periode_energie
+                    ? json.estimPerso.estimPersoGain.nom_periode_energie
+                    : "")
+                : "")
+            : noData,
+          co2: json.estimPerso.estimPersoGain.average_ges_gain
+            ? bigNumber2String(
+                json.estimPerso.estimPersoGain.average_ges_gain
+              ) + " tCO2eq"
+            : noData,
+          gainReel: json.estimPerso.estimPersoGain.average_real_gain
+            ? bigNumber2String(
+                json.estimPerso.estimPersoGain.average_real_gain
+              ) + " €"
+            : noData,
+          retourInv: json.estimPerso.estimPersoGain.average_real_tri
+            ? cropperFloat(json.estimPerso.estimPersoGain.average_real_tri) +
+              " ans"
+            : noData,
+          coutFinance: json.estimPerso.estimPersoCout.average_cout
+            ? bigNumber2String(json.estimPerso.estimPersoCout.average_cout) +
+              " €"
+            : noData,
+        },
+        estimGenGain: {
+          cout: {
+            pouce: json.estimGen.cout.pouce,
+            difficulte: json.estimGen.cout.difficulte,
+          },
+          gain: {
+            gain: json.estimGen.gain.gain,
+            positif: json.estimGen.gain.positif,
+          },
+        },
+        etudeCas: createEtudeCas(json.listRex),
+      };
 
       callBack(data);
     } else {
-      callBack(testSolutionData);
     }
 
     setIsLoading(false);
@@ -152,7 +242,9 @@ const SubSolutionDisplay = ({
           <Text
             text={
               solution.estimPersoGain.average_financial_gain
-                ? Math.round(solution.estimPersoGain.average_financial_gain) +
+                ? bigNumber2String(
+                    solution.estimPersoGain.average_financial_gain
+                  ) +
                   " €" +
                   (solution.estimPersoGain.nom_periode_economie
                     ? solution.estimPersoGain.nom_periode_economie
@@ -170,7 +262,7 @@ const SubSolutionDisplay = ({
           <Text
             text={
               solution.estimPersoCout.average_cout
-                ? Math.round(solution.estimPersoCout.average_cout) + " €"
+                ? bigNumber2String(solution.estimPersoCout.average_cout) + " €"
                 : noData
             }
             color={textColor}
@@ -184,7 +276,9 @@ const SubSolutionDisplay = ({
           <Text
             text={
               solution.estimPersoGain.average_energy_gain
-                ? Math.round(solution.estimPersoGain.average_energy_gain) +
+                ? bigNumber2String(
+                    solution.estimPersoGain.average_energy_gain
+                  ) +
                   " " +
                   (solution.estimPersoGain.nom_unite_energie
                     ? solution.estimPersoGain.nom_unite_energie +
@@ -205,7 +299,7 @@ const SubSolutionDisplay = ({
           <Text
             text={
               solution.estimPersoGain.average_ges_gain
-                ? Math.round(solution.estimPersoGain.average_ges_gain) +
+                ? bigNumber2String(solution.estimPersoGain.average_ges_gain) +
                   " tCO2eq"
                 : noData
             }
@@ -225,7 +319,7 @@ const SubSolutionDisplay = ({
             onClick={askAPIForSolutionDetails}
           />
         </HBox>
-        <ColorRect backgroundColor={textColor} style={{ height: "0.5px" }} />
+        <ColorRect backgroundColor={textColor} style={{ height: "1px" }} />
       </VBox>
     </MarginContainer>
   );

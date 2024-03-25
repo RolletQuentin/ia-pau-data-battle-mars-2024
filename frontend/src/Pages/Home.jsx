@@ -232,7 +232,7 @@ const Home = () => {
               </CenterContainer>
             </VBox>
             <VBox
-              gap={gap}
+              gap={0}
               mainBoxStyle={{
                 position: "absolute",
                 animationName:
@@ -293,7 +293,7 @@ const Home = () => {
               </CenterContainer>
             </VBox>
             <VBox
-              gap={gap}
+              gap={0}
               mainBoxStyle={{
                 position: "absolute",
                 animationName:
@@ -334,7 +334,7 @@ const Home = () => {
                   backgroundColorAlpha={backgroundColorAlpha}
                   backgroundBlur={backgroundBlur}
                   titleFontSize={titleFontSize}
-                  subSectionFontSize={17}
+                  subSectionFontSize={14}
                   textColor={textColor}
                   titleFontWeight={titleFontWeight}
                   gap={componentGap}
