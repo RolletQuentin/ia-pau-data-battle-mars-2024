@@ -4,7 +4,7 @@ from api.models.Monnaie import Monnaie
 
 
 class CoutRex(BaseModel):
-    num: int
+    num: int | None = None
     code_solution: int
     code_rex: int
     cout_reel: float | None = None

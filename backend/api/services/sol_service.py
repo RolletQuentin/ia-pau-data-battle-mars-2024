@@ -14,8 +14,12 @@ from api.models.EstimPerso import EstimPerso
 from api.models.EstimGen import EstimGen
 
 from api.models.DataRex import DataRex
+from api.models.CoutRex import CoutRex
+from api.models.GainRex import GainRex
+
 from api.models.CoutSol import CoutSol
 from api.models.GainSol import GainSol
+
 
 import re
 
@@ -68,7 +72,7 @@ def clean_description(message):
     return message
 
 def clean(message):
-    # message = re.sub('<.*?>', '',message)
+    message = re.sub('<.*?>', '',message)
     # message = re.sub(r"\\'", "'", message)  # Remplace \' par '
     # message = re.sub(r"\\n", " ", message)  # Remplace \n par un espace
     # message = re.sub(r"\\r", " ", message)  # Remplace \r par un espace
@@ -167,9 +171,15 @@ def get_data_solution(code_solution,code_sector):
             rex_groups[item.code_rex] = DataRex(
                 numRex=item.code_rex, 
                 sector= clean(sec_repository.get_sector(item.code_secteur)),
-                cout=None,  # Initialiser à None au lieu d'une liste vide
-                gain=None)  # Initialiser à None au lieu d'une liste vide
-        # Définir gain comme le premier élément trouvé s'il n'est pas déjà défini
+                cout=CoutRex(
+                    code_solution=code_solution,
+                    code_rex=item.code_rex
+                    ),  
+                gain=GainRex(
+                    code_solution=code_solution,
+                    code_rex=item.code_rex
+                    ),  
+                ) 
         if not rex_groups[item.code_rex].gain:
             rex_groups[item.code_rex].gain = item
 
@@ -178,9 +188,15 @@ def get_data_solution(code_solution,code_sector):
             rex_groups[item.code_rex] = DataRex(
                 numRex=item.code_rex, 
                 sector= clean(sec_repository.get_sector(item.code_secteur)),
-                cout=None,  # Initialiser à None au lieu d'une liste vide
-                gain=None)  # Initialiser à None au lieu d'une liste vide
-        # Définir cout comme le premier élément trouvé s'il n'est pas déjà défini
+                cout=CoutRex(
+                    code_solution=code_solution,
+                    code_rex=item.code_rex
+                    ),  
+                gain=GainRex(
+                    code_solution=code_solution,
+                    code_rex=item.code_rex
+                    ),  
+                )  
         if not rex_groups[item.code_rex].cout:
             rex_groups[item.code_rex].cout = item
 
