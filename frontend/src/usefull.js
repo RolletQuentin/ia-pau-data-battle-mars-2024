@@ -11,3 +11,7 @@ export const bigNumber2String = (number) => {
   // Renvoie la partie entière avec la partie décimale s'il y en a une
   return integerPart;
 };
+
+export const cropperFloat = (nbr, cropper = 2) => {
+  return nbr.toFixed(cropper);
+};

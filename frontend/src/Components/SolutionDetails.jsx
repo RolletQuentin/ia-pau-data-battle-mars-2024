@@ -835,9 +835,6 @@ const SolutionDetails = ({
                                                 }
                                                 style={{
                                                   textAlign: "left",
-                                                  display: "list-item",
-                                                  listStyle: "disc",
-                                                  listStylePosition: "outside",
                                                 }}
                                               />
                                             </VBox>
@@ -1022,11 +1019,10 @@ const SolutionDetails = ({
                               <VBox gap={gap}>
                                 {solutionData.etudeCas.map((ec, index) => {
                                   return (
-                                    <VBox gap="10px">
+                                    <VBox gap="10px" key={index}>
                                       <HBox
                                         gap={gap}
                                         justifyContent="space-around"
-                                        key={index}
                                       >
                                         {/** Sub 1 */}
                                         <VBox
@@ -1098,7 +1094,7 @@ const SolutionDetails = ({
                                       </HBox>
                                       <CenterContainer
                                         style={{
-                                          width: "80%",
+                                          width: "100%",
                                           display:
                                             index ===
                                             solutionData.etudeCas.length - 1
@@ -1134,7 +1130,7 @@ const SolutionDetails = ({
         childRef={childRef}
         ThumbColor="var(--dark-primary)"
         backgroundColor={backgroundColor}
-        widthParent="15px"
+        widthParent="10px"
       />
     </HBox>
   );
