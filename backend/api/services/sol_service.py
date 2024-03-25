@@ -56,7 +56,7 @@ def check_sector(sector):
         return False
 
 
-def clean(message):
+def clean_description(message):
     message = re.sub('<.*?>', '',message)
     message = re.sub(r"\\'", "'", message)  # Remplace \' par '
     message = re.sub(r"\\n", " ", message)  # Remplace \n par un espace
@@ -65,6 +65,17 @@ def clean(message):
     message = re.sub(r"^'", '', message)  # Supprime l'apostrophe au début de la chaîne
     message = re.sub(r"'$", '', message)  # Supprime l'apostrophe à la fin de la chaîne
     message = re.sub(r'\s+', ' ', message).strip()  # Nettoie les espaces multiples et enlève les espaces de début et de fin
+    return message
+
+def clean(message):
+    # message = re.sub('<.*?>', '',message)
+    # message = re.sub(r"\\'", "'", message)  # Remplace \' par '
+    # message = re.sub(r"\\n", " ", message)  # Remplace \n par un espace
+    # message = re.sub(r"\\r", " ", message)  # Remplace \r par un espace
+    # message = re.sub(r'\\"', '"', message)  # Remplace \" par "
+    # message = re.sub(r"^'", '', message)  # Supprime l'apostrophe au début de la chaîne
+    # message = re.sub(r"'$", '', message)  # Supprime l'apostrophe à la fin de la chaîne
+    # message = re.sub(r'\s+', ' ', message).strip()  # Nettoie les espaces multiples et enlève les espaces de début et de fin
     return message
 
 
