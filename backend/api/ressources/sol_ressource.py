@@ -25,7 +25,7 @@ async def best_solutions(data: RequestBestSol = Body(...)) -> list[Solution]:
     if not sol_service.check_sector(secteur_activite):
         raise HTTPException(
             status_code=400, detail="Secteur d'activité incorrect")
-    description = sol_service.clean_description(data.description)
+    description = sol_service.clean(data.description)
     if not sol_service.check_description(description):
         raise HTTPException(
             status_code=422, detail="Description vide ou taille > 2048 caractere")
@@ -34,9 +34,9 @@ async def best_solutions(data: RequestBestSol = Body(...)) -> list[Solution]:
     return data
 
 
-@router.get("data_solution/{code_solution}")
-async def get_data_solution(code_solution: int) -> DataSolution:
-    data = sol_service.get_data_solution(code_solution)
+@router.get("/data_solution/{code_solution}/{code_sector}")
+async def get_data_solution(code_solution: int, code_sector: int) -> DataSolution:
+    data = sol_service.get_data_solution(code_solution,code_sector)
     return data
 
 

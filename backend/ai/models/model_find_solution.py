@@ -205,4 +205,4 @@ if __name__ == "__main__":
     for i in range(1, len(dataset_test_kerdos)):
         print("--------------------------------------------")
         print("Solution attendue : ", dataset_test_kerdos[i][0])
-        print(model_PAT(dataset_test_kerdos[i][1], dataset_test_kerdos[i][2]))
+        print(model_find_solution(dataset_test_kerdos[i][1], dataset_test_kerdos[i][2]))
