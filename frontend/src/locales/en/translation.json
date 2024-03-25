@@ -1,5 +1,78 @@
 {
-    "Hello World!": "Hello World!",
+    "Hello World!": "Hello, world!",
 
-    "footer_kerdos": "KERDOS, the experts in your ecological transition"
+    "footer_kerdos": "KERDOS, experts in your ecological transition",
+
+    "based_on": "Based on",
+    "studies": "studies",
+
+    "solutionDisplay": {
+        "topHeaderText": "Gain Estimation",
+        "numberAcronym": "No.",
+        "title": "Title",
+        "confidenceLevel": "Confidence Level",
+        "financial": "Financial",
+        "investissement": "Investment Cost",
+        "energy": "Energy",
+        "co2": "CO2"
+    },
+    "solutionFinder": {
+        "section1text": "Business Sector *",
+        "section2text": "Description *",
+        "subSection1text": "Sub-sector *",
+        "validateButtonText": "My Solutions",
+        "mainSectionAsSubSection": "Others",
+        "descriptionTextPlaceholder": "Example: Provide a detailed example of what the user should write in this section. This increases the chances of them not writing just anything.",
+        "noOptionsError": "You must choose a business sector",
+        "noOptionsSelectedSectorError": "You haven't selected a business sector",
+        "noOptionsSelectedSubSectorError": "You haven't selected a sub-business sector"
+    },
+    "solutionDetail": {
+        "numSolution": "Solution No.:",
+        "titleSolution": "Solution Title:",
+        "technologie": "Technology:",
+        "definition": "Definition",
+        "application": "Application",
+        "bilanEnergie": "Energy Balance",
+        "estimPersoGain": {
+            "title": "Customized Gain Estimation",
+            "degConf": "Confidence Level",
+            "euro": "Financial",
+            "gwh": "Energy",
+            "co2": "CO2",
+            "gainReel": "Real Gain",
+            "retourInv": "Return on Investment Time",
+            "coutFinance": "Financial Cost"
+        },
+        "estimGenGain": {
+            "title": "General Gain Estimation",
+            "cout": {
+                "title": "Costs",
+                "pouce": "RULE OF THUMB:",
+                "difficulte": "DIFFICULTIES:"
+            },
+            "gain": {
+                "title": "Gains",
+                "gain": "GAIN:",
+                "positif": "POSITIVE EFFECTS:"
+            }
+        },
+        "etudeCas": {
+            "title": "Case Studies",
+            "sub1": "Case Study No. / Sector / Country",
+            "sub2": "Costs",
+            "sub3": "Gains"
+        }
+    },
+    "topTextList": {
+        "title": "Reduce your CO2 emissions and save money!",
+        "text1": "We have tailor-made solutions for you!"
+    },
+    "buttons": {
+        "discover_how": "Discover how",
+        "details": "Details"
+    },
+    "errors": {
+        "404error": "Page not found"
+    }
 }

@@ -8,6 +8,8 @@ import {
 import React, { useState } from "react";
 import CustomButton from "./input/CustomButton";
 
+import { useTranslation } from "react-i18next";
+
 const SubSolutionDisplay = ({
   callBack = (solution) => {
     console.log(solution);
@@ -21,6 +23,8 @@ const SubSolutionDisplay = ({
   solution,
   noData = "-",
 }) => {
+  const { t } = useTranslation();
+
   const verticalMargin = "calc(" + margin + " / 3)";
   const lorem =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate  velit esse cillum dolore eu fugiat nulla pariatur.";
@@ -133,9 +137,9 @@ const SubSolutionDisplay = ({
           />
           <Text
             text={
-              "Basé sur " +
+              t("based_on") +  " " +
               solution.estimPersoGain.number_of_based_solutions +
-              " études"
+              " " + t("studies")
             }
             color={textColor}
             fontSize={fontSize}
@@ -217,7 +221,7 @@ const SubSolutionDisplay = ({
             fontSize={fontSize}
             isDisable={isLoading}
             buttonWidth={"calc(" + percentageSplit[7] + "% - " + gap + ")"}
-            text="Détails"
+            text={t("buttons.details")}
             onClick={askAPIForSolutionDetails}
           />
         </HBox>

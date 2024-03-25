@@ -10,6 +10,8 @@ import TextArea from "./input/TextArea";
 import CustomButton from "./input/CustomButton";
 import CustomSelect from "./input/CustomSelect";
 
+import { useTranslation } from "react-i18next";
+
 const SolutionFinder = ({
   callBack = (solutions) => {
     console.log(solutions);
@@ -37,6 +39,8 @@ const SolutionFinder = ({
   mainSectionAsSubSection = "Autres",
   descriptionTextPlaceholder = "Exemple : Mettre en transparance un exemple bien détaillé de ce que l’user doit écrire dans cette section. Comme ça on augmente les chances qu’il écrive pas n’importe quoi.",
 }) => {
+  const { t } = useTranslation();
+
   // css auto variable
   const subSectionVerticalMargin = titleFontSize - subSectionFontSize;
   const subSectionHorizontalMargin = subSectionFontSize;
@@ -169,8 +173,8 @@ const SolutionFinder = ({
               style={
                 isMainSectionError ? { border: "solid 2px " + errorColor } : {}
               }
-              noOptionsError="vous devez choisir un secteur d'activité"
-              noOptionsSelectedError="vous n'avez pas choisi de secteur d'activité"
+              noOptionsError={t("solutionFinder.noOptionsError")}
+              noOptionsSelectedError={t("solutionFinder.noOptionsSelectedSectorError")}
             />
           </HBox>
           <HBox
@@ -207,8 +211,8 @@ const SolutionFinder = ({
               style={
                 isSubSectionError ? { border: "solid 2px " + errorColor } : {}
               }
-              noOptionsError="vous devez choisir un secteur d'activité"
-              noOptionsSelectedError="vous n'avez pas choisi de sous-secteur"
+              noOptionsError={t("solutionFinder.noOptionsError")}
+              noOptionsSelectedError={t("solutionFinder.noOptionsSelectedSubSectorError")}
             />
           </HBox>
           <HBox justifyContent="space-between">
