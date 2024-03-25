@@ -5,7 +5,7 @@ import {
   Text,
   VBox,
 } from "@liro_u/react-components";
-import React from "react";
+import React, { useState } from "react";
 import CustomButton from "./input/CustomButton";
 
 const SubSolutionDisplay = ({
@@ -21,6 +21,7 @@ const SubSolutionDisplay = ({
   solution,
   noData = "-",
 }) => {
+  const verticalMargin = "calc(" + margin + " / 3)";
   const lorem =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate  velit esse cillum dolore eu fugiat nulla pariatur.";
 
@@ -36,6 +37,9 @@ const SubSolutionDisplay = ({
       euro: "1 832 056 €/an",
       gwh: "53 GWh/an",
       co2: "100T",
+      gainReel: "1 832 066 €",
+      retourInv: "2,5 ans",
+      coutFinance: "5 718 920 €",
     },
     estimGenGain: {
       cout: {
@@ -73,7 +77,11 @@ const SubSolutionDisplay = ({
     ],
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const askAPIForSolutionDetails = async () => {
+    setIsLoading(true);
+
     const response = await fetch(
       process.env.REACT_APP_PROXY +
         "/sol/data_solution/" +
@@ -91,11 +99,17 @@ const SubSolutionDisplay = ({
     } else {
       callBack(testSolutionData);
     }
+
+    setIsLoading(false);
   };
 
   return (
-    <MarginContainer margin={margin}>
-      <VBox gap={"calc( " + gap + " / 2)"}>
+    <MarginContainer
+      margin={verticalMargin}
+      marginLeft={margin}
+      marginRight={margin}
+    >
+      <VBox gap={"calc( " + gap + " / 4)"}>
         <HBox gap={gap}>
           <Text
             text={solution.num ? solution.num : noData}
@@ -136,9 +150,9 @@ const SubSolutionDisplay = ({
               solution.estimPersoGain.average_financial_gain
                 ? Math.round(solution.estimPersoGain.average_financial_gain) +
                   " €" +
-                  solution.estimPersoGain.nom_periode_economie
-                  ? solution.estimPersoGain.nom_periode_economie
-                  : ""
+                  (solution.estimPersoGain.nom_periode_economie
+                    ? solution.estimPersoGain.nom_periode_economie
+                    : "")
                 : noData
             }
             color={textColor}
@@ -170,9 +184,9 @@ const SubSolutionDisplay = ({
                   " " +
                   solution.estimPersoGain.nom_unite_energie
                   ? solution.estimPersoGain.nom_unite_energie +
-                    solution.estimPersoGain.nom_periode_energie
-                    ? solution.estimPersoGain.nom_periode_energie
-                    : ""
+                    (solution.estimPersoGain.nom_periode_energie
+                      ? solution.estimPersoGain.nom_periode_energie
+                      : "")
                   : ""
                 : noData
             }
@@ -187,7 +201,8 @@ const SubSolutionDisplay = ({
           <Text
             text={
               solution.estimPersoGain.average_ges_gain
-                ? Math.round(solution.estimPersoGain.average_ges_gain) + " T"
+                ? Math.round(solution.estimPersoGain.average_ges_gain) +
+                  " tCO2eq"
                 : noData
             }
             color={textColor}
@@ -199,6 +214,8 @@ const SubSolutionDisplay = ({
             }}
           />
           <CustomButton
+            fontSize={fontSize}
+            isDisable={isLoading}
             buttonWidth={"calc(" + percentageSplit[7] + "% - " + gap + ")"}
             text="Détails"
             onClick={askAPIForSolutionDetails}

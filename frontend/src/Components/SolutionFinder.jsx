@@ -49,6 +49,7 @@ const SolutionFinder = ({
   const [isMainSectionError, setIsMainSectionError] = useState(false);
   const [isSubSectionError, setIsSubSectionError] = useState(false);
   const [isDescriptionError, setIsDescriptionError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getAllCategories = async () => {
@@ -69,6 +70,8 @@ const SolutionFinder = ({
 
   // API call
   const askAPIForSolutions = async () => {
+    setIsLoading(true);
+
     if (!mainCategorie) {
       setIsMainSectionError(true);
     } else if (!subCategorie) {
@@ -105,6 +108,8 @@ const SolutionFinder = ({
       } else {
       }
     }
+
+    setIsLoading(false);
   };
 
   const selectMainCategorie = (value) => {
@@ -247,11 +252,12 @@ const SolutionFinder = ({
           </HBox>
           <HBox justifyContent="right">
             <CustomButton
+              isDisable={isLoading}
               fontSize={subSectionFontSize}
               horizontalMargin={subSectionHorizontalMargin}
               verticalMargin={subSectionVerticalMargin}
               boxShadow={subSectionBoxShadow}
-              onClick={askAPIForSolutions}
+              onClick={isLoading ? () => {} : askAPIForSolutions}
               borderRadius={subSectionBorderRadius}
               text={validateButtonText}
             />
