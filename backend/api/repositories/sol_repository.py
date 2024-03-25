@@ -48,6 +48,7 @@ def get_data_solution(code_solution):
     cursor.close()
     return results
 
+
 def get_codes_solution(code_solution):
        # Create cursor object
     cursor = mydb.cursor(dictionary=True)
@@ -72,4 +73,4 @@ def get_codes_solution(code_solution):
     cursor.execute(query,(code_solution,))
     results = cursor.fetchall()
     cursor.close()
-    return results[0]
+    return results[0] 
