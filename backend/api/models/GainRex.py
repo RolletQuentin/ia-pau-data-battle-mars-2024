@@ -4,7 +4,7 @@ from api.models.Monnaie import Monnaie
 
 
 class GainRex(BaseModel):
-    num: int
+    num: int | None = None
     code_solution: int
     code_rex: int
     gain_financier: float | None = None
