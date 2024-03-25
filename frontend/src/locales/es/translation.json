@@ -1,0 +1,78 @@
+{
+    "Hello World!": "¡Hola mundo!",
+
+    "footer_kerdos": "KERDOS, expertos en tu transición ecológica",
+
+    "based_on": "Basado en",
+    "studies": "estudios",
+
+    "solutionDisplay": {
+        "topHeaderText": "Estimación de Ganancias",
+        "numberAcronym": "Núm.",
+        "title": "Título",
+        "confidenceLevel": "Nivel de Confianza",
+        "financial": "Financiero",
+        "investissement": "Costo de Inversión",
+        "energy": "Energía",
+        "co2": "CO2"
+    },
+    "solutionFinder": {
+        "section1text": "Sector de Actividad *",
+        "section2text": "Descripción *",
+        "subSection1text": "Subsector *",
+        "validateButtonText": "Mis Soluciones",
+        "mainSectionAsSubSection": "Otros",
+        "descriptionTextPlaceholder": "Ejemplo: Proporcionar un ejemplo detallado de lo que el usuario debería escribir en esta sección. Esto aumenta las posibilidades de que no escriba cualquier cosa.",
+        "noOptionsError": "Debe elegir un sector empresarial",
+        "noOptionsSelectedSectorError": "No ha seleccionado un sector empresarial",
+        "noOptionsSelectedSubSectorError": "No ha seleccionado un subsector empresarial"
+    },
+    "solutionDetail": {
+        "numSolution": "Solución Nº:",
+        "titleSolution": "Título de la Solución:",
+        "technologie": "Tecnología:",
+        "definition": "Definición",
+        "application": "Aplicación",
+        "bilanEnergie": "Balance de Energía",
+        "estimPersoGain": {
+            "title": "Estimación Personalizada de Ganancias",
+            "degConf": "Nivel de Confianza",
+            "euro": "Financiero",
+            "gwh": "Energía",
+            "co2": "CO2",
+            "gainReel": "Ganancia Real",
+            "retourInv": "Tiempo de Retorno de la Inversión",
+            "coutFinance": "Costo Financiero"
+        },
+        "estimGenGain": {
+            "title": "Estimación General de Ganancias",
+            "cout": {
+                "title": "Costos",
+                "pouce": "REGLA GENERAL:",
+                "difficulte": "DIFICULTADES:"
+            },
+            "gain": {
+                "title": "Ganancias",
+                "gain": "GANANCIA:",
+                "positif": "EFECTOS POSITIVOS:"
+            }
+        },
+        "etudeCas": {
+            "title": "Estudios de Caso",
+            "sub1": "Nº de Estudio de Caso / Sector / País",
+            "sub2": "Costos",
+            "sub3": "Ganancias"
+        }
+    },
+    "topTextList": {
+        "title": "¡Reduce tus emisiones de CO2 y ahorra dinero!",
+        "text1": "¡Tenemos soluciones a medida para ti!"
+    },
+    "buttons": {
+        "discover_how": "Descubre cómo",
+        "details": "Detalles"
+    },
+    "errors": {
+        "404error": "Página no encontrada"
+    }
+}
