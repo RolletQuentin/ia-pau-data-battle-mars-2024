@@ -208,10 +208,10 @@ const SolutionDetails = ({
                 marginTop="0"
                 marginBottom="0"
               >
-                <div style={{ overflow: "hidden", height: "500px" }}>
+                <div style={{ overflow: "hidden", height: "550px" }}>
                   <div
                     style={{
-                      height: "500px",
+                      height: "550px",
                       overflowY: "scroll",
                       marginRight: "-20px", // Adjust for scrollbar width
                     }}
@@ -1134,7 +1134,7 @@ const SolutionDetails = ({
         childRef={childRef}
         ThumbColor="var(--dark-primary)"
         backgroundColor={backgroundColor}
-        widthParent="18px"
+        widthParent="15px"
       />
     </HBox>
   );

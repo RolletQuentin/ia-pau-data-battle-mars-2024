@@ -146,10 +146,10 @@ const SolutionDisplay = ({
                   </HBox>
                 </MarginContainer>
               </ColorRect>
-              <div style={{ overflow: "hidden", height: "450px" }}>
+              <div style={{ overflow: "hidden", height: "500px" }}>
                 <div
                   style={{
-                    height: "450px",
+                    height: "500px",
                     overflowY: "scroll",
                     marginRight: "-20px", // Adjust for scrollbar width
                   }}

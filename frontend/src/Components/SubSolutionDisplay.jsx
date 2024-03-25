@@ -7,6 +7,7 @@ import {
 } from "@liro_u/react-components";
 import React, { useState } from "react";
 import CustomButton from "./input/CustomButton";
+import { bigNumber2String } from "../usefull";
 
 const SubSolutionDisplay = ({
   callBack = (solution) => {
@@ -148,7 +149,9 @@ const SubSolutionDisplay = ({
           <Text
             text={
               solution.estimPersoGain.average_financial_gain
-                ? Math.round(solution.estimPersoGain.average_financial_gain) +
+                ? bigNumber2String(
+                    solution.estimPersoGain.average_financial_gain
+                  ) +
                   " €" +
                   (solution.estimPersoGain.nom_periode_economie
                     ? solution.estimPersoGain.nom_periode_economie
@@ -166,7 +169,7 @@ const SubSolutionDisplay = ({
           <Text
             text={
               solution.estimPersoCout.average_cout
-                ? Math.round(solution.estimPersoCout.average_cout) + " €"
+                ? bigNumber2String(solution.estimPersoCout.average_cout) + " €"
                 : noData
             }
             color={textColor}
@@ -180,7 +183,9 @@ const SubSolutionDisplay = ({
           <Text
             text={
               solution.estimPersoGain.average_energy_gain
-                ? Math.round(solution.estimPersoGain.average_energy_gain) +
+                ? bigNumber2String(
+                    solution.estimPersoGain.average_energy_gain
+                  ) +
                   " " +
                   (solution.estimPersoGain.nom_unite_energie
                     ? solution.estimPersoGain.nom_unite_energie +
@@ -201,7 +206,7 @@ const SubSolutionDisplay = ({
           <Text
             text={
               solution.estimPersoGain.average_ges_gain
-                ? Math.round(solution.estimPersoGain.average_ges_gain) +
+                ? bigNumber2String(solution.estimPersoGain.average_ges_gain) +
                   " tCO2eq"
                 : noData
             }
@@ -221,7 +226,7 @@ const SubSolutionDisplay = ({
             onClick={askAPIForSolutionDetails}
           />
         </HBox>
-        <ColorRect backgroundColor={textColor} style={{ height: "0.5px" }} />
+        <ColorRect backgroundColor={textColor} style={{ height: "1px" }} />
       </VBox>
     </MarginContainer>
   );
