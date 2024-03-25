@@ -167,22 +167,26 @@ def get_data_solution(code_solution,code_sector):
             rex_groups[item.code_rex] = DataRex(
                 numRex=item.code_rex, 
                 sector= clean(sec_repository.get_sector(item.code_secteur)),
-                cout=[], 
-                gain=[])
-        rex_groups[item.code_rex].gain.append(item)
+                cout=None,  # Initialiser à None au lieu d'une liste vide
+                gain=None)  # Initialiser à None au lieu d'une liste vide
+        # Définir gain comme le premier élément trouvé s'il n'est pas déjà défini
+        if not rex_groups[item.code_rex].gain:
+            rex_groups[item.code_rex].gain = item
 
     for item in cout:
         if item.code_rex not in rex_groups:
             rex_groups[item.code_rex] = DataRex(
                 numRex=item.code_rex, 
                 sector= clean(sec_repository.get_sector(item.code_secteur)),
-                cout=[], 
-                gain=[])
-        rex_groups[item.code_rex].cout.append(item)
+                cout=None,  # Initialiser à None au lieu d'une liste vide
+                gain=None)  # Initialiser à None au lieu d'une liste vide
+        # Définir cout comme le premier élément trouvé s'il n'est pas déjà défini
+        if not rex_groups[item.code_rex].cout:
+            rex_groups[item.code_rex].cout = item
 
     list_rex = list(rex_groups.values())
-
     data.listRex = list_rex
+
 
     return data
 
