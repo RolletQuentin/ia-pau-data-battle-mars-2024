@@ -1,4 +1,10 @@
-import { HBox, MarginContainer, Text } from "@liro_u/react-components";
+import {
+  ColorRect,
+  HBox,
+  MarginContainer,
+  Text,
+  VBox,
+} from "@liro_u/react-components";
 import React from "react";
 import CustomButton from "./input/CustomButton";
 
@@ -13,6 +19,7 @@ const SubSolutionDisplay = ({
   gap = "20px",
   percentageSplit = [10, 30, 20, 10, 10, 10, 10],
   solution,
+  noData = "-",
 }) => {
   const lorem =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat. Duis aute irure dolor in reprehenderit in voluptate  velit esse cillum dolore eu fugiat nulla pariatur.";
@@ -68,14 +75,11 @@ const SubSolutionDisplay = ({
 
   const askAPIForSolutionDetails = async () => {
     const response = await fetch(
-      process.env.REACT_APP_PROXY + "/sol/best_solutions",
-      {
-        method: "POST",
-        body: JSON.stringify({ num: solution.num }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+      process.env.REACT_APP_PROXY +
+        "/sol/data_solution/" +
+        solution.num +
+        "/" +
+        solution.codeSector
     );
 
     const json = await response.json();
@@ -91,79 +95,117 @@ const SubSolutionDisplay = ({
 
   return (
     <MarginContainer margin={margin}>
-      <HBox gap={gap}>
-        <Text
-          text={solution.num ? solution.num : "pas de data"}
-          color={textColor}
-          fontSize={fontSize}
-          fontWeight={fontWeight}
-          style={{
-            width: "calc(" + percentageSplit[0] + "% - " + gap + ")",
-            textAlign: "left",
-          }}
-        />
-        <Text
-          text={solution.titre ? solution.titre : "pas de data"}
-          color={textColor}
-          fontSize={fontSize}
-          fontWeight={fontWeight}
-          style={{
-            width: "calc(" + percentageSplit[1] + "% - " + gap + ")",
-            textAlign: "left",
-          }}
-        />
-        <Text
-          text={"Basé sur " + solution.degre_confiance + " études"}
-          color={textColor}
-          fontSize={fontSize}
-          fontWeight={fontWeight}
-          style={{
-            width: "calc(" + percentageSplit[2] + "% - " + gap + ")",
-            textAlign: "left",
-          }}
-        />
-        <Text
-          text={
-            solution.gain_monetaire
-              ? solution.gain_monetaire + " €/an"
-              : "pas de data"
-          }
-          color={textColor}
-          fontSize={fontSize}
-          fontWeight={fontWeight}
-          style={{
-            width: "calc(" + percentageSplit[3] + "% - " + gap + ")",
-            textAlign: "left",
-          }}
-        />
-        <Text
-          text={
-            solution.gain_watt ? solution.gain_watt + " GWh/an" : "pas de data"
-          }
-          color={textColor}
-          fontSize={fontSize}
-          fontWeight={fontWeight}
-          style={{
-            width: "calc(" + percentageSplit[4] + "% - " + gap + ")",
-            textAlign: "left",
-          }}
-        />
-        <Text
-          text={solution.gain_co2 ? solution.gain_co2 + "T" : "pas de data"}
-          color={textColor}
-          fontSize={fontSize}
-          fontWeight={fontWeight}
-          style={{
-            width: "calc(" + percentageSplit[5] + "% - " + gap + ")",
-            textAlign: "left",
-          }}
-        />
-        <CustomButton
-          buttonWidth={"calc(" + percentageSplit[6] + "% - " + gap + ")"}
-          text="Détails"
-          onClick={askAPIForSolutionDetails}
-        />
-      </HBox>
+      <VBox gap={"calc( " + gap + " / 2)"}>
+        <HBox gap={gap}>
+          <Text
+            text={solution.num ? solution.num : noData}
+            color={textColor}
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            style={{
+              width: "calc(" + percentageSplit[0] + "% - " + gap + ")",
+              textAlign: "left",
+            }}
+          />
+          <Text
+            text={solution.titre ? solution.titre : noData}
+            color={textColor}
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            style={{
+              width: "calc(" + percentageSplit[1] + "% - " + gap + ")",
+              textAlign: "left",
+            }}
+          />
+          <Text
+            text={
+              "Basé sur " +
+              solution.estimPersoGain.number_of_based_solutions +
+              " études"
+            }
+            color={textColor}
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            style={{
+              width: "calc(" + percentageSplit[2] + "% - " + gap + ")",
+              textAlign: "left",
+            }}
+          />
+          <Text
+            text={
+              solution.estimPersoGain.average_financial_gain
+                ? Math.round(solution.estimPersoGain.average_financial_gain) +
+                  " €" +
+                  solution.estimPersoGain.nom_periode_economie
+                  ? solution.estimPersoGain.nom_periode_economie
+                  : ""
+                : noData
+            }
+            color={textColor}
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            style={{
+              width: "calc(" + percentageSplit[3] + "% - " + gap + ")",
+              textAlign: "left",
+            }}
+          />
+          <Text
+            text={
+              solution.estimPersoCout.average_cout
+                ? Math.round(solution.estimPersoCout.average_cout) + " €"
+                : noData
+            }
+            color={textColor}
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            style={{
+              width: "calc(" + percentageSplit[4] + "% - " + gap + ")",
+              textAlign: "left",
+            }}
+          />
+          <Text
+            text={
+              solution.estimPersoGain.average_energy_gain
+                ? Math.round(solution.estimPersoGain.average_energy_gain) +
+                  " " +
+                  solution.estimPersoGain.nom_unite_energie
+                  ? solution.estimPersoGain.nom_unite_energie +
+                    solution.estimPersoGain.nom_periode_energie
+                    ? solution.estimPersoGain.nom_periode_energie
+                    : ""
+                  : ""
+                : noData
+            }
+            color={textColor}
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            style={{
+              width: "calc(" + percentageSplit[5] + "% - " + gap + ")",
+              textAlign: "left",
+            }}
+          />
+          <Text
+            text={
+              solution.estimPersoGain.average_ges_gain
+                ? Math.round(solution.estimPersoGain.average_ges_gain) + " T"
+                : noData
+            }
+            color={textColor}
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            style={{
+              width: "calc(" + percentageSplit[6] + "% - " + gap + ")",
+              textAlign: "left",
+            }}
+          />
+          <CustomButton
+            buttonWidth={"calc(" + percentageSplit[7] + "% - " + gap + ")"}
+            text="Détails"
+            onClick={askAPIForSolutionDetails}
+          />
+        </HBox>
+        <ColorRect backgroundColor={textColor} style={{ height: "0.5px" }} />
+      </VBox>
     </MarginContainer>
   );
 };

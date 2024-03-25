@@ -48,8 +48,8 @@ const Home = () => {
 
   // css customisation variable
   const backgroundColor = "#ffffff";
-  const backgroundColorAlpha = "73";
-  const backgroundBlur = "blur(20px)";
+  const backgroundColorAlpha = "bb";
+  const backgroundBlur = "blur(5px)";
 
   const titleFontSize = 20;
   const textColor = "var(--dark-primary)";
