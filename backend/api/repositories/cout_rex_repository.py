@@ -26,7 +26,7 @@ def get_all_for_one_rex(code_rex):
     return data_with_columns
 
 
-def get_all_for_one_solution(code_solution, code_secteur):
+def get_all_for_one_solution(code_solution):
     # Create cursor object
     cursor = mydb.cursor()
 
@@ -35,11 +35,10 @@ def get_all_for_one_solution(code_solution, code_secteur):
         SELECT tblcoutrex.*, tblreference.codesecteur FROM mydatabase.tblcoutrex
         JOIN tblrex ON tblrex.numrex = tblcoutrex.coderex
         JOIN tblreference ON tblreference.numreference = tblrex.codereference
-        WHERE tblcoutrex.codesolution = %s
-        AND tblreference.codesecteur = %s;
+        WHERE tblcoutrex.codesolution = %s;
         """
 
-    cursor.execute(query, (code_solution, code_secteur,))
+    cursor.execute(query, (code_solution,))
 
     # Get the results and column names
     results = cursor.fetchall()
