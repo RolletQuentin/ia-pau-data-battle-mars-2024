@@ -84,7 +84,7 @@ const SolutionDisplay = ({
               style={{
                 borderRadius: topHeaderBorderRadius,
                 overflow: "hidden",
-                width: "72%",
+                width: "64%",
                 backdropFilter: backgroundBlur,
               }}
             >

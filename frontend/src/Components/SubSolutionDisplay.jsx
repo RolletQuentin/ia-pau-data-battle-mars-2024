@@ -182,12 +182,12 @@ const SubSolutionDisplay = ({
               solution.estimPersoGain.average_energy_gain
                 ? Math.round(solution.estimPersoGain.average_energy_gain) +
                   " " +
-                  solution.estimPersoGain.nom_unite_energie
-                  ? solution.estimPersoGain.nom_unite_energie +
-                    (solution.estimPersoGain.nom_periode_energie
-                      ? solution.estimPersoGain.nom_periode_energie
-                      : "")
-                  : ""
+                  (solution.estimPersoGain.nom_unite_energie
+                    ? solution.estimPersoGain.nom_unite_energie +
+                      (solution.estimPersoGain.nom_periode_energie
+                        ? solution.estimPersoGain.nom_periode_energie
+                        : "")
+                    : "")
                 : noData
             }
             color={textColor}
