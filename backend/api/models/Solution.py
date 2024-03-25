@@ -8,3 +8,4 @@ class Solution(BaseModel):
     titre : str | None = None
     estimPersoGain :  AverageGain
     estimPersoCout : AverageCout
+    codeSector : int 
