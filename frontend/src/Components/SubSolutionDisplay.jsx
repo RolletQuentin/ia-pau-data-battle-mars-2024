@@ -104,7 +104,12 @@ const SubSolutionDisplay = ({
 
     givenEtudeCas.forEach((ec, index) => {
       etudeCas[index] = {
-        sub1: ec.numRex + ". " + ec.sector + " / " + "PAYS_A_IMPLEMENTER",
+        sub1:
+          ec.numRex +
+          ". " +
+          (ec.sector ? ec.sector : "") +
+          (ec.sector ? " / " : "") +
+          "PAYS_A_IMPLEMENTER",
         sub2: ec.cout ? createSub2(ec.cout) : [],
         sub3: ec.gain ? createSub3(ec.gain) : [],
       };
@@ -227,9 +232,11 @@ const SubSolutionDisplay = ({
           />
           <Text
             text={
-              t("based_on") +  " " +
+              t("based_on") +
+              " " +
               solution.estimPersoGain.number_of_based_solutions +
-              " " + t("studies")
+              " " +
+              t("studies")
             }
             color={textColor}
             fontSize={fontSize}
