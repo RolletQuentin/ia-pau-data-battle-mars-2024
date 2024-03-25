@@ -9,6 +9,8 @@ import React, { useState } from "react";
 import CustomButton from "./input/CustomButton";
 import { bigNumber2String, cropperFloat } from "../usefull";
 
+import { useTranslation } from "react-i18next";
+
 const SubSolutionDisplay = ({
   callBack = (solution) => {
     console.log(solution);
@@ -22,6 +24,8 @@ const SubSolutionDisplay = ({
   solution,
   noData = "-",
 }) => {
+  const { t } = useTranslation();
+
   const verticalMargin = "calc(" + margin + " / 3)";
 
   const [isLoading, setIsLoading] = useState(false);
@@ -223,9 +227,9 @@ const SubSolutionDisplay = ({
           />
           <Text
             text={
-              "Basé sur " +
+              t("based_on") +  " " +
               solution.estimPersoGain.number_of_based_solutions +
-              " études"
+              " " + t("studies")
             }
             color={textColor}
             fontSize={fontSize}
@@ -311,7 +315,7 @@ const SubSolutionDisplay = ({
             fontSize={fontSize}
             isDisable={isLoading}
             buttonWidth={"calc(" + percentageSplit[7] + "% - " + gap + ")"}
-            text="Détails"
+            text={t("buttons.details")}
             onClick={askAPIForSolutionDetails}
           />
         </HBox>

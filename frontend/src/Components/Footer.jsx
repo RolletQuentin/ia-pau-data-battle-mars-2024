@@ -8,10 +8,15 @@ import {
 } from "@liro_u/react-components";
 import React from "react";
 
+import { useTranslation } from "react-i18next";
+
 const Footer = () => {
+  // translation hook
+  const { t } = useTranslation();
+
   // content customisation variable
   const leftText = "© 2010-2024 Kerdos Energy";
-  const rightText = "KERDOS, les experts de votre transition écologique";
+  const rightText = t('footer_kerdos');
   const linkList = [
     {
       logoSrc: "/logo/linkedin.png",

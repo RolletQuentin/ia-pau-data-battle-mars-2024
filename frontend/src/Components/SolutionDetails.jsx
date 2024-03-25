@@ -10,6 +10,8 @@ import {
 import React, { useEffect, useRef } from "react";
 import CustomScrollBar from "./input/CustomScrollBar";
 
+import { useTranslation } from "react-i18next";
+
 const SolutionDetails = ({
   gap = "20px",
   textGap = "10px",
@@ -52,45 +54,47 @@ const SolutionDetails = ({
     etudeCas: [],
   },
 }) => {
+  const { t } = useTranslation();
+
   // css auto variable
   const headerBorderRadius = borderRadius + " " + borderRadius + " 0px 0px";
 
   // text variable
   const titleSolutionData = {
-    numSolution: "N° Solution : ",
-    titleSolution: "Titre solution : ",
-    technologie: "Technologie : ",
-    definition: "Définition",
-    application: "Application",
-    bilanEnergie: "Bilan énergie",
+    numSolution: t("solutionDetail.numSolution"),
+    titleSolution: t("solutionDetail.titleSolution"),
+    technologie: t("solutionDetail.technologie"),
+    definition: t("solutionDetail.definition"),
+    application: t("solutionDetail.application"),
+    bilanEnergie: t("solutionDetail.bilanEnergie"),
     estimPersoGain: {
-      title: "Estimation personnalisé des gains",
-      degConf: "Degré de confiance",
-      euro: "Financier",
-      gwh: "Energie",
-      co2: "CO2",
-      gainReel: "Gain Réel",
-      retourInv: "Temps retour sur investissement",
-      coutFinance: "Coût financier",
+      title: t("solutionDetail.estimPersoGain.title"),
+      degConf: t("solutionDetail.estimPersoGain.degConf"),
+      euro: t("solutionDetail.estimPersoGain.euro"),
+      gwh: t("solutionDetail.estimPersoGain.gwh"),
+      co2: t("solutionDetail.estimPersoGain.co2"),
+      gainReel: t("solutionDetail.estimPersoGain.gainReel"),
+      retourInv: t("solutionDetail.estimPersoGain.retourInv"),
+      coutFinance: t("solutionDetail.estimPersoGain.coutFinance"),
     },
     estimGenGain: {
-      title: "Estimation générale des gains",
+      title: t("solutionDetail.estimGenGain.title"),
       cout: {
-        title: "Coûts",
-        pouce: "LA REGLES DU POUCE :",
-        difficulte: "DIFFICULTES :",
+        title: t("solutionDetail.estimGenGain.cout.title"),
+        pouce: t("solutionDetail.estimGenGain.cout.pouce"),
+        difficulte: t("solutionDetail.estimGenGain.cout.difficulte"),
       },
       gain: {
-        title: "Gains",
-        gain: "GAIN :",
-        positif: "EFFETS POSITIFS :",
+        title: t("solutionDetail.estimGenGain.gain.title"),
+        gain: t("solutionDetail.estimGenGain.gain.gain"),
+        positif: t("solutionDetail.estimGenGain.gain.positif"),
       },
     },
     etudeCas: {
-      title: "Etudes de cas",
-      sub1: "N° ETUDES DE CAS / SECTEUR / PAYS",
-      sub2: "Coûts",
-      sub3: "Gains",
+      title: t("solutionDetail.etudeCas.title"),
+      sub1: t("solutionDetail.etudeCas.sub1"),
+      sub2: t("solutionDetail.etudeCas.sub2"),
+      sub3: t("solutionDetail.etudeCas.sub3"),
     },
   };
 
@@ -496,10 +500,10 @@ const SolutionDetails = ({
                                         <HBox>
                                           <Text
                                             text={
-                                              "Basé sur " +
+                                              t("based_on") + " " +
                                               solutionData.estimPersoGain
                                                 .degConf +
-                                              " études"
+                                              " " + t("studies")
                                             }
                                             color={textColor}
                                             fontSize={subSectionFontSize + "px"}

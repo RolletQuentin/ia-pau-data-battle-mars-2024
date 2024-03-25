@@ -14,7 +14,10 @@ import { Opacity } from "@liro_u/react-animation-components";
 import CustomButton from "../Components/input/CustomButton";
 import SolutionDetails from "../Components/SolutionDetails";
 
+import { useTranslation } from "react-i18next";
+
 const Home = () => {
+  const { t } = useTranslation();
   const [pageState, setPageState] = useState(0);
   const [previousPageState, setPreviousPageState] = useState(-1);
   const [solutions, setSolutions] = useState([]);
@@ -42,8 +45,8 @@ const Home = () => {
   // content customisation variable
   const backgroundImageSrc = "/wallpaper/forest.jpg";
   const topTextList = [
-    "Réduisez vos émissions de CO2 et faites des économies !",
-    "Nous avons les solutions faites sur-mesure pour vous !",
+    t('topTextList.title'),
+    t('topTextList.text1'),
   ];
 
   // css customisation variable
@@ -184,7 +187,7 @@ const Home = () => {
               <CenterContainer>
                 <CustomButton
                   buttonWidth="300px"
-                  text="Découvrir comment"
+                  text={t('buttons.discover_how')}
                   fontSize={20}
                   verticalMargin={25}
                   buttonColor="var(--dark-primary2)"
@@ -219,6 +222,12 @@ const Home = () => {
                   subSectionFontSize={subSectionFontSize}
                   titleFontWeight={titleFontWeight}
                   gap={componentGap}
+                  section2Text={t('solutionFinder.section2text')}
+                  section1Text={t('solutionFinder.section1text')}
+                  subSection1Text={t('solutionFinder.subSection1text')}
+                  validateButtonText={t('solutionFinder.validateButtonText')}
+                  mainSectionAsSubSection={t('solutionFinder.mainSectionAsSubSection')}
+                  descriptionTextPlaceholder={t('solutionFinder.descriptionTextPlaceholder')}
                 />
               </CenterContainer>
             </VBox>
@@ -270,6 +279,16 @@ const Home = () => {
                   titleFontWeight={titleFontWeight}
                   gap={componentGap}
                   callBack={findSolutionDetails}
+                  topHeaderText = {t('solutionDisplay.topHeaderText')}
+                  HeaderTitles = {[
+                    t('solutionDisplay.numberAcronym'),
+                    t('solutionDisplay.title'),
+                    t('solutionDisplay.confidenceLevel'),
+                    t('solutionDisplay.financial'),
+                    t('solutionDisplay.investissement'),
+                    t('solutionDisplay.energy'),
+                    t('solutionDisplay.co2')
+                  ]}
                 />
               </CenterContainer>
             </VBox>
