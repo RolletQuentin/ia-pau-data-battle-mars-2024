@@ -13,6 +13,6 @@ class DataSolution(BaseModel):
     bilanEnergie : str | None = None
     estimPerso : EstimPerso
     estimGen : EstimGen
-#    listRex : list[DataRex]
+    listRex : list[DataRex] | None = None
 
 

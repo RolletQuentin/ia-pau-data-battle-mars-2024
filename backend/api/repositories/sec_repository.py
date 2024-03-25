@@ -91,4 +91,21 @@ def get_id_sector(sector):
     return result[0]
 
 
+def get_sector(code_sector):
+       # Create cursor object
+    cursor = mydb.cursor()
+    query = f"""
+        SELECT 
+            traductiondictionnaire
+        FROM 
+            tbldictionnaire 
+        WHERE 
+            codelangue = 2 and
+            typedictionnaire = 'sec' and 
+            codeappelobjet = %s;
+        """
 
+    cursor.execute(query,(code_sector,))
+    results = cursor.fetchall()
+    cursor.close()
+    return results[0][0] if results else None
