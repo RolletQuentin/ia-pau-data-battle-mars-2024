@@ -22,7 +22,6 @@ def get_multiple_solution(solutions):
 
     cursor.execute(query, tuple(solutions))
     results = cursor.fetchall()
-    print(results)
     cursor.close()
 
     return results

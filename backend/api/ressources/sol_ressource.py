@@ -31,12 +31,14 @@ async def best_solutions(data: RequestBestSol = Body(...)) -> list[Solution]:
             status_code=422, detail="Description vide ou taille > 2048 caractere")
     solutions = model_find_solution(description, secteur_activite)
     data = sol_service.get_multiple_solution(solutions, secteur_activite)
+    print(data)
     return data
 
 
 @router.get("/data_solution/{code_solution}/{code_sector}")
 async def get_data_solution(code_solution: int, code_sector: int) -> DataSolution:
     data = sol_service.get_data_solution(code_solution,code_sector)
+    print(data)
     return data
 
 
@@ -64,3 +66,5 @@ async def get_average_gain(code_solution: int, code_secteur: int) -> AverageGain
 async def get_average_cout(code_solution: int, code_secteur: int) -> AverageCout:
     data = cout_rex_service.predict_cout_solution(code_solution, code_secteur)
     return data
+
+

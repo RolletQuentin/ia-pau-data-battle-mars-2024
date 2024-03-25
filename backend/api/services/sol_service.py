@@ -9,10 +9,11 @@ from api.models.Solution import Solution
 from api.models.DataSolution import DataSolution
 
 from api.models.EstimPerso import EstimPerso
-from api.models.AverageGain import AverageGain
-from api.models.AverageCout import AverageCout
+
 
 from api.models.EstimGen import EstimGen
+
+from api.models.DataRex import DataRex
 from api.models.CoutSol import CoutSol
 from api.models.GainSol import GainSol
 
@@ -23,6 +24,7 @@ def get_multiple_solution(solutions, secteur_activite):
     data = []
     results = sol_repository.get_multiple_solution(solutions)
     id_sector = sec_repository.get_id_sector(str(secteur_activite))
+    print(id_sector)
     
     result_mapping = {}  # Create a mapping from solution number to the solution object
     for result in results:
@@ -116,6 +118,8 @@ def get_data_solution(code_solution,code_sector):
     )
 
     codes = sol_repository.get_codes_solution(code_solution)
+    print(code_sector)
+    print(data)
     if codes is None: 
         return data
     
@@ -135,6 +139,39 @@ def get_data_solution(code_solution,code_sector):
 
 
     results = sol_repository.get_data_solution(code_solution)
+    print(data)
+
     update_data_from_results(data, results, codes)
 
+
+
+    # Récupérer les données de gain et de coût
+    gain = gain_rex_service.get_all_for_one_solution(code_solution)
+    cout = cout_rex_service.get_all_for_one_solution(code_solution)
+
+    # Initialiser le dictionnaire pour regrouper les données par code_rex
+    rex_groups = {}
+    for item in gain:
+        if item.code_rex not in rex_groups:
+            rex_groups[item.code_rex] = DataRex(
+                numRex=item.code_rex, 
+                sector= clean(sec_repository.get_sector(item.code_secteur)),
+                cout=[], 
+                gain=[])
+        rex_groups[item.code_rex].gain.append(item)
+
+    for item in cout:
+        if item.code_rex not in rex_groups:
+            rex_groups[item.code_rex] = DataRex(
+                numRex=item.code_rex, 
+                sector= clean(sec_repository.get_sector(item.code_secteur)),
+                cout=[], 
+                gain=[])
+        rex_groups[item.code_rex].cout.append(item)
+
+    list_rex = list(rex_groups.values())
+
+    data.listRex = list_rex
+
     return data
+
