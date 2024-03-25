@@ -7,7 +7,7 @@ import {
   Text,
   VBox,
 } from "@liro_u/react-components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import CustomScrollBar from "./input/CustomScrollBar";
 
 const SolutionDetails = ({
@@ -19,6 +19,7 @@ const SolutionDetails = ({
   globalMargin = "15px",
   backgroundBlur = "blur(20px)",
   subGap = "10px",
+  subSectionFontSize = 15,
   subSectionBoxShadow = "0px 4px 4px 0px #00000040",
   textColor = "var(--dark-primary)",
   negativeTextColor = "var(--light-color)",
@@ -65,9 +66,12 @@ const SolutionDetails = ({
     estimPersoGain: {
       title: "Estimation personnalisé des gains",
       degConf: "Degré de confiance",
-      euro: "€",
-      gwh: "GWh/an",
+      euro: "Financier",
+      gwh: "Energie",
       co2: "CO2",
+      gainReel: "Gain Réel",
+      retourInv: "Temps retour sur investissement",
+      coutFinance: "Coût financier",
     },
     estimGenGain: {
       title: "Estimation générale des gains",
@@ -110,7 +114,7 @@ const SolutionDetails = ({
     <HBox
       gap={gap}
       style={{
-        width: "85vw",
+        width: "95vw",
         position: "relative",
       }}
     >
@@ -204,10 +208,10 @@ const SolutionDetails = ({
                 marginTop="0"
                 marginBottom="0"
               >
-                <div style={{ overflow: "hidden", height: "400px" }}>
+                <div style={{ overflow: "hidden", height: "500px" }}>
                   <div
                     style={{
-                      height: "400px",
+                      height: "500px",
                       overflowY: "scroll",
                       marginRight: "-20px", // Adjust for scrollbar width
                     }}
@@ -234,7 +238,7 @@ const SolutionDetails = ({
                             <Text
                               text={solutionData.definition}
                               color={textColor}
-                              fontSize={titleFontSize + "px"}
+                              fontSize={subSectionFontSize + "px"}
                               style={{
                                 textAlign: "left",
                               }}
@@ -265,7 +269,7 @@ const SolutionDetails = ({
                             <Text
                               text={solutionData.application}
                               color={textColor}
-                              fontSize={titleFontSize + "px"}
+                              fontSize={subSectionFontSize + "px"}
                               style={{
                                 textAlign: "left",
                               }}
@@ -296,7 +300,7 @@ const SolutionDetails = ({
                             <Text
                               text={solutionData.bilanEnergie}
                               color={textColor}
-                              fontSize={titleFontSize + "px"}
+                              fontSize={subSectionFontSize + "px"}
                               style={{
                                 textAlign: "left",
                               }}
@@ -333,119 +337,282 @@ const SolutionDetails = ({
                                   height="30px"
                                 />
                               </HBox>
-                              <VBox>
-                                <ColorRect backgroundColor={textColor}>
-                                  <MarginContainer
-                                    margin={estimPersoGainMargin}
-                                    marginTop={"0"}
-                                    marginBottom={"0"}
-                                  >
-                                    <HBox>
-                                      <Text
-                                        text={
-                                          titleSolutionData.estimPersoGain
-                                            .degConf
-                                        }
-                                        color={negativeTextColor}
-                                        fontWeight={titleFontWeight}
-                                        fontSize={titleFontSize + "px"}
-                                        style={{
-                                          textAlign: "left",
-                                          width: "29%",
-                                        }}
-                                      />
-                                      <Text
-                                        text={
-                                          titleSolutionData.estimPersoGain.euro
-                                        }
-                                        color={negativeTextColor}
-                                        fontWeight={titleFontWeight}
-                                        fontSize={titleFontSize + "px"}
-                                        style={{
-                                          textAlign: "left",
-                                          width: "29%",
-                                        }}
-                                      />
-                                      <Text
-                                        text={
-                                          titleSolutionData.estimPersoGain.gwh
-                                        }
-                                        color={negativeTextColor}
-                                        fontWeight={titleFontWeight}
-                                        fontSize={titleFontSize + "px"}
-                                        style={{
-                                          textAlign: "left",
-                                          width: "29%",
-                                        }}
-                                      />
-                                      <Text
-                                        text={
-                                          titleSolutionData.estimPersoGain.co2
-                                        }
-                                        color={negativeTextColor}
-                                        fontWeight={titleFontWeight}
-                                        fontSize={titleFontSize + "px"}
-                                        style={{
-                                          textAlign: "left",
-                                          width: "13%",
-                                        }}
-                                      />
-                                    </HBox>
-                                  </MarginContainer>
-                                </ColorRect>
-                                <MarginContainer
-                                  margin={estimPersoGainMargin}
-                                  marginTop={"0"}
-                                  marginBottom={"0"}
-                                >
-                                  <HBox>
-                                    <Text
-                                      text={
-                                        "Basé sur " +
-                                        solutionData.estimPersoGain.degConf +
-                                        " études"
-                                      }
-                                      color={textColor}
-                                      fontWeight={titleFontWeight}
-                                      fontSize={titleFontSize + "px"}
+                              <HBox gap={gap}>
+                                <VBox mainBoxStyle={{ width: "100%" }}>
+                                  <HBox gap={gap}>
+                                    <ColorRect
+                                      backgroundColor={"var(--orange)"}
                                       style={{
-                                        textAlign: "left",
-                                        width: "29%",
+                                        width:
+                                          "calc(18% - calc(" + gap + " / 3))",
                                       }}
-                                    />
-                                    <Text
-                                      text={solutionData.estimPersoGain.euro}
-                                      color={textColor}
-                                      fontWeight={titleFontWeight}
-                                      fontSize={titleFontSize + "px"}
+                                    >
+                                      <MarginContainer
+                                        margin={estimPersoGainMargin}
+                                        marginTop={"0"}
+                                        marginBottom={"0"}
+                                      >
+                                        <HBox>
+                                          <Text
+                                            text={
+                                              titleSolutionData.estimPersoGain
+                                                .degConf
+                                            }
+                                            color={negativeTextColor}
+                                            fontWeight={titleFontWeight}
+                                            fontSize={titleFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                            }}
+                                          />
+                                        </HBox>
+                                      </MarginContainer>
+                                    </ColorRect>
+
+                                    <ColorRect
+                                      backgroundColor={textColor}
                                       style={{
-                                        textAlign: "left",
-                                        width: "29%",
+                                        width:
+                                          "calc(67% - calc(" + gap + " / 3))",
                                       }}
-                                    />
-                                    <Text
-                                      text={solutionData.estimPersoGain.gwh}
-                                      color={textColor}
-                                      fontWeight={titleFontWeight}
-                                      fontSize={titleFontSize + "px"}
+                                    >
+                                      <MarginContainer
+                                        margin={estimPersoGainMargin}
+                                        marginTop={"0"}
+                                        marginBottom={"0"}
+                                      >
+                                        <HBox>
+                                          <Text
+                                            text={
+                                              titleSolutionData.estimPersoGain
+                                                .euro
+                                            }
+                                            color={negativeTextColor}
+                                            fontWeight={titleFontWeight}
+                                            fontSize={titleFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                              width: "18%",
+                                            }}
+                                          />
+                                          <Text
+                                            text={
+                                              titleSolutionData.estimPersoGain
+                                                .gwh
+                                            }
+                                            color={negativeTextColor}
+                                            fontWeight={titleFontWeight}
+                                            fontSize={titleFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                              width: "17%",
+                                            }}
+                                          />
+                                          <Text
+                                            text={
+                                              titleSolutionData.estimPersoGain
+                                                .co2
+                                            }
+                                            color={negativeTextColor}
+                                            fontWeight={titleFontWeight}
+                                            fontSize={titleFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                              width: "13%",
+                                            }}
+                                          />
+                                          <Text
+                                            text={
+                                              titleSolutionData.estimPersoGain
+                                                .gainReel
+                                            }
+                                            color={negativeTextColor}
+                                            fontWeight={titleFontWeight}
+                                            fontSize={titleFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                              width: "15%",
+                                            }}
+                                          />
+                                          <Text
+                                            text={
+                                              titleSolutionData.estimPersoGain
+                                                .retourInv
+                                            }
+                                            color={negativeTextColor}
+                                            fontWeight={titleFontWeight}
+                                            fontSize={titleFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                              width: "37%",
+                                            }}
+                                          />
+                                        </HBox>
+                                      </MarginContainer>
+                                    </ColorRect>
+
+                                    <ColorRect
+                                      backgroundColor={"var(--error)"}
                                       style={{
-                                        textAlign: "left",
-                                        width: "29%",
+                                        width:
+                                          "calc(15% - calc(" + gap + " / 3))",
                                       }}
-                                    />
-                                    <Text
-                                      text={solutionData.estimPersoGain.co2}
-                                      color={textColor}
-                                      fontWeight={titleFontWeight}
-                                      fontSize={titleFontSize + "px"}
-                                      style={{
-                                        textAlign: "left",
-                                        width: "13%",
-                                      }}
-                                    />
+                                    >
+                                      <MarginContainer
+                                        margin={estimPersoGainMargin}
+                                        marginTop={"0"}
+                                        marginBottom={"0"}
+                                      >
+                                        <HBox>
+                                          <Text
+                                            text={
+                                              titleSolutionData.estimPersoGain
+                                                .coutFinance
+                                            }
+                                            color={negativeTextColor}
+                                            fontWeight={titleFontWeight}
+                                            fontSize={titleFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                            }}
+                                          />
+                                        </HBox>
+                                      </MarginContainer>
+                                    </ColorRect>
                                   </HBox>
-                                </MarginContainer>
-                              </VBox>
+                                  <HBox gap={gap}>
+                                    <ColorRect
+                                      backgroundColor={"#0000"}
+                                      style={{
+                                        width:
+                                          "calc(18% - calc(" + gap + " / 3))",
+                                      }}
+                                    >
+                                      <MarginContainer
+                                        margin={estimPersoGainMargin}
+                                        marginTop={"0"}
+                                        marginBottom={"0"}
+                                      >
+                                        <HBox>
+                                          <Text
+                                            text={
+                                              "Basé sur " +
+                                              solutionData.estimPersoGain
+                                                .degConf +
+                                              " études"
+                                            }
+                                            color={textColor}
+                                            fontSize={subSectionFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                            }}
+                                          />
+                                        </HBox>
+                                      </MarginContainer>
+                                    </ColorRect>
+                                    <ColorRect
+                                      backgroundColor={"#0000"}
+                                      style={{
+                                        width:
+                                          "calc(67% - calc(" + gap + " / 3))",
+                                      }}
+                                    >
+                                      <MarginContainer
+                                        margin={estimPersoGainMargin}
+                                        marginTop={"0"}
+                                        marginBottom={"0"}
+                                      >
+                                        <HBox>
+                                          <Text
+                                            text={
+                                              solutionData.estimPersoGain.euro
+                                            }
+                                            color={textColor}
+                                            fontSize={subSectionFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                              width: "18%",
+                                            }}
+                                          />
+                                          <Text
+                                            text={
+                                              solutionData.estimPersoGain.gwh
+                                            }
+                                            color={textColor}
+                                            fontSize={subSectionFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                              width: "17%",
+                                            }}
+                                          />
+                                          <Text
+                                            text={
+                                              solutionData.estimPersoGain.co2
+                                            }
+                                            color={textColor}
+                                            fontSize={subSectionFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                              width: "13%",
+                                            }}
+                                          />
+                                          <Text
+                                            text={
+                                              solutionData.estimPersoGain
+                                                .gainReel
+                                            }
+                                            color={textColor}
+                                            fontSize={subSectionFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                              width: "15%",
+                                            }}
+                                          />
+                                          <Text
+                                            text={
+                                              solutionData.estimPersoGain
+                                                .retourInv
+                                            }
+                                            color={textColor}
+                                            fontSize={subSectionFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                              width: "37%",
+                                            }}
+                                          />
+                                        </HBox>
+                                      </MarginContainer>
+                                    </ColorRect>
+                                    <ColorRect
+                                      backgroundColor={"#0000"}
+                                      style={{
+                                        width:
+                                          "calc(15% - calc(" + gap + " / 3))",
+                                      }}
+                                    >
+                                      <MarginContainer
+                                        margin={estimPersoGainMargin}
+                                        marginTop={"0"}
+                                        marginBottom={"0"}
+                                      >
+                                        <HBox>
+                                          <Text
+                                            text={
+                                              solutionData.estimPersoGain
+                                                .coutFinance
+                                            }
+                                            color={textColor}
+                                            fontSize={subSectionFontSize + "px"}
+                                            style={{
+                                              textAlign: "left",
+                                            }}
+                                          />
+                                        </HBox>
+                                      </MarginContainer>
+                                    </ColorRect>
+                                  </HBox>
+                                </VBox>
+                              </HBox>
                             </VBox>
 
                             <MarginContainer
@@ -520,7 +687,7 @@ const SolutionDetails = ({
                                                 .cout.pouce
                                             }
                                             color={textColor}
-                                            fontSize={titleFontSize + "px"}
+                                            fontSize={subSectionFontSize + "px"}
                                             style={{
                                               textAlign: "left",
                                               display: "list-item",
@@ -540,7 +707,9 @@ const SolutionDetails = ({
                                                     .pouce
                                                 }
                                                 color={textColor}
-                                                fontSize={titleFontSize + "px"}
+                                                fontSize={
+                                                  subSectionFontSize + "px"
+                                                }
                                                 style={{
                                                   textAlign: "left",
                                                 }}
@@ -558,7 +727,7 @@ const SolutionDetails = ({
                                                 .cout.difficulte
                                             }
                                             color={textColor}
-                                            fontSize={titleFontSize + "px"}
+                                            fontSize={subSectionFontSize + "px"}
                                             style={{
                                               textAlign: "left",
                                               display: "list-item",
@@ -580,7 +749,8 @@ const SolutionDetails = ({
                                                       text={value}
                                                       color={textColor}
                                                       fontSize={
-                                                        titleFontSize + "px"
+                                                        subSectionFontSize +
+                                                        "px"
                                                       }
                                                       style={{
                                                         textAlign: "left",
@@ -640,7 +810,7 @@ const SolutionDetails = ({
                                                 .gain.gain
                                             }
                                             color={textColor}
-                                            fontSize={titleFontSize + "px"}
+                                            fontSize={subSectionFontSize + "px"}
                                             style={{
                                               textAlign: "left",
                                               display: "list-item",
@@ -660,7 +830,9 @@ const SolutionDetails = ({
                                                     .gain
                                                 }
                                                 color={textColor}
-                                                fontSize={titleFontSize + "px"}
+                                                fontSize={
+                                                  subSectionFontSize + "px"
+                                                }
                                                 style={{
                                                   textAlign: "left",
                                                   display: "list-item",
@@ -681,7 +853,7 @@ const SolutionDetails = ({
                                                 .gain.positif
                                             }
                                             color={textColor}
-                                            fontSize={titleFontSize + "px"}
+                                            fontSize={subSectionFontSize + "px"}
                                             style={{
                                               textAlign: "left",
                                               display: "list-item",
@@ -703,7 +875,8 @@ const SolutionDetails = ({
                                                       text={value}
                                                       color={textColor}
                                                       fontSize={
-                                                        titleFontSize + "px"
+                                                        subSectionFontSize +
+                                                        "px"
                                                       }
                                                       style={{
                                                         textAlign: "left",
@@ -866,7 +1039,7 @@ const SolutionDetails = ({
                                           <Text
                                             text={ec.sub1}
                                             color={textColor}
-                                            fontSize={titleFontSize + "px"}
+                                            fontSize={subSectionFontSize + "px"}
                                             style={{
                                               textAlign: "left",
                                             }}
@@ -888,7 +1061,7 @@ const SolutionDetails = ({
                                                   text={value}
                                                   color={textColor}
                                                   fontSize={
-                                                    titleFontSize + "px"
+                                                    subSectionFontSize + "px"
                                                   }
                                                   style={{
                                                     textAlign: "left",
@@ -913,7 +1086,7 @@ const SolutionDetails = ({
                                                   text={value}
                                                   color={textColor}
                                                   fontSize={
-                                                    titleFontSize + "px"
+                                                    subSectionFontSize + "px"
                                                   }
                                                   style={{
                                                     textAlign: "left",
@@ -935,7 +1108,7 @@ const SolutionDetails = ({
                                       >
                                         <ColorRect
                                           backgroundColor={textColor}
-                                          style={{ height: "2px" }}
+                                          style={{ height: "1px" }}
                                         />
                                       </CenterContainer>
                                     </VBox>
@@ -961,7 +1134,7 @@ const SolutionDetails = ({
         childRef={childRef}
         ThumbColor="var(--dark-primary)"
         backgroundColor={backgroundColor}
-        widthParent="23.2px"
+        widthParent="18px"
       />
     </HBox>
   );

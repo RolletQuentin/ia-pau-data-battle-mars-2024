@@ -53,7 +53,7 @@ const Home = () => {
 
   const titleFontSize = 20;
   const textColor = "var(--dark-primary)";
-  const subSectionFontSize = 15;
+  const subSectionFontSize = 12;
   const titleFontWeight = "bold";
   const componentGap = "20px";
 
@@ -62,7 +62,7 @@ const Home = () => {
 
   const textFontWeight = "bold";
   const textFontSize = "35px";
-  const gap = "70px";
+  const gap = "30px";
 
   // css animation
   const show = `
@@ -315,6 +315,7 @@ const Home = () => {
                   backgroundColorAlpha={backgroundColorAlpha}
                   backgroundBlur={backgroundBlur}
                   titleFontSize={titleFontSize}
+                  subSectionFontSize={17}
                   textColor={textColor}
                   titleFontWeight={titleFontWeight}
                   gap={componentGap}

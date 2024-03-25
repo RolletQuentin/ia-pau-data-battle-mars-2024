@@ -5,6 +5,7 @@ const CustomButton = ({
   buttonWidth = "30%",
   buttonColor = "var(--dark-primary)",
   buttonColorHover = "var(--dark-primary2)",
+  buttonDisableColor = "var(--disable)",
   textColor = "var(--light-color)",
   textFontWeight = "bold",
   text = "send",
@@ -16,10 +17,14 @@ const CustomButton = ({
   horizontalMargin = fontSize,
   transition = "background-size 0.5s",
   backgroundPosition = "50% 50%",
+  isDisable = false,
   ...content
 }) => {
   const backgroundImage =
     "linear-gradient(" + buttonColorHover + ", " + buttonColorHover + ")";
+
+  const backgroundImageDisable =
+    "linear-gradient(" + buttonDisableColor + ", " + buttonDisableColor + ")";
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -35,13 +40,13 @@ const CustomButton = ({
     <ColorRect
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      backgroundColor={buttonColor}
+      backgroundColor={isDisable ? buttonDisableColor : buttonColor}
       style={{
         borderRadius,
         width: buttonWidth,
         boxShadow: boxShadow,
-        cursor: "pointer",
-        backgroundImage,
+        cursor: isDisable ? "wait" : "pointer",
+        backgroundImage: isDisable ? backgroundImageDisable : backgroundImage,
         transition,
         backgroundRepeat: "no-repeat",
         backgroundPosition,

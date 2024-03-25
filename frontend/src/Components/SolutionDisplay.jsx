@@ -31,7 +31,7 @@ const SolutionDisplay = ({
   subSectionBoxShadow = "0px 4px 4px 0px #00000040",
   gap = "20px",
   subSectionFontWeight = "bold",
-  percentageSplit = [5, 23, 17, 10, 19, 8, 9, 9],
+  percentageSplit = [4, 32, 15, 8, 17, 8, 8, 8],
   // content customisation variable
   topHeaderText = "Estimation des gains",
   HeaderTitles = [
@@ -70,7 +70,7 @@ const SolutionDisplay = ({
     <HBox
       gap={gap}
       style={{
-        width: "85vw",
+        width: "95vw",
         position: "relative",
       }}
     >
@@ -146,30 +146,32 @@ const SolutionDisplay = ({
                   </HBox>
                 </MarginContainer>
               </ColorRect>
-              <div style={{ overflow: "hidden", height: "350px" }}>
+              <div style={{ overflow: "hidden", height: "450px" }}>
                 <div
                   style={{
-                    height: "350px",
+                    height: "450px",
                     overflowY: "scroll",
                     marginRight: "-20px", // Adjust for scrollbar width
                   }}
                   onScroll={handleChildScroll}
                   ref={childRef}
                 >
-                  <VBox>
-                    {solutions.map((solution, index) => (
-                      <SubSolutionDisplay
-                        callBack={callBack}
-                        key={index}
-                        margin={globalMargin}
-                        textColor={textColor}
-                        fontSize={subSectionFontSize}
-                        fontWeight={subSectionFontWeight}
-                        percentageSplit={percentageSplit}
-                        solution={solution}
-                      />
-                    ))}
-                  </VBox>
+                  <MarginContainer marginTop={"calc(" + globalMargin + "/ 2 )"}>
+                    <VBox>
+                      {solutions.map((solution, index) => (
+                        <SubSolutionDisplay
+                          callBack={callBack}
+                          key={index}
+                          margin={globalMargin}
+                          textColor={textColor}
+                          fontSize={subSectionFontSize}
+                          fontWeight={subSectionFontWeight}
+                          percentageSplit={percentageSplit}
+                          solution={solution}
+                        />
+                      ))}
+                    </VBox>
+                  </MarginContainer>
                 </div>
               </div>
             </VBox>
