@@ -1,6 +1,7 @@
 import {
   ColorRect,
   HBox,
+  Image,
   MarginContainer,
   Text,
   VBox,
@@ -24,15 +25,24 @@ const SolutionDisplay = ({
   globalMargin = "15px",
   titleFontWeight = "bold",
   borderRadius = "20px",
-  backgroundColorAlphaTopHeader = "a3",
+  backgroundColorAlphaTopHeader = "dd",
+  backgroundColorTopHeader = "#ededed",
   topHeaderFontSize = 30,
   subSectionBoxShadow = "0px 4px 4px 0px #00000040",
   gap = "20px",
   subSectionFontWeight = "bold",
-  percentageSplit = [5, 35, 20, 11, 10, 10, 9],
+  percentageSplit = [5, 23, 17, 10, 19, 8, 9, 9],
   // content customisation variable
   topHeaderText = "Estimation des gains",
-  HeaderTitles = ["N°", "Titre", "Degré de confiance", "€", "GWh/an", "CO2"],
+  HeaderTitles = [
+    "N°",
+    "Titre",
+    "Degré de confiance",
+    "Financier",
+    "Coût d'investissement",
+    "Energie",
+    "CO2",
+  ],
 }) => {
   // css auto variable
   const mainBorderRadius =
@@ -68,20 +78,31 @@ const SolutionDisplay = ({
         <VBox mainBoxStyle={{ width: "100%" }}>
           <HBox justifyContent="end">
             <ColorRect
-              backgroundColor={backgroundColor + backgroundColorAlphaTopHeader}
+              backgroundColor={
+                backgroundColorTopHeader + backgroundColorAlphaTopHeader
+              }
               style={{
                 borderRadius: topHeaderBorderRadius,
-                width: "60%",
+                overflow: "hidden",
+                width: "72%",
                 backdropFilter: backgroundBlur,
               }}
             >
               <MarginContainer margin={globalMargin}>
-                <Text
-                  text={topHeaderText}
-                  color={textColor}
-                  fontWeight={titleFontWeight}
-                  fontSize={topHeaderFontSize}
-                />
+                <HBox justifyContent="center" gap={gap}>
+                  <Image
+                    src="/icon/brain.png"
+                    objectFit="contain"
+                    width="40px"
+                    height="40px"
+                  />
+                  <Text
+                    text={topHeaderText}
+                    color={textColor}
+                    fontWeight={titleFontWeight}
+                    fontSize={topHeaderFontSize}
+                  />
+                </HBox>
               </MarginContainer>
             </ColorRect>
           </HBox>
