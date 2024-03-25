@@ -204,6 +204,7 @@ def predict_gain_solution(code_solution, code_secteur):
         average_gain_ges = average_gain_ges_sector
 
     # Calculate the predicted ges for the sector
+    print(average_gain_energie)
     if average_gain_energie:
         predicted_gain_ges = energie_service.predict_ges(
             code_secteur, average_gain_energie)
