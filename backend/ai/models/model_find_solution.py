@@ -127,8 +127,11 @@ def find_solution(text_to_compare, embeddings_file, quantize=False, precision="b
     with open(embeddings_file, "rb") as fIn:
         df_embeddings = pickle.load(fIn)
     
+    # Convertir la liste de tableaux numpy en un seul tableau numpy
+    embeddings_array = np.stack(df_embeddings['text_embedding'].values)
+
     # Calculer la similarité cosinus entre l'embedding à comparer et les embeddings dans df_embeddings
-    similarities = util.pytorch_cos_sim(embedding_to_compare.reshape(1, -1), df_embeddings['text_embedding'].values.tolist())
+    similarities = util.pytorch_cos_sim(embedding_to_compare.reshape(1, -1), embeddings_array)
     
     # Ajouter les similarités au DataFrame df_embeddings
     df_embeddings['similarity'] = similarities.flatten()
