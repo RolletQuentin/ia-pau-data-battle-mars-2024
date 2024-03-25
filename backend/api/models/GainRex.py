@@ -19,3 +19,4 @@ class GainRex(BaseModel):
     nom_periode_energie: str | None = None
     nom_unite_energie: str | None = None
     nom_periode_economie: str | None = None
+    code_secteur: int | None = None
