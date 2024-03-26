@@ -41,9 +41,9 @@
     "noOptionsSelectedSubSectorError": "You haven't selected a sub-business sector"
   },
   "solutionDetail": {
-    "numSolution": "Solution No.:",
-    "titleSolution": "Solution Title:",
-    "technologie": "Technology:",
+    "numSolution": "Solution No. :",
+    "titleSolution": "Solution Title :",
+    "technologie": "Technology :",
     "definition": "Definition",
     "application": "Application",
     "bilanEnergie": "Energy Balance",
@@ -61,32 +61,32 @@
       "title": "General Gain Estimation",
       "cout": {
         "title": "Costs",
-        "pouce": "Rule of thumb:",
-        "difficulte": "Difficulties:"
+        "pouce": "Rule of thumb :",
+        "difficulte": "Difficulties :"
       },
       "gain": {
         "title": "Gains",
-        "gain": "Gain:",
-        "positif": "Positive effects:"
+        "gain": "Gain :",
+        "positif": "Positive effects :"
       }
     },
     "etudeCas": {
       "title": "Case Studies",
-      "sub1": "Case Study No. / Sector / Country",
+      "sub1": "Case Study No. / Sector / Country / Date",
       "sub2": "Costs",
       "sub3": "Gains"
     },
     "builder": {
-      "couts": "Costs: ",
-      "difficulte": "Difficulty: ",
-      "gainF": "Financial gain: ",
-      "TRI": "Return on Investment (ROI): ",
+      "couts": "Costs : ",
+      "difficulte": "Difficulty : ",
+      "gainF": "Financial gain : ",
+      "TRI": "Return on Investment (ROI) : ",
       "ans": " years",
-      "ecoE": "Energy savings: ",
-      "eGESdodge": "Avoided GHG emissions: ",
+      "ecoE": "Energy savings : ",
+      "eGESdodge": "Avoided GHG emissions : ",
       "tCO2eqAn": " tCO2eq/year",
       "tCO2eq": " tCO2eq",
-      "gainReel": "Real gain: "
+      "gainReel": "Real gain : "
     }
   },
   "topTextList": {

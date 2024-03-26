@@ -41,9 +41,9 @@
     "noOptionsSelectedSubSectorError": "No ha seleccionado un subsector empresarial"
   },
   "solutionDetail": {
-    "numSolution": "Solución Nº:",
-    "titleSolution": "Título de la Solución:",
-    "technologie": "Tecnología:",
+    "numSolution": "Solución Nº :",
+    "titleSolution": "Título de la Solución :",
+    "technologie": "Tecnología :",
     "definition": "Definición",
     "application": "Aplicación",
     "bilanEnergie": "Balance de Energía",
@@ -62,31 +62,31 @@
       "cout": {
         "title": "Costos",
         "pouce": "Regla general :",
-        "difficulte": "dificultades:"
+        "difficulte": "dificultades :"
       },
       "gain": {
         "title": "Ganancias",
-        "gain": "Ganancia:",
-        "positif": "Efectos positivos:"
+        "gain": "Ganancia :",
+        "positif": "Efectos positivos :"
       }
     },
     "etudeCas": {
       "title": "Estudios de Caso",
-      "sub1": "Nº de Estudio de Caso / Sector / País",
+      "sub1": "Nº de Estudio de Caso / Sector / País / Fecha",
       "sub2": "Costos",
       "sub3": "Ganancias"
     },
     "builder": {
       "couts": "Costos: ",
-      "difficulte": "Dificultad: ",
-      "gainF": "Beneficio financiero: ",
-      "TRI": "Retorno de inversión (ROI): ",
+      "difficulte": "Dificultad : ",
+      "gainF": "Beneficio financiero : ",
+      "TRI": "Retorno de inversión (ROI) : ",
       "ans": " años",
-      "ecoE": "Ahorro de energía: ",
-      "eGESdodge": "Emisiones de GEI evitadas: ",
+      "ecoE": "Ahorro de energía : ",
+      "eGESdodge": "Emisiones de GEI evitadas : ",
       "tCO2eqAn": " tCO2eq/año",
       "tCO2eq": " tCO2eq",
-      "gainReel": "Ganancia real: "
+      "gainReel": "Ganancia real : "
     }
   },
   "topTextList": {

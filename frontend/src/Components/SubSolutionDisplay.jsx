@@ -50,6 +50,10 @@ const SubSolutionDisplay = ({
       );
     }
 
+    if (sub2Data.text) {
+      sub2.push(sub2Data.text);
+    }
+
     return sub2;
   };
 
@@ -102,6 +106,10 @@ const SubSolutionDisplay = ({
       );
     }
 
+    if (sub3Data.text) {
+      sub3.push(sub3Data.text);
+    }
+
     return sub3;
   };
 
@@ -114,8 +122,11 @@ const SubSolutionDisplay = ({
           ec.numRex +
           ". " +
           (ec.sector ? ec.sector : "") +
-          (ec.sector ? " / " : "") +
-          "PAYS_A_IMPLEMENTER",
+          (ec.sector && ec.pays ? " / " : "") +
+          (ec.pays ? ec.pays : "") +
+          (ec.pays && ec.date ? " / " : "") +
+          (!ec.pays && ec.sector && ec.date ? " / " : "") +
+          (ec.date ? ec.date : ""),
         sub2: ec.cout ? createSub2(ec.cout) : [],
         sub3: ec.gain ? createSub3(ec.gain) : [],
       };
@@ -190,10 +201,12 @@ const SubSolutionDisplay = ({
         },
         estimGenGain: {
           cout: {
+            jauge: json.estimGen.cout.jaugeCout,
             pouce: json.estimGen.cout.pouce,
             difficulte: json.estimGen.cout.difficulte,
           },
           gain: {
+            jauge: json.estimGen.gain.jaugeGain,
             gain: json.estimGen.gain.gain,
             positif: json.estimGen.gain.positif,
           },
