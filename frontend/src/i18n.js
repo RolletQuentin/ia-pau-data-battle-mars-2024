@@ -10,8 +10,7 @@ const getStoredLanguage = () => {
     localStorage.getItem("language") !== undefined
       ? localStorage.getItem("language")
       : "fr";
-  console.log(storedLanguage);
-  return "fr";
+  return storedLanguage;
 };
 
 // the translations
