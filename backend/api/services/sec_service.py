@@ -2,11 +2,11 @@ from api.repositories import sec_repository
 
 from api.models.Sector import Sector
 
-def get_all_sector():
+def get_all_sector(code_langue):
     data = []
 
     sectors_dict = {}
-    results = sec_repository.get_all_sector()
+    results = sec_repository.get_all_sector(code_langue)
 
      # Traitement de chaque ligne de résultat
     for main_category, sub_category in results:

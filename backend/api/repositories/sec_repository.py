@@ -1,6 +1,6 @@
 from api.dependencies import mydb
 
-def get_all_sector():
+def get_all_sector(code_langue):
     # Create cursor object
     cursor = mydb.cursor()
 
@@ -14,26 +14,27 @@ def get_all_sector():
         JOIN 
             tbldictionnaire AS dps 
             ON tblsecteur.codeparentsecteur = dps.codeappelobjet
-            JOIN tbldictionnaire AS ds 
+        JOIN 
+            tbldictionnaire AS ds 
             ON tblsecteur.numsecteur = ds.codeappelobjet
-        where 
-            ds.codelangue=2 and 
-            ds.typedictionnaire="sec" and 
-            ds.indexdictionnaire=1 and 
-            dps.codelangue=2 and 
-            dps.typedictionnaire="sec" and 
-            dps.indexdictionnaire=1;
-
+        WHERE 
+            ds.codelangue = %s AND 
+            ds.typedictionnaire = 'sec' AND 
+            ds.indexdictionnaire = 1 AND 
+            dps.codelangue = %s AND 
+            dps.typedictionnaire = 'sec' AND 
+            dps.indexdictionnaire = 1;
     """
 
-    cursor.execute(query)
+    # The 'code_langue' needs to be passed twice because it is used twice in the query
+    cursor.execute(query, (code_langue, code_langue))
     results = cursor.fetchall()
     cursor.close()
 
-
     return results
 
-def get_list_sector():
+
+def get_list_sector(code_langue):
     # Création de l'objet cursor
     cursor = mydb.cursor()
 
@@ -44,12 +45,12 @@ def get_list_sector():
         FROM 
             tbldictionnaire
         WHERE 
-            codelangue = 2 AND 
+            codelangue = %s AND 
             typedictionnaire = "sec" AND 
             indexdictionnaire = 1;
     """
     
-    cursor.execute(query)
+    cursor.execute(query, (code_langue,))
 
     # Récupération des résultats et conversion en une liste de chaînes
     results = cursor.fetchall()
@@ -62,8 +63,7 @@ def get_list_sector():
     return sector_list
 
 
-
-def get_id_sector(sector):
+def get_id_sector(sector,code_langue):
     # Création de l'objet cursor
     cursor = mydb.cursor()
     # Création de la requête avec paramètres
@@ -73,13 +73,13 @@ def get_id_sector(sector):
         FROM 
             tbldictionnaire
         WHERE 
-            codelangue = 2 AND 
+            codelangue = %s AND 
             typedictionnaire = "sec" AND 
             indexdictionnaire = 1 AND
             traductiondictionnaire = %s;
     """
     
-    cursor.execute(query,(sector,))
+    cursor.execute(query,(code_langue,sector))
 
     # Récupération des résultats et conversion en une liste de chaînes
     result = cursor.fetchone()
@@ -91,21 +91,21 @@ def get_id_sector(sector):
     return result[0]
 
 
-def get_sector(code_sector):
+def get_sector(code_sector,code_langue):
        # Create cursor object
     cursor = mydb.cursor()
-    query = f"""
+    query = """
         SELECT 
             traductiondictionnaire
         FROM 
             tbldictionnaire 
         WHERE 
-            codelangue = 2 and
+            codelangue = %s and
             typedictionnaire = 'sec' and 
             codeappelobjet = %s;
         """
 
-    cursor.execute(query,(code_sector,))
+    cursor.execute(query,(code_langue,code_sector))
     results = cursor.fetchall()
     cursor.close()
     return results[0][0] if results else None

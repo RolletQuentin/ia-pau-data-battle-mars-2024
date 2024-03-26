@@ -36,10 +36,10 @@ from api.models.GainSol import GainSol
 import re
 
 
-def get_multiple_solution(solutions, secteur_activite):
+def get_multiple_solution(solutions, secteur_activite, code_langue):
     data = []
-    results = sol_repository.get_multiple_solution(solutions)
-    id_sector = sec_repository.get_id_sector(str(secteur_activite))
+    results = sol_repository.get_multiple_solution(solutions,code_langue)
+    id_sector = sec_repository.get_id_sector(str(secteur_activite), code_langue)
     
     result_mapping = {}  # Create a mapping from solution number to the solution object
     for result in results:
@@ -63,8 +63,8 @@ def get_multiple_solution(solutions, secteur_activite):
     return data
 
 
-def check_sector(sector):
-    sectors = sec_repository.get_list_sector()
+def check_sector(sector,code_langue):
+    sectors = sec_repository.get_list_sector(code_langue)
     if sector in sectors:
         return True
     else:
@@ -130,7 +130,6 @@ def getTabHTML(html_text: str) -> list[Content]:
 
     return contents
 
-
 def cleanHTML(message):
     return  BeautifulSoup(message, 'html.parser').text.strip()
 
@@ -138,7 +137,6 @@ def check_description(description):
     if len(description) == 0 or len(description) > 2048:
         return False
     return True
-
 
 def update_data_from_results(data, results, codes):
     for result in results:
@@ -165,8 +163,7 @@ def update_data_from_results(data, results, codes):
                     if cleaned_positif:
                         data.estimGen.gain.positif.append(cleaned_positif)
 
-
-def get_data_solution(code_solution,code_sector):
+def get_data_solution(code_solution,code_sector,code_langue):
     data = DataSolution(
         numSolution=code_solution,
         estimPerso=EstimPerso(
@@ -189,7 +186,7 @@ def get_data_solution(code_solution,code_sector):
     
     if (codes["codeTechnologie"] is not None) :
         data.numTechnologie = codes["codeTechnologie"]
-        data.technologie = tec_repository.get_technologie(codes["codeTechnologie"])
+        data.technologie = tec_repository.get_technologie(codes["codeTechnologie"],code_langue)
     
     if (codes["jaugeCout"] is not None) :
         data.estimGen.cout.jaugeCout = codes["jaugeCout"]
@@ -198,18 +195,15 @@ def get_data_solution(code_solution,code_sector):
         data.estimGen.gain.jaugeGain = codes["jaugeGain"]
 
     if ((codes["codeParent"] is not None) and (codes["codeParent"] != code_solution)):
-        parent_results = sol_repository.get_data_solution(codes["codeParent"])
+        parent_results = sol_repository.get_data_solution(codes["codeParent"], code_langue)
         update_data_from_results(data, parent_results, codes)
 
 
-    results = sol_repository.get_data_solution(code_solution)
-
+    results = sol_repository.get_data_solution(code_solution, code_langue)
     update_data_from_results(data, results, codes)
 
-
-
     # Récupérer les données de gain et de coût
-    rexs = rex_repository.get_all_for_one_solution(code_solution)
+    rexs = rex_repository.get_all_for_one_solution(code_solution, code_langue)
 
     list_rex = []
     # Initialiser le dictionnaire pour regrouper les données par code_rex
@@ -218,14 +212,14 @@ def get_data_solution(code_solution,code_sector):
             list_rex.append(
                 DataRex(
                     numRex= rex["coderex"],
-                    sector= sec_repository.get_sector(rex["codesecteur"]),
-                    pays = pays_repository.get_pays_from_coderegion(rex["coderegion"]),
+                    sector= sec_repository.get_sector(rex["codesecteur"], code_langue),
+                    pays = pays_repository.get_pays_from_coderegion(rex["coderegion"], code_langue),
                     date = rex["datereference"],
                     cout=CoutRex(
                         code_rex= rex["coderex"],
                         num = rex["numcoutrex"],
                         code_solution=code_solution,
-                        text=cout_rex_repository.get_text(rex["numcoutrex"]),
+                        text=cout_rex_repository.get_text(rex["numcoutrex"],code_langue),
                         cout_reel= rex["reelcoutrex"],
                         monnaie=monnaie_service.get_short_monnaie(rex["codemonnaiecoutrex"]),
                         code_unite_cout= rex["codeunitecoutrex"],
@@ -236,7 +230,7 @@ def get_data_solution(code_solution,code_sector):
                         code_rex=rex["coderex"],
                         num=rex["numgainrex"],
                         code_solution= code_solution,
-                        text=gain_rex_repository.get_text(rex["numgainrex"]),
+                        text=gain_rex_repository.get_text(rex["numgainrex"],code_langue),
                         gain_financier=rex["gainfinanciergainrex"],
                         monnaie=monnaie_service.get_short_monnaie(
                             rex["codemonnaiegainrex"]),
@@ -261,14 +255,14 @@ def get_data_solution(code_solution,code_sector):
             list_rex.append(
                 DataRex(
                     numRex= rex["coderex"],
-                    sector= sec_repository.get_sector(rex["codesecteur"]),
-                    pays = pays_repository.get_pays_from_coderegion(rex["coderegion"]),
+                    sector= sec_repository.get_sector(rex["codesecteur"], code_langue),
+                    pays = pays_repository.get_pays_from_coderegion(rex["coderegion"], code_langue),
                     date = rex["datereference"],
                     cout=CoutRex(
                         code_rex= rex["coderex"],
                         num = rex["numcoutrex"],
                         code_solution=code_solution,
-                        text=cout_rex_repository.get_text(rex["numcoutrex"]),
+                        text=cout_rex_repository.get_text(rex["numcoutrex"],code_langue),
                         cout_reel= rex["reelcoutrex"],
                         monnaie=monnaie_service.get_short_monnaie(rex["codemonnaiecoutrex"]),
                         code_unite_cout= rex["codeunitecoutrex"],
@@ -279,7 +273,7 @@ def get_data_solution(code_solution,code_sector):
                         code_rex=rex["coderex"],
                         num=rex["numgainrex"],
                         code_solution= code_solution,
-                        text=gain_rex_repository.get_text(rex["numgainrex"]),
+                        text=gain_rex_repository.get_text(rex["numgainrex"],code_langue),
                         gain_financier=rex["gainfinanciergainrex"],
                         monnaie=monnaie_service.get_short_monnaie(rex["codemonnaiegainrex"]),
                         code_periode_economie= rex["codeperiodeeconomie"],
@@ -300,4 +294,3 @@ def get_data_solution(code_solution,code_sector):
     
     data.listRex = list_rex
     return data
-
