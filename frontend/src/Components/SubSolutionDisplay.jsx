@@ -35,7 +35,7 @@ const SubSolutionDisplay = ({
 
     if (sub2Data.cout_reel) {
       sub2.push(
-        "Coûts : " +
+        t("solutionDetail.builder.couts") +
           bigNumber2String(sub2Data.cout_reel) +
           " " +
           (sub2Data.monnaie && sub2Data.monnaie.short_monnaie
@@ -45,7 +45,9 @@ const SubSolutionDisplay = ({
     }
 
     if (sub2Data.code_difficulte) {
-      sub2.push("Difficulté : " + sub2Data.code_difficulte);
+      sub2.push(
+        t("solutionDetail.builder.difficulte") + sub2Data.code_difficulte
+      );
     }
 
     return sub2;
@@ -56,7 +58,7 @@ const SubSolutionDisplay = ({
 
     if (sub3Data.gain_financier) {
       sub3.push(
-        "Gain financier : " +
+        t("solutionDetail.builder.gainF") +
           bigNumber2String(sub3Data.gain_financier) +
           " " +
           (sub3Data.monnaie && sub3Data.monnaie.short_monnaie
@@ -68,15 +70,15 @@ const SubSolutionDisplay = ({
 
     if (sub3Data.tri_reel) {
       sub3.push(
-        "Retour sur investissement (TRI) : " +
+        t("solutionDetail.builder.TRI") +
           cropperFloat(sub3Data.tri_reel) +
-          " ans"
+          t("solutionDetail.builder.ans")
       );
     }
 
     if (sub3Data.gain_energie) {
       sub3.push(
-        "Economie d'énergie : " +
+        t("solutionDetail.builder.ecoE") +
           bigNumber2String(sub3Data.gain_energie) +
           " " +
           (sub3Data.nom_unite_energie ? sub3Data.nom_unite_energie : "") +
@@ -86,14 +88,18 @@ const SubSolutionDisplay = ({
 
     if (sub3Data.gain_ges) {
       sub3.push(
-        "Emissions GES évitées : " +
+        t("solutionDetail.builder.eGESdodge") +
           bigNumber2String(sub3Data.gain_ges) +
-          " tCO2eq/an"
+          t("solutionDetail.builder.tCO2eqAn")
       );
     }
 
     if (sub3Data.gain_reel) {
-      sub3.push("Gain reel : " + bigNumber2String(sub3Data.gain_reel) + " €");
+      sub3.push(
+        t("solutionDetail.builder.gainReel") +
+          bigNumber2String(sub3Data.gain_reel) +
+          " €"
+      );
     }
 
     return sub3;
@@ -166,7 +172,7 @@ const SubSolutionDisplay = ({
           co2: json.estimPerso.estimPersoGain.average_ges_gain
             ? bigNumber2String(
                 json.estimPerso.estimPersoGain.average_ges_gain
-              ) + " tCO2eq"
+              ) + t("solutionDetail.builder.tCO2eq")
             : noData,
           gainReel: json.estimPerso.estimPersoGain.average_real_gain
             ? bigNumber2String(
@@ -175,7 +181,7 @@ const SubSolutionDisplay = ({
             : noData,
           retourInv: json.estimPerso.estimPersoGain.average_real_tri
             ? cropperFloat(json.estimPerso.estimPersoGain.average_real_tri) +
-              " ans"
+              t("solutionDetail.builder.ans")
             : noData,
           coutFinance: json.estimPerso.estimPersoCout.average_cout
             ? bigNumber2String(json.estimPerso.estimPersoCout.average_cout) +

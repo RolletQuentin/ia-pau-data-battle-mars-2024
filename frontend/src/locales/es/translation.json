@@ -1,78 +1,103 @@
 {
-    "Hello World!": "¡Hola mundo!",
+  "language": {
+    "fr": "francés",
+    "en": "inglés",
+    "es": "español"
+  },
 
-    "footer_kerdos": "KERDOS, expertos en tu transición ecológica",
+  "Hello World!": "¡Hola mundo!",
 
-    "based_on": "Basado en",
-    "studies": "estudios",
+  "footer_kerdos": "KERDOS, expertos en tu transición ecológica",
 
-    "solutionDisplay": {
-        "topHeaderText": "Estimación de Ganancias",
-        "numberAcronym": "Núm.",
-        "title": "Título",
-        "confidenceLevel": "Nivel de Confianza",
-        "financial": "Financiero",
-        "investissement": "Costo de Inversión",
-        "energy": "Energía",
-        "co2": "CO2"
+  "based_on": "Basado en",
+  "studies": "estudios",
+
+  "solutionDisplay": {
+    "topHeaderText": "Estimación de Ganancias",
+    "numberAcronym": "Núm.",
+    "title": "Título",
+    "confidenceLevel": "Nivel de Confianza",
+    "financial": "Financiero",
+    "investissement": "Costo de Inversión",
+    "energy": "Energía",
+    "co2": "CO2"
+  },
+  "solutionFinder": {
+    "section1text": "Sector de Actividad *",
+    "section2text": "Descripción *",
+    "subSection1text": "Subsector *",
+    "validateButtonText": "Mis Soluciones",
+    "mainSectionAsSubSection": "Otros",
+    "descriptionTextPlaceholder": [
+      "¿Cómo puedo reducir el consumo de mi compresor de aire comprimido?",
+      "Me gustaría tener una regulación optimizada para mi grupo de frío.",
+      "¿Qué es el HP flotante?",
+      "Quiero dimensionar un panel solar.",
+      "¿Cuál es el beneficio de un variador de velocidad?",
+      "¿Cuáles son las mejores soluciones para la industria agroalimentaria?"
+    ],
+    "noOptionsError": "Debe elegir un sector empresarial",
+    "noOptionsSelectedSectorError": "No ha seleccionado un sector empresarial",
+    "noOptionsSelectedSubSectorError": "No ha seleccionado un subsector empresarial"
+  },
+  "solutionDetail": {
+    "numSolution": "Solución Nº:",
+    "titleSolution": "Título de la Solución:",
+    "technologie": "Tecnología:",
+    "definition": "Definición",
+    "application": "Aplicación",
+    "bilanEnergie": "Balance de Energía",
+    "estimPersoGain": {
+      "title": "Estimación Personalizada de Ganancias",
+      "degConf": "Nivel de Confianza",
+      "euro": "Financiero",
+      "gwh": "Energía",
+      "co2": "CO2",
+      "gainReel": "Ganancia Real",
+      "retourInv": "Tiempo de Retorno de la Inversión",
+      "coutFinance": "Costo Financiero"
     },
-    "solutionFinder": {
-        "section1text": "Sector de Actividad *",
-        "section2text": "Descripción *",
-        "subSection1text": "Subsector *",
-        "validateButtonText": "Mis Soluciones",
-        "mainSectionAsSubSection": "Otros",
-        "descriptionTextPlaceholder": "Ejemplo: Proporcionar un ejemplo detallado de lo que el usuario debería escribir en esta sección. Esto aumenta las posibilidades de que no escriba cualquier cosa.",
-        "noOptionsError": "Debe elegir un sector empresarial",
-        "noOptionsSelectedSectorError": "No ha seleccionado un sector empresarial",
-        "noOptionsSelectedSubSectorError": "No ha seleccionado un subsector empresarial"
+    "estimGenGain": {
+      "title": "Estimación General de Ganancias",
+      "cout": {
+        "title": "Costos",
+        "pouce": "Regla general :",
+        "difficulte": "dificultades:"
+      },
+      "gain": {
+        "title": "Ganancias",
+        "gain": "Ganancia:",
+        "positif": "Efectos positivos:"
+      }
     },
-    "solutionDetail": {
-        "numSolution": "Solución Nº:",
-        "titleSolution": "Título de la Solución:",
-        "technologie": "Tecnología:",
-        "definition": "Definición",
-        "application": "Aplicación",
-        "bilanEnergie": "Balance de Energía",
-        "estimPersoGain": {
-            "title": "Estimación Personalizada de Ganancias",
-            "degConf": "Nivel de Confianza",
-            "euro": "Financiero",
-            "gwh": "Energía",
-            "co2": "CO2",
-            "gainReel": "Ganancia Real",
-            "retourInv": "Tiempo de Retorno de la Inversión",
-            "coutFinance": "Costo Financiero"
-        },
-        "estimGenGain": {
-            "title": "Estimación General de Ganancias",
-            "cout": {
-                "title": "Costos",
-                "pouce": "REGLA GENERAL:",
-                "difficulte": "DIFICULTADES:"
-            },
-            "gain": {
-                "title": "Ganancias",
-                "gain": "GANANCIA:",
-                "positif": "EFECTOS POSITIVOS:"
-            }
-        },
-        "etudeCas": {
-            "title": "Estudios de Caso",
-            "sub1": "Nº de Estudio de Caso / Sector / País",
-            "sub2": "Costos",
-            "sub3": "Ganancias"
-        }
+    "etudeCas": {
+      "title": "Estudios de Caso",
+      "sub1": "Nº de Estudio de Caso / Sector / País",
+      "sub2": "Costos",
+      "sub3": "Ganancias"
     },
-    "topTextList": {
-        "title": "¡Reduce tus emisiones de CO2 y ahorra dinero!",
-        "text1": "¡Tenemos soluciones a medida para ti!"
-    },
-    "buttons": {
-        "discover_how": "Descubre cómo",
-        "details": "Detalles"
-    },
-    "errors": {
-        "404error": "Página no encontrada"
+    "builder": {
+      "couts": "Costos: ",
+      "difficulte": "Dificultad: ",
+      "gainF": "Beneficio financiero: ",
+      "TRI": "Retorno de inversión (ROI): ",
+      "ans": " años",
+      "ecoE": "Ahorro de energía: ",
+      "eGESdodge": "Emisiones de GEI evitadas: ",
+      "tCO2eqAn": " tCO2eq/año",
+      "tCO2eq": " tCO2eq",
+      "gainReel": "Ganancia real: "
     }
+  },
+  "topTextList": {
+    "title": "¡Reduce tus emisiones de CO2 y ahorra dinero!",
+    "text1": "¡Tenemos soluciones a medida para ti!"
+  },
+  "buttons": {
+    "discover_how": "Descubre cómo",
+    "details": "Detalles"
+  },
+  "errors": {
+    "404error": "Página no encontrada"
+  }
 }
