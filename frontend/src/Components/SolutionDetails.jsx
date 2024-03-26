@@ -11,6 +11,7 @@ import React, { useEffect, useRef } from "react";
 import CustomScrollBar from "./input/CustomScrollBar";
 
 import { useTranslation } from "react-i18next";
+import Tableau from "./Tableau";
 
 const SolutionDetails = ({
   gap = "20px",
@@ -263,14 +264,41 @@ const SolutionDetails = ({
                                 textAlign: "left",
                               }}
                             />
-                            <Text
-                              text={solutionData.definition}
-                              color={textColor}
-                              fontSize={subSectionFontSize + "px"}
-                              style={{
-                                textAlign: "left",
-                              }}
-                            />
+                            {solutionData.definition.map((d, index) => {
+                              return (
+                                <VBox key={index} gap={subGap}>
+                                  {d.before && (
+                                    <Text
+                                      text={d.before}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                  {d.tab && (
+                                    <Tableau
+                                      tab={d.tab}
+                                      color={textColor}
+                                      titleFontWeight={titleFontWeight}
+                                      subSectionFontSize={subSectionFontSize}
+                                      titleFontSize={titleFontSize}
+                                    />
+                                  )}
+                                  {d.after && (
+                                    <Text
+                                      text={d.after}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                </VBox>
+                              );
+                            })}
                             <MarginContainer
                               margin={lineMargin}
                               marginRight={"0"}
@@ -294,14 +322,41 @@ const SolutionDetails = ({
                                 textAlign: "left",
                               }}
                             />
-                            <Text
-                              text={solutionData.application}
-                              color={textColor}
-                              fontSize={subSectionFontSize + "px"}
-                              style={{
-                                textAlign: "left",
-                              }}
-                            />
+                            {solutionData.application.map((d, index) => {
+                              return (
+                                <VBox key={index} gap={subGap}>
+                                  {d.before && (
+                                    <Text
+                                      text={d.before}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                  {d.tab && (
+                                    <Tableau
+                                      tab={d.tab}
+                                      color={textColor}
+                                      titleFontWeight={titleFontWeight}
+                                      subSectionFontSize={subSectionFontSize}
+                                      titleFontSize={titleFontSize}
+                                    />
+                                  )}
+                                  {d.after && (
+                                    <Text
+                                      text={d.after}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                </VBox>
+                              );
+                            })}
                             <MarginContainer
                               margin={lineMargin}
                               marginRight={"0"}
@@ -325,14 +380,41 @@ const SolutionDetails = ({
                                 textAlign: "left",
                               }}
                             />
-                            <Text
-                              text={solutionData.bilanEnergie}
-                              color={textColor}
-                              fontSize={subSectionFontSize + "px"}
-                              style={{
-                                textAlign: "left",
-                              }}
-                            />
+                            {solutionData.bilanEnergie.map((d, index) => {
+                              return (
+                                <VBox key={index} gap={subGap}>
+                                  {d.before && (
+                                    <Text
+                                      text={d.before}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                  {d.tab && (
+                                    <Tableau
+                                      tab={d.tab}
+                                      color={textColor}
+                                      titleFontWeight={titleFontWeight}
+                                      subSectionFontSize={subSectionFontSize}
+                                      titleFontSize={titleFontSize}
+                                    />
+                                  )}
+                                  {d.after && (
+                                    <Text
+                                      text={d.after}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                </VBox>
+                              );
+                            })}
                             <MarginContainer
                               margin={lineMargin}
                               marginRight={"0"}
