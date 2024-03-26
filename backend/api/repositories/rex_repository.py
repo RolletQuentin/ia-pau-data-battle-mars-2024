@@ -44,7 +44,7 @@ def get_all():
 
     return data_with_columns
 
-def get_all_for_one_solution(code_solution):
+def get_all_for_one_solution(code_solution, code_langue):
     cursor = mydb.cursor(dictionary=True)
 
     query = f"""
@@ -66,15 +66,15 @@ def get_all_for_one_solution(code_solution):
         LEFT JOIN tblmonnaie ON tblmonnaie.nummonnaie = tblgainrex.codemonnaiegainrex
         LEFT JOIN tbldictionnairecategories AS tbldictionnaireenergie ON
             tbldictionnaireenergie.codeappelobjet = tblgainrex.uniteenergiegainrex
-            AND tbldictionnaireenergie.codelangue = 2
+            AND tbldictionnaireenergie.codelangue = %s
             AND tbldictionnaireenergie.typedictionnairecategories = "uni"
         LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeeconomie ON
             tbldictionnaireperiodeeconomie.codeappelobjet = tblgainrex.codeperiodeeconomie
-            AND tbldictionnaireperiodeeconomie.codelangue = 2
+            AND tbldictionnaireperiodeeconomie.codelangue = %s
             AND tbldictionnaireperiodeeconomie.typedictionnairecategories = "per"
         LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeenergie ON
             tbldictionnaireperiodeenergie.codeappelobjet = tblgainrex.codeperiodeenergie
-            AND tbldictionnaireperiodeenergie.codelangue = 2
+            AND tbldictionnaireperiodeenergie.codelangue = %s
             AND tbldictionnaireperiodeenergie.typedictionnairecategories = "per"
         LEFT JOIN tblcoutrex ON tblcoutrex.coderex = tblgainrex.coderex AND tblcoutrex.codesolution = tblgainrex.codesolution
         LEFT JOIN tblreference AS coutrex_reference ON coutrex_reference.numreference = tblrex.codereference
@@ -83,7 +83,7 @@ def get_all_for_one_solution(code_solution):
 
     """
 
-    cursor.execute(query,(code_solution,))
+    cursor.execute(query,(code_langue,code_langue,code_langue,code_solution,))
     results = cursor.fetchall()
     cursor.close()
     return results
