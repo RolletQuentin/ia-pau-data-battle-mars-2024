@@ -1,7 +1,7 @@
 from api.dependencies import mydb
 
 
-def get_all_for_one_rex(code_rex):
+def get_all_for_one_rex(code_rex, code_langue=2):
     # Create cursor object
     cursor = mydb.cursor()
 
@@ -22,19 +22,19 @@ def get_all_for_one_rex(code_rex):
         LEFT JOIN tblmonnaie ON tblmonnaie.nummonnaie = tblgainrex.codemonnaiegainrex
         JOIN tbldictionnairecategories AS tbldictionnaireenergie ON
             tbldictionnaireenergie.codeappelobjet = tblgainrex.uniteenergiegainrex
-            AND tbldictionnaireenergie.codelangue = 2
+            AND tbldictionnaireenergie.codelangue = %s
             AND tbldictionnaireenergie.typedictionnairecategories = "uni"
         LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeeconomie ON
             tbldictionnaireperiodeeconomie.codeappelobjet = tblgainrex.codeperiodeeconomie
-            AND tbldictionnaireperiodeeconomie.codelangue = 2
+            AND tbldictionnaireperiodeeconomie.codelangue = %s
             AND tbldictionnaireperiodeeconomie.typedictionnairecategories = "per"
         LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeenergie ON
             tbldictionnaireperiodeenergie.codeappelobjet = tblgainrex.codeperiodeenergie
-            AND tbldictionnaireperiodeenergie.codelangue = 2
+            AND tbldictionnaireperiodeenergie.codelangue = %s
             AND tbldictionnaireperiodeenergie.typedictionnairecategories = "per"
         WHERE tblgainrex.coderex = %s;
         """
-    cursor.execute(query, (code_rex,))
+    cursor.execute(query, (code_langue, code_langue, code_langue, code_rex,))
 
     # Get the results and column names
     results = cursor.fetchall()
@@ -49,7 +49,7 @@ def get_all_for_one_rex(code_rex):
     return data_with_columns
 
 
-def get_all_for_one_solution(code_solution):
+def get_all_for_one_solution(code_solution, code_langue=2):
     # Create cursor object
     cursor = mydb.cursor()
 
@@ -70,19 +70,20 @@ def get_all_for_one_solution(code_solution):
         LEFT JOIN tblmonnaie ON tblmonnaie.nummonnaie = tblgainrex.codemonnaiegainrex
         LEFT JOIN tbldictionnairecategories AS tbldictionnaireenergie ON
             tbldictionnaireenergie.codeappelobjet = tblgainrex.uniteenergiegainrex
-            AND tbldictionnaireenergie.codelangue = 2
+            AND tbldictionnaireenergie.codelangue = %s
             AND tbldictionnaireenergie.typedictionnairecategories = "uni"
         LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeeconomie ON
             tbldictionnaireperiodeeconomie.codeappelobjet = tblgainrex.codeperiodeeconomie
-            AND tbldictionnaireperiodeeconomie.codelangue = 2
+            AND tbldictionnaireperiodeeconomie.codelangue = %s
             AND tbldictionnaireperiodeeconomie.typedictionnairecategories = "per"
         LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeenergie ON
             tbldictionnaireperiodeenergie.codeappelobjet = tblgainrex.codeperiodeenergie
-            AND tbldictionnaireperiodeenergie.codelangue = 2
+            AND tbldictionnaireperiodeenergie.codelangue = %s
             AND tbldictionnaireperiodeenergie.typedictionnairecategories = "per"
         WHERE tblgainrex.codesolution = %s;
         """
-    cursor.execute(query, (code_solution,))
+    cursor.execute(query, (code_langue, code_langue,
+                   code_langue, code_solution,))
 
     # Get the results and column names
     results = cursor.fetchall()
@@ -97,7 +98,7 @@ def get_all_for_one_solution(code_solution):
     return data_with_columns
 
 
-def get_all_for_one_secteur_ges(code_secteur):
+def get_all_for_one_secteur_ges(code_secteur, code_langue=2):
 
     # Create cursor object
     cursor = mydb.cursor()
@@ -115,12 +116,12 @@ def get_all_for_one_secteur_ges(code_secteur):
         LEFT JOIN tblreference ON tblreference.numreference = tblrex.codereference
         JOIN tbldictionnairecategories AS tbldictionnaireenergie ON
             tbldictionnaireenergie.codeappelobjet = tblgainrex.uniteenergiegainrex
-            AND tbldictionnaireenergie.codelangue = 2
+            AND tbldictionnaireenergie.codelangue = %s
             AND tbldictionnaireenergie.typedictionnairecategories = "uni"
         WHERE tblgainrex.gesgainrex IS NOT NULL
         AND tblreference.codesecteur = %s;
         """
-    cursor.execute(query, (code_secteur,))
+    cursor.execute(query, (code_langue, code_secteur,))
 
     # Get the results and column names
     results = cursor.fetchall()

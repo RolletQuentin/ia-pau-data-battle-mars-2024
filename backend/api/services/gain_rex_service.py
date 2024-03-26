@@ -11,8 +11,8 @@ from api.services import monnaie_service
 from api.services import energie_service
 
 
-def get_all_for_one_rex(code_rex):
-    results = gain_rex_repository.get_all_for_one_rex(code_rex)
+def get_all_for_one_rex(code_rex, code_langue=2):
+    results = gain_rex_repository.get_all_for_one_rex(code_rex, code_langue)
     data = []
     for result in results:
         data.append(GainRex(
@@ -32,8 +32,9 @@ def get_all_for_one_rex(code_rex):
         ))
 
 
-def get_all_for_one_solution(code_solution):
-    results = gain_rex_repository.get_all_for_one_solution(code_solution)
+def get_all_for_one_solution(code_solution, code_langue=2):
+    results = gain_rex_repository.get_all_for_one_solution(
+        code_solution, code_langue)
     data = []
     for result in results:
         data.append(GainRex(
@@ -59,7 +60,7 @@ def get_all_for_one_solution(code_solution):
     return data
 
 
-def predict_gain_solution(code_solution, code_secteur):
+def predict_gain_solution(code_solution, code_secteur, code_langue=2):
     """Predict the gain for a solution. The prediction is based on the gain of the solutions that are similar to the given solution.
 
     Args:
@@ -68,7 +69,8 @@ def predict_gain_solution(code_solution, code_secteur):
     """
 
     # Get all the gains for the given solution
-    gains_solutions: list[GainRex] = get_all_for_one_solution(code_solution)
+    gains_solutions: list[GainRex] = get_all_for_one_solution(
+        code_solution, code_langue)
 
     # Filter the gains by the sector
     gains_sector: list[GainRex] = None
@@ -277,6 +279,20 @@ def predict_gain_solution(code_solution, code_secteur):
         average_tri_reel = average_tri_reel_sector
 
     ############################################################################
+    # Determinate the period of the gains
+    ############################################################################
+
+    nom_periode_economie = None
+    nom_periode_energie = None
+
+    if gains_sector:
+        nom_periode_economie = Counter(
+            [gain.nom_periode_economie for gain in gains_sector]).most_common(1)[0][0]
+
+        nom_periode_energie = Counter(
+            [gain.nom_periode_energie for gain in gains_sector]).most_common(1)[0][0]
+
+    ############################################################################
     # Calculate the number of based solutions
     ############################################################################
 
@@ -299,5 +315,7 @@ def predict_gain_solution(code_solution, code_secteur):
         average_ges_gain=average_gain_ges,
         average_real_gain=average_gain_reel,
         average_real_tri=average_tri_reel,
-        nom_unite_energie=nom_unite_energie
+        nom_unite_energie=nom_unite_energie,
+        nom_periode_economie=nom_periode_economie,
+        nom_periode_energie=nom_periode_energie
     )

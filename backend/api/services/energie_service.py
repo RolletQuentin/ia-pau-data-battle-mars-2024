@@ -36,8 +36,23 @@ def normalization(amount, nom_energie):
         normalized_amount = amount * 29.3071
         normalized_nom_energie = "kWh"
 
+    # Convert thermia to kWh
+    if nom_energie == "thermia":
+        normalized_amount = amount * 29.3071
+        normalized_nom_energie = "kWh"
+
     # Convert litre to m3
     if nom_energie == "litre":
+        normalized_amount = amount / 1000
+        normalized_nom_energie = "m3"
+
+    # Convert liter to m3
+    if nom_energie == "liter":
+        normalized_amount = amount / 1000
+        normalized_nom_energie = "m3"
+
+    # Convert litro to m3
+    if nom_energie == "litro":
         normalized_amount = amount / 1000
         normalized_nom_energie = "m3"
 
@@ -51,13 +66,33 @@ def normalization(amount, nom_energie):
         normalized_amount = amount * 0.00378541
         normalized_nom_energie = "m3"
 
+    # Convert galón to m3
+    if nom_energie == "galón":
+        normalized_amount = amount * 0.00378541
+        normalized_nom_energie = "m3"
+
     # Convert tonne to kg
     if nom_energie == "tonne":
         normalized_amount = amount * 1000
         normalized_nom_energie = "kg"
 
+    # Convert ton to kg
+    if nom_energie == "ton":
+        normalized_amount = amount * 1000
+        normalized_nom_energie = "kg"
+
+    # Convert tonelada to kg
+    if nom_energie == "tonelada":
+        normalized_amount = amount * 1000
+        normalized_nom_energie = "kg"
+
     # Convert pounds to kg
     if nom_energie == "pounds":
+        normalized_amount = amount * 0.453592
+        normalized_nom_energie = "kg"
+
+    # Convert libras to kg
+    if nom_energie == "libras":
         normalized_amount = amount * 0.453592
         normalized_nom_energie = "kg"
 
@@ -86,8 +121,23 @@ def normalization(amount, nom_energie):
         normalized_amount = amount * 0.0254
         normalized_nom_energie = "m"
 
+    # Convert inch to m
+    if nom_energie == "inch":
+        normalized_amount = amount * 0.0254
+        normalized_nom_energie = "m"
+
+    # Convert pulgada to m
+    if nom_energie == "pulgada":
+        normalized_amount = amount * 0.0254
+        normalized_nom_energie = "m"
+
     # Convert feet to m
     if nom_energie == "feet":
+        normalized_amount = amount * 0.3048
+        normalized_nom_energie = "m"
+
+    # Convert pies to m
+    if nom_energie == "pies":
         normalized_amount = amount * 0.3048
         normalized_nom_energie = "m"
 
@@ -101,13 +151,38 @@ def normalization(amount, nom_energie):
         normalized_amount = amount
         normalized_nom_energie = "m"
 
+    # Convert linear meter to m
+    if nom_energie == "linear meter":
+        normalized_amount = amount
+        normalized_nom_energie = "m"
+
+    # Convert metro lineal to m
+    if nom_energie == "metro lineal":
+        normalized_amount = amount
+        normalized_nom_energie = "m"
+
     # Convert pouce² to m²
     if nom_energie == "pouce²":
         normalized_amount = amount * 0.00064516
         normalized_nom_energie = "m²"
 
+    # Convert inch² to m²
+    if nom_energie == "inch²":
+        normalized_amount = amount * 0.00064516
+        normalized_nom_energie = "m²"
+
+    # Convert pulgada² to m²
+    if nom_energie == "pulgada²":
+        normalized_amount = amount * 0.00064516
+        normalized_nom_energie = "m²"
+
     # Convert foot² to m²
     if nom_energie == "foot²":
+        normalized_amount = amount * 0.092903
+        normalized_nom_energie = "m²"
+
+    # Convert pie² to m²
+    if nom_energie == "pie²":
         normalized_amount = amount * 0.092903
         normalized_nom_energie = "m²"
 
@@ -118,6 +193,11 @@ def normalization(amount, nom_energie):
 
     # Convert hectare to m²
     if nom_energie == "hectare":
+        normalized_amount = amount * 10000
+        normalized_nom_energie = "m²"
+
+    # Convert hectaria to m²
+    if nom_energie == "hectaria":
         normalized_amount = amount * 10000
         normalized_nom_energie = "m²"
 
