@@ -7,7 +7,7 @@ class DataRex(BaseModel):
     numRex :  int 
     sector : str 
     pays : str | None = None 
-    date : str | None = None
+    date : str | None = None 
     cout : CoutRex 
     gain : GainRex 
     
