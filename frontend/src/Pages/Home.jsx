@@ -15,6 +15,7 @@ import CustomButton from "../Components/input/CustomButton";
 import SolutionDetails from "../Components/SolutionDetails";
 
 import { useTranslation } from "react-i18next";
+import LanguageSelector from "../Components/LanguageSelector";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -44,10 +45,7 @@ const Home = () => {
 
   // content customisation variable
   const backgroundImageSrc = "/wallpaper/forest.jpg";
-  const topTextList = [
-    t('topTextList.title'),
-    t('topTextList.text1'),
-  ];
+  const topTextList = [t("topTextList.title"), t("topTextList.text1")];
 
   // css customisation variable
   const backgroundColor = "#ffffff";
@@ -178,7 +176,7 @@ const Home = () => {
                         key={index}
                         fontWeight={textFontWeight}
                         fontSize={textFontSize}
-                        style={{ textShadow: "1px 1px 2px black" }}
+                        style={{ textShadow: "1px 1px 2px #3F6341" }}
                       />
                     );
                   })}
@@ -187,7 +185,7 @@ const Home = () => {
               <CenterContainer>
                 <CustomButton
                   buttonWidth="300px"
-                  text={t('buttons.discover_how')}
+                  text={t("buttons.discover_how")}
                   fontSize={20}
                   verticalMargin={25}
                   buttonColor="var(--dark-primary2)"
@@ -222,12 +220,17 @@ const Home = () => {
                   subSectionFontSize={subSectionFontSize}
                   titleFontWeight={titleFontWeight}
                   gap={componentGap}
-                  section2Text={t('solutionFinder.section2text')}
-                  section1Text={t('solutionFinder.section1text')}
-                  subSection1Text={t('solutionFinder.subSection1text')}
-                  validateButtonText={t('solutionFinder.validateButtonText')}
-                  mainSectionAsSubSection={t('solutionFinder.mainSectionAsSubSection')}
-                  descriptionTextPlaceholder={t('solutionFinder.descriptionTextPlaceholder')}
+                  section2Text={t("solutionFinder.section2text")}
+                  section1Text={t("solutionFinder.section1text")}
+                  subSection1Text={t("solutionFinder.subSection1text")}
+                  validateButtonText={t("solutionFinder.validateButtonText")}
+                  mainSectionAsSubSection={t(
+                    "solutionFinder.mainSectionAsSubSection"
+                  )}
+                  descriptionTextPlaceholder={t(
+                    "solutionFinder.descriptionTextPlaceholder",
+                    { returnObjects: true }
+                  )}
                 />
               </CenterContainer>
             </VBox>
@@ -279,15 +282,15 @@ const Home = () => {
                   titleFontWeight={titleFontWeight}
                   gap={componentGap}
                   callBack={findSolutionDetails}
-                  topHeaderText = {t('solutionDisplay.topHeaderText')}
-                  HeaderTitles = {[
-                    t('solutionDisplay.numberAcronym'),
-                    t('solutionDisplay.title'),
-                    t('solutionDisplay.confidenceLevel'),
-                    t('solutionDisplay.financial'),
-                    t('solutionDisplay.investissement'),
-                    t('solutionDisplay.energy'),
-                    t('solutionDisplay.co2')
+                  topHeaderText={t("solutionDisplay.topHeaderText")}
+                  HeaderTitles={[
+                    t("solutionDisplay.numberAcronym"),
+                    t("solutionDisplay.title"),
+                    t("solutionDisplay.confidenceLevel"),
+                    t("solutionDisplay.financial"),
+                    t("solutionDisplay.investissement"),
+                    t("solutionDisplay.energy"),
+                    t("solutionDisplay.co2"),
                   ]}
                 />
               </CenterContainer>
@@ -346,6 +349,23 @@ const Home = () => {
         </MarginContainer>
       </TextureRect>
       <Footer />
+      <MarginContainer
+        margin="20px"
+        marginBottom="70px"
+        style={{
+          zIndex: "50",
+          position: "fixed",
+          bottom: "0",
+          right: "0",
+          pointerEvent: "none",
+        }}
+      >
+        <LanguageSelector
+          style={{
+            pointerEvent: "all",
+          }}
+        />
+      </MarginContainer>
     </MarginContainer>
   );
 };

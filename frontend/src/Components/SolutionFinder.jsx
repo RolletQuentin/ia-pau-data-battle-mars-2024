@@ -1,4 +1,5 @@
 import {
+  CenterContainer,
   ColorRect,
   HBox,
   MarginContainer,
@@ -16,6 +17,7 @@ const SolutionFinder = ({
   callBack = (solutions) => {
     console.log(solutions);
   },
+  maxChar = 2048,
   // css customisation variable
   backgroundColor = "#ededed",
   backgroundColorAlpha = "e3",
@@ -81,11 +83,17 @@ const SolutionFinder = ({
     } else if (!subCategorie) {
       setIsSubSectionError(true);
     }
-    if (!description || description === "") {
+    if (!description || description === "" || description.length > maxChar) {
       setIsDescriptionError(true);
     }
 
-    if (mainCategorie && description && subCategorie && description !== "") {
+    if (
+      mainCategorie &&
+      description &&
+      subCategorie &&
+      description !== "" &&
+      description.length <= maxChar
+    ) {
       const response = await fetch(
         process.env.REACT_APP_PROXY + "/sol/best_solutions",
         {
@@ -174,7 +182,9 @@ const SolutionFinder = ({
                 isMainSectionError ? { border: "solid 2px " + errorColor } : {}
               }
               noOptionsError={t("solutionFinder.noOptionsError")}
-              noOptionsSelectedError={t("solutionFinder.noOptionsSelectedSectorError")}
+              noOptionsSelectedError={t(
+                "solutionFinder.noOptionsSelectedSectorError"
+              )}
             />
           </HBox>
           <HBox
@@ -212,16 +222,28 @@ const SolutionFinder = ({
                 isSubSectionError ? { border: "solid 2px " + errorColor } : {}
               }
               noOptionsError={t("solutionFinder.noOptionsError")}
-              noOptionsSelectedError={t("solutionFinder.noOptionsSelectedSubSectorError")}
+              noOptionsSelectedError={t(
+                "solutionFinder.noOptionsSelectedSubSectorError"
+              )}
             />
           </HBox>
           <HBox justifyContent="space-between">
-            <Text
-              text={section2Text}
-              color={textColor}
-              fontWeight={titleFontWeight}
-              fontSize={titleFontSize + "px"}
-            />
+            <VBox justifyContent="start">
+              <Text
+                text={section2Text}
+                color={textColor}
+                fontWeight={titleFontWeight}
+                fontSize={titleFontSize + "px"}
+              />
+              <Text
+                text={"(" + description.length + "/" + maxChar + " char)"}
+                fontSize={subSectionFontSize}
+                color={
+                  description.length <= maxChar ? textColor : "var(--error)"
+                }
+                style={{ textAlign: "start" }}
+              />
+            </VBox>
             <ColorRect
               backgroundColor={backgroundColor}
               style={{
@@ -232,7 +254,13 @@ const SolutionFinder = ({
               }}
             >
               <TextArea
-                placeholder={descriptionTextPlaceholder}
+                placeholder={
+                  descriptionTextPlaceholder[
+                    Math.floor(
+                      Math.random() * descriptionTextPlaceholder.length
+                    )
+                  ]
+                }
                 color={isDescriptionError ? errorColor : textColor}
                 setValue={descriptionChanged}
                 value={description}

@@ -144,12 +144,16 @@ const SolutionDetails = ({
                 <MarginContainer margin={globalMargin}>
                   <HBox gap={gap}>
                     <VBox mainBoxStyle={{ width: "50%" }}>
-                      <HBox gap={textGap}>
+                      <HBox
+                        gap={textGap}
+                        style={{ height: "min-content", overflow: "hidden" }}
+                      >
                         <Text
                           text={titleSolutionData.numSolution}
                           color={textColor}
                           fontWeight={titleFontWeight}
                           fontSize={titleFontSize + "px"}
+                          textWrap="nowrap"
                           style={{
                             textAlign: "left",
                           }}
@@ -157,17 +161,25 @@ const SolutionDetails = ({
                         <Text
                           text={solutionData.numSolution}
                           color={textColor}
+                          textWrap="nowrap"
                           fontSize={titleFontSize + "px"}
+                          textOverflow="ellipsis"
                           style={{
                             textAlign: "left",
+                            flexGrow: 1,
+                            overflow: "hidden",
                           }}
                         />
                       </HBox>
-                      <HBox gap={textGap}>
+                      <HBox
+                        gap={textGap}
+                        style={{ height: "min-content", overflow: "hidden" }}
+                      >
                         <Text
                           text={titleSolutionData.titleSolution}
                           color={textColor}
                           fontWeight={titleFontWeight}
+                          textWrap="nowrap"
                           fontSize={titleFontSize + "px"}
                           style={{
                             textAlign: "left",
@@ -177,19 +189,27 @@ const SolutionDetails = ({
                           text={solutionData.titleSolution}
                           color={textColor}
                           fontSize={titleFontSize + "px"}
+                          textWrap="nowrap"
+                          textOverflow="ellipsis"
                           style={{
                             textAlign: "left",
+                            flexGrow: 1,
+                            overflow: "hidden",
                           }}
                         />
                       </HBox>
                     </VBox>
                     <VBox>
-                      <HBox gap={textGap}>
+                      <HBox
+                        gap={textGap}
+                        style={{ height: "min-content", overflow: "hidden" }}
+                      >
                         <Text
                           text={titleSolutionData.technologie}
                           color={textColor}
                           fontWeight={titleFontWeight}
                           fontSize={titleFontSize + "px"}
+                          textWrap="nowrap"
                           style={{
                             textAlign: "left",
                           }}
@@ -198,8 +218,12 @@ const SolutionDetails = ({
                           text={solutionData.technologie}
                           color={textColor}
                           fontSize={titleFontSize + "px"}
+                          textWrap="nowrap"
+                          textOverflow="ellipsis"
                           style={{
                             textAlign: "left",
+                            flexGrow: 1,
+                            overflow: "hidden",
                           }}
                         />
                       </HBox>
@@ -500,10 +524,12 @@ const SolutionDetails = ({
                                         <HBox>
                                           <Text
                                             text={
-                                              t("based_on") + " " +
+                                              t("based_on") +
+                                              " " +
                                               solutionData.estimPersoGain
                                                 .degConf +
-                                              " " + t("studies")
+                                              " " +
+                                              t("studies")
                                             }
                                             color={textColor}
                                             fontSize={subSectionFontSize + "px"}
