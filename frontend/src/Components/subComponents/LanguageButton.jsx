@@ -18,8 +18,6 @@ const LanguageButton = ({ lg }) => {
       onClick={() => {
         console.log("change to " + lg);
         changeLanguage(lg);
-        // save the language to the local storage
-        localStorage.setItem("language", JSON.stringify(lg));
       }}
       style={{ cursor: "pointer" }}
       onMouseEnter={() => handleHover(true)}

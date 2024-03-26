@@ -1,3 +1,5 @@
+import i18n from "./i18n";
+
 export const bigNumber2String = (number) => {
   // Convertit le nombre en une chaîne
   let numString = number.toString();
@@ -14,4 +16,13 @@ export const bigNumber2String = (number) => {
 
 export const cropperFloat = (nbr, cropper = 2) => {
   return nbr.toFixed(cropper);
+};
+
+const language2Code = {
+  fr: 2,
+  en: 3,
+  es: 4,
+};
+export const getCurrentCodeLangue = () => {
+  return language2Code[i18n.language];
 };

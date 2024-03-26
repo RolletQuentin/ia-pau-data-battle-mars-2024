@@ -12,6 +12,7 @@ import CustomButton from "./input/CustomButton";
 import CustomSelect from "./input/CustomSelect";
 
 import { useTranslation } from "react-i18next";
+import { getCurrentCodeLangue } from "../usefull";
 
 const SolutionFinder = ({
   callBack = (solutions) => {
@@ -60,7 +61,9 @@ const SolutionFinder = ({
   useEffect(() => {
     const getAllCategories = async () => {
       const response = await fetch(
-        process.env.REACT_APP_PROXY + "/sec/get_all_sector"
+        process.env.REACT_APP_PROXY +
+          "/sec/get_all_sector/" +
+          getCurrentCodeLangue()
       );
 
       const json = await response.json();
@@ -104,6 +107,7 @@ const SolutionFinder = ({
                 ? mainCategorie
                 : subCategorie,
             description,
+            code_langue: getCurrentCodeLangue(),
           }),
           headers: {
             "Content-Type": "application/json",
