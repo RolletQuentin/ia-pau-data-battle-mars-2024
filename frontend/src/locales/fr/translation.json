@@ -74,13 +74,13 @@
     },
     "etudeCas": {
       "title": "Études de cas",
-      "sub1": "N° études de cas / Secteur / Pays",
+      "sub1": "N° études de cas / Secteur / Pays / Date",
       "sub2": "Coûts",
       "sub3": "Gains"
     },
     "builder": {
       "couts": "Coûts : ",
-      "difficulte": "Difficulté :",
+      "difficulte": "Difficulté : ",
       "gainF": "Gain financier : ",
       "TRI": "Retour sur investissement (TRI) : ",
       "ans": " ans",

@@ -11,6 +11,7 @@ import React, { useEffect, useRef } from "react";
 import CustomScrollBar from "./input/CustomScrollBar";
 
 import { useTranslation } from "react-i18next";
+import Tableau from "./Tableau";
 
 const SolutionDetails = ({
   gap = "20px",
@@ -263,14 +264,41 @@ const SolutionDetails = ({
                                 textAlign: "left",
                               }}
                             />
-                            <Text
-                              text={solutionData.definition}
-                              color={textColor}
-                              fontSize={subSectionFontSize + "px"}
-                              style={{
-                                textAlign: "left",
-                              }}
-                            />
+                            {solutionData.definition.map((d, index) => {
+                              return (
+                                <VBox key={index} gap={subGap}>
+                                  {d.before && (
+                                    <Text
+                                      text={d.before}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                  {d.tab && (
+                                    <Tableau
+                                      tab={d.tab}
+                                      color={textColor}
+                                      titleFontWeight={titleFontWeight}
+                                      subSectionFontSize={subSectionFontSize}
+                                      titleFontSize={titleFontSize}
+                                    />
+                                  )}
+                                  {d.after && (
+                                    <Text
+                                      text={d.after}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                </VBox>
+                              );
+                            })}
                             <MarginContainer
                               margin={lineMargin}
                               marginRight={"0"}
@@ -294,14 +322,41 @@ const SolutionDetails = ({
                                 textAlign: "left",
                               }}
                             />
-                            <Text
-                              text={solutionData.application}
-                              color={textColor}
-                              fontSize={subSectionFontSize + "px"}
-                              style={{
-                                textAlign: "left",
-                              }}
-                            />
+                            {solutionData.application.map((d, index) => {
+                              return (
+                                <VBox key={index} gap={subGap}>
+                                  {d.before && (
+                                    <Text
+                                      text={d.before}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                  {d.tab && (
+                                    <Tableau
+                                      tab={d.tab}
+                                      color={textColor}
+                                      titleFontWeight={titleFontWeight}
+                                      subSectionFontSize={subSectionFontSize}
+                                      titleFontSize={titleFontSize}
+                                    />
+                                  )}
+                                  {d.after && (
+                                    <Text
+                                      text={d.after}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                </VBox>
+                              );
+                            })}
                             <MarginContainer
                               margin={lineMargin}
                               marginRight={"0"}
@@ -325,14 +380,41 @@ const SolutionDetails = ({
                                 textAlign: "left",
                               }}
                             />
-                            <Text
-                              text={solutionData.bilanEnergie}
-                              color={textColor}
-                              fontSize={subSectionFontSize + "px"}
-                              style={{
-                                textAlign: "left",
-                              }}
-                            />
+                            {solutionData.bilanEnergie.map((d, index) => {
+                              return (
+                                <VBox key={index} gap={subGap}>
+                                  {d.before && (
+                                    <Text
+                                      text={d.before}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                  {d.tab && (
+                                    <Tableau
+                                      tab={d.tab}
+                                      color={textColor}
+                                      titleFontWeight={titleFontWeight}
+                                      subSectionFontSize={subSectionFontSize}
+                                      titleFontSize={titleFontSize}
+                                    />
+                                  )}
+                                  {d.after && (
+                                    <Text
+                                      text={d.after}
+                                      color={textColor}
+                                      fontSize={subSectionFontSize + "px"}
+                                      style={{
+                                        textAlign: "left",
+                                      }}
+                                    />
+                                  )}
+                                </VBox>
+                              );
+                            })}
                             <MarginContainer
                               margin={lineMargin}
                               marginRight={"0"}
@@ -657,9 +739,11 @@ const SolutionDetails = ({
                             </MarginContainer>
                           </VBox>
                         )}
-                        {(solutionData.estimGenGain.cout.pouce ||
+                        {(solutionData.estimGenGain.cout.jauge ||
+                          solutionData.estimGenGain.cout.pouce ||
                           solutionData.estimGenGain.cout.difficulte.length >
                             0 ||
+                          solutionData.estimGenGain.gain.jauge ||
                           solutionData.estimGenGain.gain.gain ||
                           solutionData.estimGenGain.gain.positif.length >
                             0) && (
@@ -708,96 +792,119 @@ const SolutionDetails = ({
                                     marginTop={"0"}
                                     marginBottom={"0"}
                                   >
-                                    <VBox gap={gap}>
-                                      {solutionData.estimGenGain.cout.pouce && (
-                                        <VBox>
-                                          <Text
-                                            text={
-                                              titleSolutionData.estimGenGain
-                                                .cout.pouce
-                                            }
-                                            color={textColor}
-                                            fontSize={subSectionFontSize + "px"}
-                                            style={{
-                                              textAlign: "left",
-                                              display: "list-item",
-                                              listStyle: "disc",
-                                              listStylePosition: "inside",
-                                            }}
-                                          />
-                                          <MarginContainer
-                                            marginLeft={
-                                              "calc(5 * " + globalMargin + ")"
-                                            }
-                                          >
-                                            <VBox>
-                                              <Text
-                                                text={
-                                                  solutionData.estimGenGain.cout
-                                                    .pouce
-                                                }
-                                                color={textColor}
-                                                fontSize={
-                                                  subSectionFontSize + "px"
-                                                }
-                                                style={{
-                                                  textAlign: "left",
-                                                }}
-                                              />
-                                            </VBox>
-                                          </MarginContainer>
-                                        </VBox>
+                                    <HBox gap={subGap}>
+                                      <VBox
+                                        gap={gap}
+                                        mainBoxStyle={{ flexGrow: 1 }}
+                                      >
+                                        {solutionData.estimGenGain.cout
+                                          .pouce && (
+                                          <VBox>
+                                            <Text
+                                              text={
+                                                titleSolutionData.estimGenGain
+                                                  .cout.pouce
+                                              }
+                                              color={textColor}
+                                              fontSize={
+                                                subSectionFontSize + "px"
+                                              }
+                                              style={{
+                                                textAlign: "left",
+                                                display: "list-item",
+                                                listStyle: "disc",
+                                                listStylePosition: "inside",
+                                              }}
+                                            />
+                                            <MarginContainer
+                                              marginLeft={
+                                                "calc(5 * " + globalMargin + ")"
+                                              }
+                                            >
+                                              <VBox>
+                                                <Text
+                                                  text={
+                                                    solutionData.estimGenGain
+                                                      .cout.pouce
+                                                  }
+                                                  color={textColor}
+                                                  fontSize={
+                                                    subSectionFontSize + "px"
+                                                  }
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                />
+                                              </VBox>
+                                            </MarginContainer>
+                                          </VBox>
+                                        )}
+                                        {solutionData.estimGenGain.cout
+                                          .difficulte.length > 0 && (
+                                          <VBox>
+                                            <Text
+                                              text={
+                                                titleSolutionData.estimGenGain
+                                                  .cout.difficulte
+                                              }
+                                              color={textColor}
+                                              fontSize={
+                                                subSectionFontSize + "px"
+                                              }
+                                              style={{
+                                                textAlign: "left",
+                                                display: "list-item",
+                                                listStyle: "disc",
+                                                listStylePosition: "inside",
+                                              }}
+                                            />
+                                            <MarginContainer
+                                              marginLeft={
+                                                "calc(5 * " + globalMargin + ")"
+                                              }
+                                            >
+                                              <VBox>
+                                                {solutionData.estimGenGain.cout.difficulte.map(
+                                                  (value, index) => {
+                                                    return (
+                                                      <Text
+                                                        key={index}
+                                                        text={value}
+                                                        color={textColor}
+                                                        fontSize={
+                                                          subSectionFontSize +
+                                                          "px"
+                                                        }
+                                                        style={{
+                                                          textAlign: "left",
+                                                          display: "list-item",
+                                                          listStyle: "disc",
+                                                          listStylePosition:
+                                                            "outside",
+                                                        }}
+                                                      />
+                                                    );
+                                                  }
+                                                )}
+                                              </VBox>
+                                            </MarginContainer>
+                                          </VBox>
+                                        )}
+                                      </VBox>
+                                      {solutionData.estimGenGain.cout.jauge && (
+                                        <Image
+                                          width="70px"
+                                          height="30px"
+                                          objectFit="contain"
+                                          src={
+                                            "/icon/jauge/cout" +
+                                            solutionData.estimGenGain.cout
+                                              .jauge +
+                                            ".png"
+                                          }
+                                        />
                                       )}
-                                      {solutionData.estimGenGain.cout.difficulte
-                                        .length > 0 && (
-                                        <VBox>
-                                          <Text
-                                            text={
-                                              titleSolutionData.estimGenGain
-                                                .cout.difficulte
-                                            }
-                                            color={textColor}
-                                            fontSize={subSectionFontSize + "px"}
-                                            style={{
-                                              textAlign: "left",
-                                              display: "list-item",
-                                              listStyle: "disc",
-                                              listStylePosition: "inside",
-                                            }}
-                                          />
-                                          <MarginContainer
-                                            marginLeft={
-                                              "calc(5 * " + globalMargin + ")"
-                                            }
-                                          >
-                                            <VBox>
-                                              {solutionData.estimGenGain.cout.difficulte.map(
-                                                (value, index) => {
-                                                  return (
-                                                    <Text
-                                                      key={index}
-                                                      text={value}
-                                                      color={textColor}
-                                                      fontSize={
-                                                        subSectionFontSize +
-                                                        "px"
-                                                      }
-                                                      style={{
-                                                        textAlign: "left",
-                                                        display: "list-item",
-                                                        listStyle: "disc",
-                                                        listStylePosition:
-                                                          "outside",
-                                                      }}
-                                                    />
-                                                  );
-                                                }
-                                              )}
-                                            </VBox>
-                                          </MarginContainer>
-                                        </VBox>
-                                      )}
-                                    </VBox>
+                                    </HBox>
                                   </MarginContainer>
                                 </VBox>
                                 <VBox
@@ -831,96 +938,119 @@ const SolutionDetails = ({
                                     marginTop={"0"}
                                     marginBottom={"0"}
                                   >
-                                    <VBox gap={gap}>
-                                      {solutionData.estimGenGain.gain.gain && (
-                                        <VBox>
-                                          <Text
-                                            text={
-                                              titleSolutionData.estimGenGain
-                                                .gain.gain
-                                            }
-                                            color={textColor}
-                                            fontSize={subSectionFontSize + "px"}
-                                            style={{
-                                              textAlign: "left",
-                                              display: "list-item",
-                                              listStyle: "disc",
-                                              listStylePosition: "inside",
-                                            }}
-                                          />
-                                          <MarginContainer
-                                            marginLeft={
-                                              "calc(5 * " + globalMargin + ")"
-                                            }
-                                          >
-                                            <VBox>
-                                              <Text
-                                                text={
-                                                  solutionData.estimGenGain.gain
-                                                    .gain
-                                                }
-                                                color={textColor}
-                                                fontSize={
-                                                  subSectionFontSize + "px"
-                                                }
-                                                style={{
-                                                  textAlign: "left",
-                                                }}
-                                              />
-                                            </VBox>
-                                          </MarginContainer>
-                                        </VBox>
+                                    <HBox gap={subGap}>
+                                      <VBox
+                                        gap={gap}
+                                        mainBoxStyle={{ flexGrow: 1 }}
+                                      >
+                                        {solutionData.estimGenGain.gain
+                                          .gain && (
+                                          <VBox>
+                                            <Text
+                                              text={
+                                                titleSolutionData.estimGenGain
+                                                  .gain.gain
+                                              }
+                                              color={textColor}
+                                              fontSize={
+                                                subSectionFontSize + "px"
+                                              }
+                                              style={{
+                                                textAlign: "left",
+                                                display: "list-item",
+                                                listStyle: "disc",
+                                                listStylePosition: "inside",
+                                              }}
+                                            />
+                                            <MarginContainer
+                                              marginLeft={
+                                                "calc(5 * " + globalMargin + ")"
+                                              }
+                                            >
+                                              <VBox>
+                                                <Text
+                                                  text={
+                                                    solutionData.estimGenGain
+                                                      .gain.gain
+                                                  }
+                                                  color={textColor}
+                                                  fontSize={
+                                                    subSectionFontSize + "px"
+                                                  }
+                                                  style={{
+                                                    textAlign: "left",
+                                                  }}
+                                                />
+                                              </VBox>
+                                            </MarginContainer>
+                                          </VBox>
+                                        )}
+                                        {solutionData.estimGenGain.gain.positif
+                                          .length > 0 && (
+                                          <VBox>
+                                            <Text
+                                              text={
+                                                titleSolutionData.estimGenGain
+                                                  .gain.positif
+                                              }
+                                              color={textColor}
+                                              fontSize={
+                                                subSectionFontSize + "px"
+                                              }
+                                              style={{
+                                                textAlign: "left",
+                                                display: "list-item",
+                                                listStyle: "disc",
+                                                listStylePosition: "inside",
+                                              }}
+                                            />
+                                            <MarginContainer
+                                              marginLeft={
+                                                "calc(5 * " + globalMargin + ")"
+                                              }
+                                            >
+                                              <VBox>
+                                                {solutionData.estimGenGain.gain.positif.map(
+                                                  (value, index) => {
+                                                    return (
+                                                      <Text
+                                                        key={index}
+                                                        text={value}
+                                                        color={textColor}
+                                                        fontSize={
+                                                          subSectionFontSize +
+                                                          "px"
+                                                        }
+                                                        style={{
+                                                          textAlign: "left",
+                                                          display: "list-item",
+                                                          listStyle: "disc",
+                                                          listStylePosition:
+                                                            "outside",
+                                                        }}
+                                                      />
+                                                    );
+                                                  }
+                                                )}
+                                              </VBox>
+                                            </MarginContainer>
+                                          </VBox>
+                                        )}
+                                      </VBox>
+                                      {solutionData.estimGenGain.gain.jauge && (
+                                        <Image
+                                          width="70px"
+                                          height="30px"
+                                          objectFit="contain"
+                                          src={
+                                            "/icon/jauge/gain" +
+                                            solutionData.estimGenGain.gain
+                                              .jauge +
+                                            ".png"
+                                          }
+                                        />
                                       )}
-                                      {solutionData.estimGenGain.gain.positif
-                                        .length > 0 && (
-                                        <VBox>
-                                          <Text
-                                            text={
-                                              titleSolutionData.estimGenGain
-                                                .gain.positif
-                                            }
-                                            color={textColor}
-                                            fontSize={subSectionFontSize + "px"}
-                                            style={{
-                                              textAlign: "left",
-                                              display: "list-item",
-                                              listStyle: "disc",
-                                              listStylePosition: "inside",
-                                            }}
-                                          />
-                                          <MarginContainer
-                                            marginLeft={
-                                              "calc(5 * " + globalMargin + ")"
-                                            }
-                                          >
-                                            <VBox>
-                                              {solutionData.estimGenGain.gain.positif.map(
-                                                (value, index) => {
-                                                  return (
-                                                    <Text
-                                                      key={index}
-                                                      text={value}
-                                                      color={textColor}
-                                                      fontSize={
-                                                        subSectionFontSize +
-                                                        "px"
-                                                      }
-                                                      style={{
-                                                        textAlign: "left",
-                                                        display: "list-item",
-                                                        listStyle: "disc",
-                                                        listStylePosition:
-                                                          "outside",
-                                                      }}
-                                                    />
-                                                  );
-                                                }
-                                              )}
-                                            </VBox>
-                                          </MarginContainer>
-                                        </VBox>
-                                      )}
-                                    </VBox>
+                                    </HBox>
                                   </MarginContainer>
                                 </VBox>
                               </HBox>
