@@ -4,9 +4,10 @@ from api.models.Monnaie import Monnaie
 
 
 class GainRex(BaseModel):
+    code_rex: int | None = None 
     num: int | None = None
-    code_solution: int
-    code_rex: int
+    code_solution: int | None = None 
+    text: str | None = None
     gain_financier: float | None = None
     monnaie: Monnaie | None = None
     code_periode_economie: int | None = None
