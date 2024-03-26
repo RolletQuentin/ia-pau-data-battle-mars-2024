@@ -7,7 +7,11 @@ import {
 } from "@liro_u/react-components";
 import React, { useState } from "react";
 import CustomButton from "./input/CustomButton";
-import { bigNumber2String, cropperFloat } from "../usefull";
+import {
+  bigNumber2String,
+  cropperFloat,
+  getCurrentCodeLangue,
+} from "../usefull";
 
 import { useTranslation } from "react-i18next";
 
@@ -143,7 +147,9 @@ const SubSolutionDisplay = ({
         "/sol/data_solution/" +
         solution.num +
         "/" +
-        solution.codeSector
+        solution.codeSector +
+        "/" +
+        getCurrentCodeLangue()
     );
 
     const json = await response.json();
