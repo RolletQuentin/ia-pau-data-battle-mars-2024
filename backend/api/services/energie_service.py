@@ -137,11 +137,14 @@ def predict_ges(code_secteur: int, average_gain_energie: float):
     # Get the coefficient between the gain_energie and the gain_ges for the given sector
     coefficient = 0
     for gain in all_gains_from_sector:
-        if gain["energiegainrex"] is not None and gain["gesgainrex"] is not None:
+        if gain["energiegainrex"] and gain["gesgainrex"] and gain["energiegainrex"] != 0:
             coefficient += gain["gesgainrex"] / gain["energiegainrex"]
 
     # Calculate the average gain_ges for the given solution
-    predicted_gain_ges = average_gain_energie * \
-        coefficient / len(all_gains_from_sector)
+    if len(all_gains_from_sector) == 0:
+        predicted_gain_ges = 0
+    else:
+        predicted_gain_ges = average_gain_energie * \
+            coefficient / len(all_gains_from_sector)
 
     return predicted_gain_ges

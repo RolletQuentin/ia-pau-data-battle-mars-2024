@@ -4,8 +4,10 @@ from api.models.CoutRex import CoutRex
 
 
 class DataRex(BaseModel):
-    numRex :  int | None = None 
-    sector : str | None = None
-    cout : CoutRex | None = None
-    gain : GainRex | None = None
+    numRex :  int 
+    sector : str 
+    pays : str | None = None 
+    date : str | None = None
+    cout : CoutRex 
+    gain : GainRex 
     

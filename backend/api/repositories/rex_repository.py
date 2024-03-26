@@ -43,3 +43,49 @@ def get_all():
     cursor.close()
 
     return data_with_columns
+
+def get_all_for_one_solution(code_solution):
+    cursor = mydb.cursor(dictionary=True)
+
+    query = f"""
+        SELECT
+            tblcoutrex.coderex,
+            tblreference.codesecteur,
+            tblreference.datereference,
+            tblreference.coderegion,
+            tblcoutrex.*,
+            tblgainrex.*,
+            tblmonnaie.shortmonnaie,
+            tbldictionnaireenergie.traductiondictionnairecategories AS nomenergie,
+            tbldictionnaireperiodeeconomie.traductiondictionnairecategories AS nomperiodeeconomie,
+            tbldictionnaireperiodeenergie.traductiondictionnairecategories AS nomperiodeenergie
+        FROM
+            tblgainrex
+        LEFT JOIN tblrex ON tblrex.numrex = tblgainrex.coderex
+        LEFT JOIN tblreference ON tblreference.numreference = tblrex.codereference
+        LEFT JOIN tblmonnaie ON tblmonnaie.nummonnaie = tblgainrex.codemonnaiegainrex
+        LEFT JOIN tbldictionnairecategories AS tbldictionnaireenergie ON
+            tbldictionnaireenergie.codeappelobjet = tblgainrex.uniteenergiegainrex
+            AND tbldictionnaireenergie.codelangue = 2
+            AND tbldictionnaireenergie.typedictionnairecategories = "uni"
+        LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeeconomie ON
+            tbldictionnaireperiodeeconomie.codeappelobjet = tblgainrex.codeperiodeeconomie
+            AND tbldictionnaireperiodeeconomie.codelangue = 2
+            AND tbldictionnaireperiodeeconomie.typedictionnairecategories = "per"
+        LEFT JOIN tbldictionnairecategories AS tbldictionnaireperiodeenergie ON
+            tbldictionnaireperiodeenergie.codeappelobjet = tblgainrex.codeperiodeenergie
+            AND tbldictionnaireperiodeenergie.codelangue = 2
+            AND tbldictionnaireperiodeenergie.typedictionnairecategories = "per"
+        LEFT JOIN tblcoutrex ON tblcoutrex.coderex = tblgainrex.coderex AND tblcoutrex.codesolution = tblgainrex.codesolution
+        LEFT JOIN tblreference AS coutrex_reference ON coutrex_reference.numreference = tblrex.codereference
+        WHERE 
+            tblgainrex.codesolution = %s;
+
+    """
+
+    cursor.execute(query,(code_solution,))
+    results = cursor.fetchall()
+    cursor.close()
+    return results
+
+
