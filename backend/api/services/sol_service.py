@@ -43,7 +43,7 @@ def get_multiple_solution(solutions, secteur_activite, code_langue):
     
     result_mapping = {}  # Create a mapping from solution number to the solution object
     for result in results:
-        gain = gain_rex_service.predict_gain_solution(result[0], id_sector)
+        gain = gain_rex_service.predict_gain_solution(result[0], id_sector, code_langue)
         cout = cout_rex_service.predict_cout_solution(result[0], id_sector)
         
         solution = Solution(
@@ -168,7 +168,7 @@ def get_data_solution(code_solution,code_sector,code_langue):
         numSolution=code_solution,
         estimPerso=EstimPerso(
             estimPersoCout=cout_rex_service.predict_cout_solution(code_solution,code_sector), 
-            estimPersoGain=gain_rex_service.predict_gain_solution(code_solution,code_sector)
+            estimPersoGain=gain_rex_service.predict_gain_solution(code_solution,code_sector,code_langue)
         ), 
         estimGen=EstimGen(
             cout=CoutSol(
