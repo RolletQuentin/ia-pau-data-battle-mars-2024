@@ -110,7 +110,6 @@ const Home = () => {
   };
 
   const findSolutionDetails = (s) => {
-    console.log(s);
     setSolution(s);
     changePageState(3);
   };
@@ -358,6 +357,9 @@ const Home = () => {
           bottom: "0",
           right: "0",
           pointerEvent: "none",
+          opacity: pageState === 0 || pageState === 1 ? 1 : 0,
+          transition: "opacity 0.5s",
+          pointerEvents: pageState === 0 || pageState === 1 ? "" : "none",
         }}
       >
         <LanguageSelector
