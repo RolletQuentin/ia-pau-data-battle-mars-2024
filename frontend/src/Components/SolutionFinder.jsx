@@ -13,6 +13,7 @@ import CustomSelect from "./input/CustomSelect";
 
 import { useTranslation } from "react-i18next";
 import { getCurrentCodeLangue } from "../usefull";
+import i18n from "../i18n";
 
 const SolutionFinder = ({
   callBack = (solutions) => {
@@ -75,6 +76,16 @@ const SolutionFinder = ({
       }
     };
     getAllCategories();
+
+    const languageChangeHandler = () => {
+      setMainCategorie(null);
+      setSubCategorie(null);
+      getAllCategories();
+    };
+
+    i18n.on("languageChanged", languageChangeHandler);
+
+    return () => i18n.off("languageChanged", languageChangeHandler);
   }, []);
 
   // API call

@@ -1221,6 +1221,9 @@ const SolutionDetails = ({
                                                   }
                                                   style={{
                                                     textAlign: "left",
+                                                    display: "list-item",
+                                                    listStyle: "disc",
+                                                    listStylePosition: "inside",
                                                   }}
                                                 />
                                               );
@@ -1246,6 +1249,9 @@ const SolutionDetails = ({
                                                   }
                                                   style={{
                                                     textAlign: "left",
+                                                    display: "list-item",
+                                                    listStyle: "disc",
+                                                    listStylePosition: "inside",
                                                   }}
                                                 />
                                               );
