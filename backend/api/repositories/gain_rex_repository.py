@@ -136,8 +136,7 @@ def get_all_for_one_secteur_ges(code_secteur, code_langue=2):
     return data_with_columns
 
 
-def get_text(code):
-    
+def get_text(code,code_langue):
     cursor = mydb.cursor()
 
     query = f"""
@@ -146,11 +145,12 @@ def get_text(code):
         FROM 
             tbldictionnaire
         where
-            codelangue = 2 and 
+            codelangue = %s and 
             typedictionnaire = 'rexgain' and
             codeappelobjet = %s;
         """
-    cursor.execute(query, (code,))
+    cursor.execute(query, (code_langue, code)) 
     results = cursor.fetchall()
     cursor.close()
+    
     return results[0][0] if results else None

@@ -8,7 +8,7 @@ router = APIRouter (
     prefix="/sec"
 )
 
-@router.get("/get_all_sector")
-async def get_all_sector()->Sector:
-    data = sec_service.get_all_sector()
+@router.get("/get_all_sector/{code_langue}")
+async def get_all_sector(code_langue: int)->Sector:
+    data = sec_service.get_all_sector(code_langue)
     return data

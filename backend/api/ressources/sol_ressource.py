@@ -22,7 +22,8 @@ router = APIRouter(
 @router.post("/best_solutions")
 async def best_solutions(data: RequestBestSol = Body(...)) -> list[Solution]:
     secteur_activite = data.secteur_activite
-    if not sol_service.check_sector(secteur_activite):
+    code_langue = data.code_langue
+    if not sol_service.check_sector(secteur_activite,code_langue):
         raise HTTPException(
             status_code=400, detail="Secteur d'activité incorrect")
     description = sol_service.clean_description(data.description)
@@ -30,13 +31,13 @@ async def best_solutions(data: RequestBestSol = Body(...)) -> list[Solution]:
         raise HTTPException(
             status_code=422, detail="Description vide ou taille > 2048 caractere")
     solutions = model_find_solution(description, secteur_activite)
-    data = sol_service.get_multiple_solution(solutions, secteur_activite)
+    data = sol_service.get_multiple_solution(solutions, secteur_activite, code_langue)
     return data
 
 
-@router.get("/data_solution/{code_solution}/{code_sector}")
-async def get_data_solution(code_solution: int, code_sector: int) -> DataSolution:
-    data = sol_service.get_data_solution(code_solution,code_sector)
+@router.get("/data_solution/{code_solution}/{code_sector}/{code_langue}")
+async def get_data_solution(code_solution: int, code_sector: int, code_langue: int) -> DataSolution:
+    data = sol_service.get_data_solution(code_solution,code_sector,code_langue)
     return data
 
 
