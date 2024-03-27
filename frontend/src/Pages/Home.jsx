@@ -240,7 +240,7 @@ const Home = () => {
                 animationFillMode: "forwards",
                 height: "100%",
               }}
-              customWraperStyles={[{}, { flexGrow: 1, overflow: "hidden" }]}
+              customWraperStyles={[{}, { overflow: "hidden" }]}
             >
               <Opacity
                 opacityStart={"0"}
@@ -302,7 +302,7 @@ const Home = () => {
                 animationFillMode: "forwards",
                 height: "100%",
               }}
-              customWraperStyles={[{}, { flexGrow: 1, overflow: "hidden" }]}
+              customWraperStyles={[{}, { overflow: "hidden" }]}
             >
               <Opacity
                 opacityStart={"0"}
