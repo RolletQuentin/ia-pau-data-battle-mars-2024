@@ -71,11 +71,15 @@ const SolutionDisplay = ({
       gap={gap}
       style={{
         width: "95vw",
+        height: "100%",
         position: "relative",
       }}
     >
       <div ref={parentRef} style={{ flexGrow: 1 }}>
-        <VBox mainBoxStyle={{ width: "100%" }}>
+        <VBox
+          mainBoxStyle={{ width: "100%", height: "100%" }}
+          customWraperStyles={[{}, { flexGrow: 1, overflow: "hidden" }]}
+        >
           <HBox justifyContent="end">
             <ColorRect
               backgroundColor={
@@ -111,9 +115,13 @@ const SolutionDisplay = ({
             style={{
               borderRadius: mainBorderRadius,
               backdropFilter: backgroundBlur,
+              height: "100%",
             }}
           >
-            <VBox>
+            <VBox
+              customWraperStyles={[{}, { flexGrow: 1, overflow: "hidden" }]}
+              mainBoxStyle={{ height: "100%" }}
+            >
               <ColorRect
                 backgroundColor={backgroundColor}
                 style={{
@@ -146,10 +154,10 @@ const SolutionDisplay = ({
                   </HBox>
                 </MarginContainer>
               </ColorRect>
-              <div style={{ overflow: "hidden", height: "500px" }}>
+              <div style={{ overflow: "hidden", height: "100%" }}>
                 <div
                   style={{
-                    height: "500px",
+                    height: "100%",
                     overflowY: "scroll",
                     marginRight: "-20px", // Adjust for scrollbar width
                   }}

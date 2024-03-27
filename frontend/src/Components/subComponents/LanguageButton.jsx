@@ -16,7 +16,6 @@ const LanguageButton = ({ lg }) => {
     <HBox
       gap="10px"
       onClick={() => {
-        console.log("change to " + lg);
         changeLanguage(lg);
       }}
       style={{ cursor: "pointer" }}

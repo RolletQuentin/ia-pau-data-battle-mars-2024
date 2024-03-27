@@ -7,6 +7,7 @@ import translationES from "./locales/es/translation.json";
 
 const getStoredLanguage = () => {
   const storedLanguage =
+    localStorage.getItem("language") &&
     localStorage.getItem("language") !== undefined
       ? localStorage.getItem("language")
       : "fr";
