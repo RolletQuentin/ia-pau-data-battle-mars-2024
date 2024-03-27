@@ -136,7 +136,7 @@ const CustomScrollBar = forwardRef(
                 : 0,
             right: "0px",
             width: "10px",
-            height: scrollThumbHeight + "px",
+            height: visible ? scrollThumbHeight + "px" : "",
             backgroundColor: ThumbColor,
             borderRadius: "30px",
             outline: "1px solid var(--dark-color)",

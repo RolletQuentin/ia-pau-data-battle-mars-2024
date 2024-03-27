@@ -78,7 +78,7 @@ const SolutionDisplay = ({
       <div ref={parentRef} style={{ flexGrow: 1 }}>
         <VBox
           mainBoxStyle={{ width: "100%", height: "100%" }}
-          customWraperStyles={[{}, { flexGrow: 1, overflow: "hidden" }]}
+          customWraperStyles={[{}, { overflow: "hidden" }]}
         >
           <HBox justifyContent="end">
             <ColorRect
@@ -119,7 +119,7 @@ const SolutionDisplay = ({
             }}
           >
             <VBox
-              customWraperStyles={[{}, { flexGrow: 1, overflow: "hidden" }]}
+              customWraperStyles={[{}, { overflow: "hidden" }]}
               mainBoxStyle={{ height: "100%" }}
             >
               <ColorRect
@@ -157,8 +157,10 @@ const SolutionDisplay = ({
               <div style={{ overflow: "hidden", height: "100%" }}>
                 <div
                   style={{
-                    height: "100%",
+                    height: "fit-content",
+                    maxHeight: "100%",
                     overflowY: "scroll",
+                    overflowX: "hidden",
                     marginRight: "-20px", // Adjust for scrollbar width
                   }}
                   onScroll={handleChildScroll}
