@@ -110,6 +110,7 @@ const CustomScrollBar = forwardRef(
     return (
       <MarginContainer
         style={{
+          position: "relative",
           backgroundColor: backgroundColor,
           borderRadius: "30px",
           opacity: visible ? 1 : 0,
@@ -123,7 +124,7 @@ const CustomScrollBar = forwardRef(
           {...content}
           style={{
             cursor: "pointer",
-            position: "absolute",
+            position: "relative",
             top:
               childRef.current && parentRef.current
                 ? `${

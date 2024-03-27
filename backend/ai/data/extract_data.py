@@ -10,8 +10,6 @@ sql_path = "../../../mysql/db_backup_plateforme_2024-01-10_010001.sql"
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
-
-
 def cleanHTML(html_content):
     # Utilise BeautifulSoup pour convertir le contenu HTML en texte, tout en décodant les entités HTML.
     return BeautifulSoup(html_content, 'html.parser').get_text()
@@ -100,39 +98,3 @@ def getSolutions():
 
 getSolutions()  
 
-
-def mapSolutionsToTech():
-
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="myuser",
-        password="mypassword",
-        database="mydatabase"
-    )
-    
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    output_file_path = os.path.join(script_dir, "solutions_Technologies_Mapping.csv")
-    
-    cursor = mydb.cursor()
-
-    query = f"""
-        SELECT numsolution,
-            validsolution 
-        FROM mydatabase.tblsolution
-        Where validsolution = 0;
-    """
-
-    cursor.execute(query)
-
-    with open(output_file_path, 'w', encoding='utf-8') as output_file:
-        for row in cursor:
-            # Création d'une chaîne de caractères pour chaque ligne, où les valeurs sont séparées par des virgules
-            formatted_row = '|'.join(map(str, row))
-            # Écriture de la chaîne dans le fichier de sortie
-            output_file.write(formatted_row + '\n')
-
-    cursor.close()
-    mydb.close()
-
-
-mapSolutionsToTech()

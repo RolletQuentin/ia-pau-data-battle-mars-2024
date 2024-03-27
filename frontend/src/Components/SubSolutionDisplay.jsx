@@ -155,7 +155,6 @@ const SubSolutionDisplay = ({
     const json = await response.json();
 
     if (response.ok) {
-      console.log(json);
       const data = {
         numSolution: json.numSolution,
         titleSolution: json.titre,

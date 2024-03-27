@@ -128,7 +128,7 @@ const CustomSelect = ({
                   display: "flex",
                   height: maxHeight,
                   overflowY: "scroll",
-                  marginRight: "-20px", // Adjust for scrollbar width
+                  marginRight: "-17px", // Adjust for scrollbar width
                 }}
               >
                 <VBox gap={"5px"} mainBoxStyle={{ flexGrow: 1 }}>
