@@ -1,14 +1,16 @@
-from collections import Counter
-
-from api.dependencies import weighted_mean
-
-from api.models.GainRex import GainRex
-from api.models.AverageGain import AverageGain
-
-from api.repositories import gain_rex_repository
-
-from api.services import monnaie_service
+import matplotlib
 from api.services import energie_service
+from api.services import monnaie_service
+from api.repositories import gain_rex_repository
+from api.models.AverageGain import AverageGain
+from api.models.GainRex import GainRex
+from api.dependencies import weighted_mean
+import matplotlib.pyplot as plt
+from collections import Counter
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
+matplotlib.use('TkAgg')
 
 
 def get_all_for_one_rex(code_rex, code_langue=2):
@@ -60,13 +62,17 @@ def get_all_for_one_solution(code_solution, code_langue=2):
     return data
 
 
-def predict_gain_solution(code_solution, code_secteur, code_langue=2):
+def predict_gain_solution(code_solution, code_secteur, code_langue=2, print_data=False):
     """Predict the gain for a solution. The prediction is based on the gain of the solutions that are similar to the given solution.
 
     Args:
         code_solution (int): The code of the solution
         code_secteur (int): The code of the sector
     """
+
+    code_solution = int(code_solution)
+    code_secteur = int(code_secteur)
+    code_langue = int(code_langue)
 
     # Get all the gains for the given solution
     gains_solutions: list[GainRex] = get_all_for_one_solution(
@@ -94,12 +100,12 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2):
     # Get the average gain_financier (in euros) for the given solution. Return None if there is no gain_financier
     if gains_solutions:
         financier_gains_solution = [monnaie_service.convert_to_euro(
-            gain.monnaie.num, gain.gain_financier) for gain in gains_solutions if gain.gain_financier is not None]
+            gain.monnaie.num, gain.gain_financier) for gain in gains_solutions if gain.gain_financier]
 
     # Get the average gain_financier (in euros) for the given solution and given sector. Return None if there is no gain_financier
     if gains_sector:
         financier_gains_sector = [monnaie_service.convert_to_euro(
-            gain.monnaie.num, gain.gain_financier) for gain in gains_sector if gain.gain_financier is not None]
+            gain.monnaie.num, gain.gain_financier) for gain in gains_sector if gain.gain_financier]
 
     average_gain_financier_solution = weighted_mean(
         financier_gains_solution) if financier_gains_solution else None
@@ -128,12 +134,12 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2):
     # Get the average gain_energie for the given solution. Return None if there is no gain_energie
     if gains_solutions:
         energie_gains_solution = [
-            (gain.gain_energie, gain.nom_unite_energie) for gain in gains_solutions if gain.gain_energie is not None]
+            (gain.gain_energie, gain.nom_unite_energie) for gain in gains_solutions if gain.gain_energie]
 
     # Get the average gain_energie for the given solution and given sector. Return None if there is no gain_energie
     if gains_sector:
         energie_gains_sector = [
-            (gain.gain_energie, gain.nom_unite_energie) for gain in gains_sector if gain.gain_energie is not None]
+            (gain.gain_energie, gain.nom_unite_energie) for gain in gains_sector if gain.gain_energie]
 
     # Normalize the energie_gains_solution
     if energie_gains_solution:
@@ -185,12 +191,12 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2):
     # Get the average gain_ges for the given solution
     if gains_solutions:
         ges_gains_solution = [
-            gain.gain_ges for gain in gains_solutions if gain.gain_ges is not None]
+            gain.gain_ges for gain in gains_solutions if gain.gain_ges]
 
     # Get the average gain_ges for the given solution and given sector
     if gains_sector:
         ges_gains_sector = [
-            gain.gain_ges for gain in gains_sector if gain.gain_ges is not None]
+            gain.gain_ges for gain in gains_sector if gain.gain_ges]
 
     average_gain_ges_solution = weighted_mean(
         ges_gains_solution) if ges_gains_solution else None
@@ -212,7 +218,7 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2):
 
     # Calculate the average_gain_ges with a linear combination of the average_gain_ges and the predicted_gain_ges
     if average_gain_ges and predicted_gain_ges:
-        average_gain_ges = average_gain_ges * 0.7 + predicted_gain_ges * 0.3
+        average_gain_ges = average_gain_ges * 0.95 + predicted_gain_ges * 0.05
     elif predicted_gain_ges:
         average_gain_ges = predicted_gain_ges
 
@@ -227,12 +233,12 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2):
     # Get the average gain_reel for the given solution
     if gains_solutions:
         reel_gains_solution = [
-            gain.gain_reel for gain in gains_solutions if gain.gain_reel is not None]
+            gain.gain_reel for gain in gains_solutions if gain.gain_reel]
 
     # Get the average gain_reel for the given solution and given sector
     if gains_sector:
         reel_gains_sector = [
-            gain.gain_reel for gain in gains_sector if gain.gain_reel is not None]
+            gain.gain_reel for gain in gains_sector if gain.gain_reel]
 
     average_gain_reel_solution = weighted_mean(
         reel_gains_solution) if reel_gains_solution else None
@@ -258,12 +264,12 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2):
     # Get the average tri_reel for the given solution
     if gains_solutions:
         tri_reel_gains_solution = [
-            gain.tri_reel for gain in gains_solutions if gain.tri_reel is not None]
+            gain.tri_reel for gain in gains_solutions if gain.tri_reel]
 
     # Get the average tri_reel for the given solution and given sector
     if gains_sector:
         tri_reel_gains_sector = [
-            gain.tri_reel for gain in gains_sector if gain.tri_reel is not None]
+            gain.tri_reel for gain in gains_sector if gain.tri_reel]
 
     average_tri_reel_solution = weighted_mean(
         tri_reel_gains_solution) if tri_reel_gains_solution else None
@@ -303,6 +309,84 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2):
 
     if gains_sector:
         number_of_based_solutions += len(gains_sector)
+
+    ############################################################################
+    # Plot the gains on a same frame
+    ############################################################################
+
+    if print_data:
+
+        # Begin the figure
+        figure, axis = plt.subplots(2, 2)
+
+        ###############
+        # fiancier_gain
+        ###############
+
+        # Prepare the data for the boxplots
+        boxplot_data = {}
+        if financier_gains_solution:
+            boxplot_data['Solution'] = financier_gains_solution
+        if financier_gains_sector:
+            boxplot_data['Sector'] = financier_gains_sector
+
+        # Create the boxplots
+        if len(boxplot_data) > 0:
+            axis[0, 0].boxplot(boxplot_data.values(),
+                               labels=boxplot_data.keys())
+            axis[0, 0].set_title("Boxplot des gains financiers")
+
+        # Add the average line
+        if average_gain_financier:
+            axis[0, 0].axhline(y=average_gain_financier,
+                               color='r', linestyle='--')
+
+        ###############
+        # energie_gain
+        ###############
+
+        # Prepare the data for the boxplots
+        boxplot_data = {}
+        if normalized_energie_gains_solution:
+            boxplot_data['Solution'] = normalized_energie_gains_solution
+        if normalized_energie_gains_sector:
+            boxplot_data['Sector'] = normalized_energie_gains_sector
+
+        # Create the boxplots
+        if len(boxplot_data) > 0:
+            axis[0, 1].boxplot(boxplot_data.values(),
+                               labels=boxplot_data.keys())
+            axis[0, 1].set_title("Boxplot des gains énergétiques")
+
+        # Add the average line
+        if average_gain_energie:
+            axis[0, 1].axhline(y=average_gain_energie,
+                               color='r', linestyle='--')
+
+        ###############
+        # ges_gain
+        ###############
+
+        # Prepare the data for the boxplots
+        boxplot_data = {}
+        if ges_gains_solution:
+            boxplot_data['Solution'] = ges_gains_solution
+        if ges_gains_sector:
+            boxplot_data['Sector'] = ges_gains_sector
+
+        # Create the boxplots
+        if len(boxplot_data) > 0:
+            axis[1, 0].boxplot(boxplot_data.values(),
+                               labels=boxplot_data.keys())
+            axis[1, 0].set_title("Boxplot des gains GES")
+
+        # Add the average line
+        if average_gain_ges:
+            axis[1, 0].axhline(y=average_gain_ges,
+                               color='r', linestyle='--')
+
+        # Combine all the operations and display
+        plt.show()
 
     ############################################################################
     # Return the average gains

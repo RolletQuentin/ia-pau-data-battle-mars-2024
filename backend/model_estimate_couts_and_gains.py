@@ -10,7 +10,7 @@ from api.models.AverageCout import AverageCout
 
 def calculate_costs_and_gains(code_solution, code_secteur):
     gain: AverageGain = gain_rex_service.predict_gain_solution(
-        code_solution, code_secteur)
+        code_solution, code_secteur, code_langue=2, print_data=False)
     cout: AverageCout = cout_rex_service.predict_cout_solution(
         code_solution, code_secteur)
 
