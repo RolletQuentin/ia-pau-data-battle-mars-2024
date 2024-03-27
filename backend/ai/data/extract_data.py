@@ -142,8 +142,6 @@ def mapSolutionsToTech():
 
     query = f"""
         SELECT numsolution,
-            codetechno,
-            codecatsolution,
             validsolution 
         FROM mydatabase.tblsolution;
     """
@@ -160,4 +158,5 @@ def mapSolutionsToTech():
     cursor.close()
     mydb.close()
 
+mapSolutionsToTech()
 
