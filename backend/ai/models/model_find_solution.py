@@ -169,6 +169,10 @@ model = SentenceTransformer("paraphrase-multilingual-mpnet-base-v2")
 
 # Fonction appelé par notre utilisateur
 def model_find_solution(secteur, description) :
+    # !!!!!!!!!!!! ICI ON A CHOISI DE NE PAS INCLURE LE SECTEUR DANS NOTRE MODELE, COMMENTER LA LIGNE CI-DESOSUS POUR CHANGER CELA --------------
+    secteur = ""
+    # -------------------------
+
     # Obtention du chemin absolu du répertoire contenant le script
     script_dir = os.path.dirname(os.path.abspath(__file__))
     # Définition du nom du fichier d'embeddings
