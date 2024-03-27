@@ -138,15 +138,7 @@ const Home = () => {
         texture={backgroundImageSrc}
         style={{ flexGrow: "1", overflow: "hidden", display: "flex" }}
       >
-        <MarginContainer
-          margin={verticalMargin}
-          marginLeft={horizontalMargin}
-          marginRight={horizontalMargin}
-          style={{
-            flexGrow: 1,
-            display: "flex",
-          }}
-        >
+        <MarginContainer margin="20px" style={{ display: "flex", flexGrow: 1 }}>
           <HBox
             justifyContent="center"
             style={{ position: "relative", flexGrow: 1 }}
@@ -233,6 +225,7 @@ const Home = () => {
                 />
               </CenterContainer>
             </VBox>
+
             <VBox
               gap={0}
               mainBoxStyle={{
@@ -245,8 +238,9 @@ const Home = () => {
                     : "startingSolutionDisplay",
                 animationDuration: "0.5s",
                 animationFillMode: "forwards",
-                height: "80vh",
+                height: "100%",
               }}
+              customWraperStyles={[{}, { flexGrow: 1, overflow: "hidden" }]}
             >
               <Opacity
                 opacityStart={"0"}
@@ -269,7 +263,7 @@ const Home = () => {
                   />
                 </CenterContainer>
               </Opacity>
-              <CenterContainer>
+              <CenterContainer style={{ height: "100%" }}>
                 <SolutionDisplay
                   solutions={solutions}
                   backgroundColor={backgroundColor}
@@ -306,8 +300,9 @@ const Home = () => {
                     : "startingSolutionDisplay",
                 animationDuration: "0.5s",
                 animationFillMode: "forwards",
-                height: "80vh",
+                height: "100%",
               }}
+              customWraperStyles={[{}, { flexGrow: 1, overflow: "hidden" }]}
             >
               <Opacity
                 opacityStart={"0"}
@@ -330,7 +325,7 @@ const Home = () => {
                   />
                 </CenterContainer>
               </Opacity>
-              <CenterContainer>
+              <CenterContainer style={{ height: "100%" }}>
                 <SolutionDetails
                   backgroundColor={backgroundColor}
                   backgroundColorAlpha={backgroundColorAlpha}
