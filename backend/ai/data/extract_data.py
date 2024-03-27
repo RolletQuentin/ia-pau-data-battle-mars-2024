@@ -1,20 +1,33 @@
 import re
 import os
 import csv
+import warnings
 import mysql.connector
 
+from bs4 import BeautifulSoup
 
 sql_path = "../../../mysql/db_backup_plateforme_2024-01-10_010001.sql"
 
+warnings.filterwarnings("ignore", category=UserWarning)
+
+
+
+def cleanHTML(html_content):
+    # Utilise BeautifulSoup pour convertir le contenu HTML en texte, tout en décodant les entités HTML.
+    return BeautifulSoup(html_content, 'html.parser').get_text()
+
 def clean(text):
-    text = re.sub('<.*?>', '',text)
+    # Nettoie le HTML et convertit les entités en texte normal.
+    text = cleanHTML(text)
+    # Remplace les séquences d'échappement par leur caractère correspondant.
     text = re.sub(r"\\'", "'", text)  # Remplace \' par '
     text = re.sub(r"\\n", " ", text)  # Remplace \n par un espace
     text = re.sub(r"\\r", " ", text)  # Remplace \r par un espace
-    text = re.sub(r'\\"', '"', text)  # Remplace \" par "
-    text = re.sub(r"^'", '', text)  # Supprime l'apostrophe au début de la chaîne
-    text = re.sub(r"'$", '', text)  # Supprime l'apostrophe à la fin de la chaîne
-    text = re.sub(r'\s+', ' ', text).strip()  # Nettoie les espaces multiples et enlève les espaces de début et de fin
+    # Supprime tous les guillemets doubles
+    text = re.sub(r'"', '', text)  # Retire tous les guillemets doubles
+    text = re.sub(r"'", '', text)  # Retire tous les guillemets doubles
+    # Remplace les espaces multiples et les nouvelles lignes par un seul espace, et enlève les espaces de début et de fin.
+    text = re.sub(r'\s+', ' ', text).strip()
     return text
 
 
@@ -70,7 +83,7 @@ def getSolutions():
         if sol['codeParent'] and sol['categorie'] == 1:
             for i in [1,2,5,6,9,10,11,12]:
                 if solutions_dict.get((sol["codeSolution"],i)) is None and solutions_dict.get((sol["codeParent"],i)) is not None:
-                    content = solutions_dict.get((sol["codeParent"], i))['content']
+                    content = clean(solutions_dict.get((sol["codeParent"], i))['content'])
                     csv_data.append([sol['codeSolution'], i, clean(content)])
         
         csv_data.append([sol['codeSolution'], sol['categorie'], clean(sol['content'])])
