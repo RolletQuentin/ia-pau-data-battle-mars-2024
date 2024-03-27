@@ -218,7 +218,7 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2, print_data
 
     # Calculate the average_gain_ges with a linear combination of the average_gain_ges and the predicted_gain_ges
     if average_gain_ges and predicted_gain_ges:
-        average_gain_ges = average_gain_ges * 0.9 + predicted_gain_ges * 0.1
+        average_gain_ges = average_gain_ges * 0.95 + predicted_gain_ges * 0.05
     elif predicted_gain_ges:
         average_gain_ges = predicted_gain_ges
 
@@ -331,8 +331,10 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2, print_data
             boxplot_data['Sector'] = financier_gains_sector
 
         # Create the boxplots
-        axis[0, 0].boxplot(boxplot_data.values(), labels=boxplot_data.keys())
-        axis[0, 0].set_title("Boxplot des gains financiers")
+        if len(boxplot_data) > 0:
+            axis[0, 0].boxplot(boxplot_data.values(),
+                               labels=boxplot_data.keys())
+            axis[0, 0].set_title("Boxplot des gains financiers")
 
         # Add the average line
         if average_gain_financier:
@@ -351,8 +353,10 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2, print_data
             boxplot_data['Sector'] = normalized_energie_gains_sector
 
         # Create the boxplots
-        axis[0, 1].boxplot(boxplot_data.values(), labels=boxplot_data.keys())
-        axis[0, 1].set_title("Boxplot des gains énergétiques")
+        if len(boxplot_data) > 0:
+            axis[0, 1].boxplot(boxplot_data.values(),
+                               labels=boxplot_data.keys())
+            axis[0, 1].set_title("Boxplot des gains énergétiques")
 
         # Add the average line
         if average_gain_energie:
@@ -371,8 +375,10 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2, print_data
             boxplot_data['Sector'] = ges_gains_sector
 
         # Create the boxplots
-        axis[1, 0].boxplot(boxplot_data.values(), labels=boxplot_data.keys())
-        axis[1, 0].set_title("Boxplot des gains GES")
+        if len(boxplot_data) > 0:
+            axis[1, 0].boxplot(boxplot_data.values(),
+                               labels=boxplot_data.keys())
+            axis[1, 0].set_title("Boxplot des gains GES")
 
         # Add the average line
         if average_gain_ges:
