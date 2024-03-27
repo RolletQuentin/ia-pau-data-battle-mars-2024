@@ -167,7 +167,7 @@ def get_data_solution(code_solution,code_sector,code_langue):
     data = DataSolution(
         numSolution=code_solution,
         estimPerso=EstimPerso(
-            estimPersoCout=cout_rex_service.predict_cout_solution(code_solution,code_sector), 
+            estimPersoCout=cout_rex_service.predict_cout_solution(code_solution,code_sector,code_langue), 
             estimPersoGain=gain_rex_service.predict_gain_solution(code_solution,code_sector,code_langue)
         ), 
         estimGen=EstimGen(
