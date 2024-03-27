@@ -44,7 +44,7 @@ const Home = () => {
   });
 
   // content customisation variable
-  const backgroundImageSrc = "/wallpaper/forest.jpg";
+  const backgroundImageSrc = "/wallpaper/forest.webp";
   const topTextList = [t("topTextList.title"), t("topTextList.text1")];
 
   // css customisation variable
