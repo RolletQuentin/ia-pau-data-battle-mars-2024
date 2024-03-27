@@ -1,0 +1,69 @@
+{
+    "sectors": {
+      "Agriculture & Bois": [
+        "Bois",
+        "Culture",
+        "Elevage",
+        "Matériel agricole",
+        "Séchage",
+        "Serres"
+      ],
+      "Agro-alimentaire": [
+        "Boissons",
+        "Corps gras",
+        "Fruits et légumes",
+        "Lait",
+        "Produits de la mer",
+        "Transformation d'aliments",
+        "Travail du grain",
+        "Viandes"
+      ],
+      "Chimie": [
+        "Pétrochimie",
+        "Pharmacie"
+      ],
+      "Industrie lourde": [
+        "Aluminium",
+        "Charbon",
+        "Chaux",
+        "Ciment",
+        "Hydrocarbures (oil & gas)",
+        "Mines et carrières",
+        "Non ferreux",
+        "Raffinage",
+        "Sidérurgie",
+        "Tuiles et briques",
+        "Verre"
+      ],
+      "Industrie": [
+        "Aéronautique",
+        "Automobile",
+        "Caoutchouc",
+        "Céramique",
+        "Electronique",
+        "Equipements",
+        "Mécanique et fonderie",
+        "Papiers/cartons",
+        "Plasturgie",
+        "Textile"
+      ],
+      "Utilities": [
+        "Bâtiment et Travaux Publics",
+        "Déchets",
+        "Eau potable, assainissement",
+        "Logistique",
+        "Production d'énergie"
+      ],
+      "Tertiaire et bâtiment": [
+        "Bureaux",
+        "Collectivités",
+        "Datacenter",
+        "Enseignement",
+        "Grandes et Moy. Surfaces",
+        "Hôtel - Restaurant",
+        "Résidentiel",
+        "Santé",
+        "Thermalisme"
+      ]
+    }
+  }
