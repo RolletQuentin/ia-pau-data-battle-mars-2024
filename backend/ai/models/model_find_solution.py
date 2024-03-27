@@ -136,8 +136,7 @@ def genere_embedding(data, output_file, quantize=False, precision="binary"):
     with open(output_file_path, "wb") as fOut:
         pickle.dump(df_embeddings, fOut, protocol=pickle.HIGHEST_PROTOCOL)
 
-
-def find_solution(text_to_compare, embeddings_file, quantize=False, precision="binary"):
+def find_solution(text_to_compare, embeddings_file, min_sol=10, seuil=0.80, quantize=False, precision="binary"):
     # Calculer l'embedding moyen du texte à comparer
     embedding_to_compare = calculate_average_embedding(text_to_compare, quantize, precision)
     # Charger les embeddings à partir du fichier
@@ -155,8 +154,16 @@ def find_solution(text_to_compare, embeddings_file, quantize=False, precision="b
     df_embeddings['similarity'] = list_similarities
     # Trier par similarité décroissante
     df_sorted = df_embeddings.sort_values(by='similarity', ascending=False)
-    # Récupérer les id_solution et les similarités
-    solution_info = df_sorted[['id_solution', 'similarity']].head(10)
+    # Récupérer les id_solution et les similarités des 10 premières lignes
+    solution_info = df_sorted[['id_solution', 'similarity']].head(min_sol)
+    # Mettre toutes les autres solutions dans reste_info
+    reste_info = df_sorted[['id_solution', 'similarity']].iloc[min_sol:]
+    # Filtrer les lignes de reste_info où la similarité est supérieure au seuil
+    nouvelles_solutions = reste_info[reste_info['similarity'] > seuil]
+    # Ajouter ces nouvelles solutions à solution_info
+    solution_info = pd.concat([solution_info, nouvelles_solutions])
+    # Réinitialiser les index pour éviter les problèmes d'indexation
+    solution_info = solution_info.reset_index(drop=True)
     # Convertir en liste de tuples (id_solution, similarity)
     solution_list = list(zip(solution_info['id_solution'], solution_info['similarity']))
     return solution_list
@@ -209,14 +216,13 @@ if __name__ == "__main__":
     # Construction du chemin d'accès au fichier relatif à l'emplacement du script
     csv_file_path = os.path.join(script_dir, csv_file)
 
-
     # Lire le fichier CSV
     df_testset = pd.read_csv(csv_file_path)
 
     def test_accuracy(dataset=df_testset, top_n=1) :
         accuracy = 0
         for i in range(1,len(dataset)):
-            predictions = model_find_solution("", dataset['Description'][i])
+            predictions = model_find_solution(dataset['Description'][i], "")
             if (dataset["id_solution"][i] in predictions[:top_n]):
                 accuracy += 1/len(dataset)
             else :
