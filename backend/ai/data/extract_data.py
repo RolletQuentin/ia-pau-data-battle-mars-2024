@@ -73,7 +73,8 @@ def getSolutions():
 
     query = """
         SELECT 
-            codeappelobjet AS codeTechno, 
+            codeappelobjet AS codeTechno,
+            indexdictionnaire AS categorie,
             traductiondictionnaire AS content
         FROM 
             mydatabase.tbldictionnaire 
@@ -100,7 +101,7 @@ def getSolutions():
 
     techno_dict = {}
     for row in technos:
-        key = (row["codeTechno"])
+        key = (row["codeTechno"], row['categorie'])
         value = {'codeTechno': row['codeTechno'], 'content': row['content']}
         techno_dict[key] = value
 
@@ -110,8 +111,9 @@ def getSolutions():
         if sol['categorie'] == 1 :
             if sol['codeTechno'] and sol['codeTechno'] != 1:
                 for i in [1,2]:
-                    content = clean(techno_dict.get(sol['codeTechno'])['content'])
-                    csv_data.append([sol['codeSolution'], i+20, clean(content)])
+                    if techno_dict.get((sol['codeTechno'], i)):
+                        content = clean(techno_dict.get((sol['codeTechno'], i))['content'])
+                        csv_data.append([sol['codeSolution'], i+20, clean(content)])
 
             if sol['codeParent']:
                 for i in [1,2,5,6,9,10,11,12]:
