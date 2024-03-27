@@ -54,7 +54,7 @@ def get_data_solution(code_solution, code_langue):
 
 
 def get_codes_solution(code_solution):
-       # Create cursor object
+    # Create cursor object
     cursor = mydb.cursor(dictionary=True)
     query = f"""
         SELECT 
@@ -77,4 +77,4 @@ def get_codes_solution(code_solution):
     cursor.execute(query,(code_solution,))
     results = cursor.fetchall()
     cursor.close()
-    return results[0] 
+    return results[0]

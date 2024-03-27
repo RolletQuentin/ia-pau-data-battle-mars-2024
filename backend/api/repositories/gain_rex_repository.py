@@ -137,20 +137,22 @@ def get_all_for_one_secteur_ges(code_secteur, code_langue=2):
 
 
 def get_text(code,code_langue):
-    cursor = mydb.cursor()
+    if code :
+        cursor = mydb.cursor()
 
-    query = f"""
-        SELECT 
-            traductiondictionnaire
-        FROM 
-            tbldictionnaire
-        where
-            codelangue = %s and 
-            typedictionnaire = 'rexgain' and
-            codeappelobjet = %s;
-        """
-    cursor.execute(query, (code_langue, code)) 
-    results = cursor.fetchall()
-    cursor.close()
-    
-    return results[0][0] if results else None
+        query = f"""
+            SELECT 
+                traductiondictionnaire
+            FROM 
+                tbldictionnaire
+            where
+                codelangue = %s and 
+                typedictionnaire = 'rexgain' and
+                codeappelobjet = %s;
+            """
+        cursor.execute(query, (code_langue, code)) 
+        results = cursor.fetchall()
+        cursor.close()
+        
+        return results[0][0] if results else None
+    return None

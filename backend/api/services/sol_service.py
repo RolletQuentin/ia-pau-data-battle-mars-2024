@@ -269,7 +269,6 @@ def get_data_solution(code_solution, code_sector, code_langue):
                     )
                 )
             )
-
     for rex in rexs:
         if ((rex["codesecteur"] != code_sector) and (rex["codesecteur"] is not None)):
             list_rex.append(
@@ -280,7 +279,7 @@ def get_data_solution(code_solution, code_sector, code_langue):
                     pays=pays_repository.get_pays_from_coderegion(
                         rex["coderegion"], code_langue),
                     date=rex["datereference"],
-                    cout=CoutRex(
+                     cout=CoutRex(
                         code_rex=rex["coderex"],
                         num=rex["numcoutrex"],
                         code_solution=code_solution,
@@ -314,7 +313,7 @@ def get_data_solution(code_solution, code_sector, code_langue):
                         nom_periode_energie=rex["nomperiodeenergie"],
                         code_secteur=rex["codesecteur"]
 
-                    )
+                     )
                 )
             )
 

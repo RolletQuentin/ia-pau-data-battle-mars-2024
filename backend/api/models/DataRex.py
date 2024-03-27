@@ -5,7 +5,7 @@ from api.models.CoutRex import CoutRex
 
 class DataRex(BaseModel):
     numRex :  int 
-    sector : str 
+    sector : str | None = None
     pays : str | None = None 
     date : str | None = None 
     cout : CoutRex 
