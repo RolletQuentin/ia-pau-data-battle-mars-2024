@@ -15,10 +15,15 @@
   --correct: #0f0;
   --orange: #df9927;
 
+  --disable: #aaa;
+
   --pastel1: #47cdac;
   --pastel2: #e85050;
   --pastel3: #e8bd50;
   --pastel4: #829a94;
+
+  --dark-primary-pastel: #a4bea5;
+  --primary-pastel: #b7cab8;
 }
 
 body {

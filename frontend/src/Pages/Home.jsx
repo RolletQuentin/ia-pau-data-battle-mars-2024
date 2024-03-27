@@ -14,7 +14,11 @@ import { Opacity } from "@liro_u/react-animation-components";
 import CustomButton from "../Components/input/CustomButton";
 import SolutionDetails from "../Components/SolutionDetails";
 
+import { useTranslation } from "react-i18next";
+import LanguageSelector from "../Components/LanguageSelector";
+
 const Home = () => {
+  const { t } = useTranslation();
   const [pageState, setPageState] = useState(0);
   const [previousPageState, setPreviousPageState] = useState(-1);
   const [solutions, setSolutions] = useState([]);
@@ -41,19 +45,16 @@ const Home = () => {
 
   // content customisation variable
   const backgroundImageSrc = "/wallpaper/forest.jpg";
-  const topTextList = [
-    "Réduisez vos émissions de CO2 et faites des économies !",
-    "Nous avons les solutions faites sur-mesure pour vous !",
-  ];
+  const topTextList = [t("topTextList.title"), t("topTextList.text1")];
 
   // css customisation variable
   const backgroundColor = "#ffffff";
-  const backgroundColorAlpha = "73";
-  const backgroundBlur = "blur(20px)";
+  const backgroundColorAlpha = "bb";
+  const backgroundBlur = "blur(5px)";
 
   const titleFontSize = 20;
   const textColor = "var(--dark-primary)";
-  const subSectionFontSize = 15;
+  const subSectionFontSize = 12;
   const titleFontWeight = "bold";
   const componentGap = "20px";
 
@@ -62,7 +63,7 @@ const Home = () => {
 
   const textFontWeight = "bold";
   const textFontSize = "35px";
-  const gap = "70px";
+  const gap = "30px";
 
   // css animation
   const show = `
@@ -109,7 +110,6 @@ const Home = () => {
   };
 
   const findSolutionDetails = (s) => {
-    console.log(s);
     setSolution(s);
     changePageState(3);
   };
@@ -175,7 +175,7 @@ const Home = () => {
                         key={index}
                         fontWeight={textFontWeight}
                         fontSize={textFontSize}
-                        style={{ textShadow: "1px 1px 2px black" }}
+                        style={{ textShadow: "1px 1px 2px #3F6341" }}
                       />
                     );
                   })}
@@ -184,7 +184,7 @@ const Home = () => {
               <CenterContainer>
                 <CustomButton
                   buttonWidth="300px"
-                  text="Découvrir comment"
+                  text={t("buttons.discover_how")}
                   fontSize={20}
                   verticalMargin={25}
                   buttonColor="var(--dark-primary2)"
@@ -219,11 +219,22 @@ const Home = () => {
                   subSectionFontSize={subSectionFontSize}
                   titleFontWeight={titleFontWeight}
                   gap={componentGap}
+                  section2Text={t("solutionFinder.section2text")}
+                  section1Text={t("solutionFinder.section1text")}
+                  subSection1Text={t("solutionFinder.subSection1text")}
+                  validateButtonText={t("solutionFinder.validateButtonText")}
+                  mainSectionAsSubSection={t(
+                    "solutionFinder.mainSectionAsSubSection"
+                  )}
+                  descriptionTextPlaceholder={t(
+                    "solutionFinder.descriptionTextPlaceholder",
+                    { returnObjects: true }
+                  )}
                 />
               </CenterContainer>
             </VBox>
             <VBox
-              gap={gap}
+              gap={0}
               mainBoxStyle={{
                 position: "absolute",
                 animationName:
@@ -270,11 +281,21 @@ const Home = () => {
                   titleFontWeight={titleFontWeight}
                   gap={componentGap}
                   callBack={findSolutionDetails}
+                  topHeaderText={t("solutionDisplay.topHeaderText")}
+                  HeaderTitles={[
+                    t("solutionDisplay.numberAcronym"),
+                    t("solutionDisplay.title"),
+                    t("solutionDisplay.confidenceLevel"),
+                    t("solutionDisplay.financial"),
+                    t("solutionDisplay.investissement"),
+                    t("solutionDisplay.energy"),
+                    t("solutionDisplay.co2"),
+                  ]}
                 />
               </CenterContainer>
             </VBox>
             <VBox
-              gap={gap}
+              gap={0}
               mainBoxStyle={{
                 position: "absolute",
                 animationName:
@@ -315,6 +336,7 @@ const Home = () => {
                   backgroundColorAlpha={backgroundColorAlpha}
                   backgroundBlur={backgroundBlur}
                   titleFontSize={titleFontSize}
+                  subSectionFontSize={14}
                   textColor={textColor}
                   titleFontWeight={titleFontWeight}
                   gap={componentGap}
@@ -326,6 +348,26 @@ const Home = () => {
         </MarginContainer>
       </TextureRect>
       <Footer />
+      <MarginContainer
+        margin="20px"
+        marginBottom="70px"
+        style={{
+          zIndex: "50",
+          position: "fixed",
+          bottom: "0",
+          right: "0",
+          pointerEvent: "none",
+          opacity: pageState === 0 || pageState === 1 ? 1 : 0,
+          transition: "opacity 0.5s",
+          pointerEvents: pageState === 0 || pageState === 1 ? "" : "none",
+        }}
+      >
+        <LanguageSelector
+          style={{
+            pointerEvent: "all",
+          }}
+        />
+      </MarginContainer>
     </MarginContainer>
   );
 };

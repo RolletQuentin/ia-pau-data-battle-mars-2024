@@ -4,12 +4,15 @@ from api.models.Monnaie import Monnaie
 
 
 def get_short_monnaie(code_monnaie: int):
-    result = monnaie_repository.get_short_monnaie(code_monnaie)
-    return Monnaie(
-        num=result["nummonnaie"],
-        short_monnaie=result["shortmonnaie"],
-        valeur_taux=result["valeurtauxmonnaie"]
-    )
+    if code_monnaie:
+
+        result = monnaie_repository.get_short_monnaie(code_monnaie)
+        return Monnaie(
+            num=result["nummonnaie"],
+            short_monnaie=result["shortmonnaie"],
+            valeur_taux=result["valeurtauxmonnaie"]
+        )
+    return None
 
 
 def convert_to_euro(code_monnaie: int, amount: float):
