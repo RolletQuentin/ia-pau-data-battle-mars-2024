@@ -53,22 +53,23 @@ def get_all_for_one_solution(code_solution):
     return data_with_columns
 
 def get_text(code, code_langue):
-    
-    cursor = mydb.cursor()
+    if code :
+        cursor = mydb.cursor()
 
-    query = """
-        SELECT 
-            traductiondictionnaire
-        FROM 
-            tbldictionnaire
-        WHERE
-            codelangue = %s AND 
-            typedictionnaire = 'rexcout' AND
-            codeappelobjet = %s;
-    """
-    
-    cursor.execute(query, (code_langue, code)) 
-    results = cursor.fetchall()
-    cursor.close()
-    
-    return results[0][0] if results else None
+        query = """
+            SELECT 
+                traductiondictionnaire
+            FROM 
+                tbldictionnaire
+            WHERE
+                codelangue = %s AND 
+                typedictionnaire = 'rexcout' AND
+                codeappelobjet = %s;
+        """
+        
+        cursor.execute(query, (code_langue, code)) 
+        results = cursor.fetchall()
+        cursor.close()
+        
+        return results[0][0] if results else None
+    return None
