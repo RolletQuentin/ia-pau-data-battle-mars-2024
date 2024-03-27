@@ -9,7 +9,6 @@ id_solution,Secteur,Description
 201,,Quels sont les avantages de la réparation des réfractaires d'une chaudière vapeur ?
 230,,Quels sont les avantages d'une horloge astronomique pour la gestion de l'éclairage ?
 234,,Pourquoi devrait-on débrancher les ballasts électroniques inutilisés ?
-249,,Quels sont les avantages d'un moteur à haut rendement ?
 262,,Comment vérifier la présence de traces d'humidité ?
 268,,Comment chauffer efficacement des locaux de grande hauteur ?
 308,,Comment fonctionne le démarrage en cascade des chaudières ?
@@ -20,11 +19,11 @@ id_solution,Secteur,Description
 512,,Comment fonctionne l'arrêt des pompes inutiles ?
 547,,Quels sont les avantages d'une chaudière collective de type basse température ?
 550,,Comment fonctionne la régulation par sonde de température extérieure ?
-554,,Quels sont les avantages d'une chaufferie biomasse ?
+554,,Quels sont les avantages d'une chaufferie biomasse avec contrat maintien du rentement ?
 698,,Comment fonctionne un bloc autonome d'éclairage de sécurité à faible consommation ?
 716,,Comment optimiser la recharge des batteries d'appareils de manutention la nuit ?
 719,,Quel gain pour un variateur de vitesse ?
-724,,Qu'est-ce qu'une HP flottante ?
+724,,C'est quoi la HP flottante ?
 753,,Quelle est la meilleure façon de manipuler les ampoules pour prolonger leur durée de vie ?
 808,,Qu'est-ce qu'une fermeture isolante ?
 820,,Quels sont les avantages d'une pompe à chaleur à absorption ?
@@ -35,7 +34,7 @@ id_solution,Secteur,Description
 942,,Quels sont les avantages du chauffage des moules par induction sur presse à injecter ?
 968,,Comment fonctionne la récupération instantanée de chaleur sur les eaux grises pour la production d'ECS ?
 979,,Quels sont les avantages du récupérateur de chaleur à condensation pour serres horticoles ?
-1051,,Quels sont les avantages de la fermeture des faux plafonds ?
+1051,,Comment diminuer le volume d'air conditionné ?
 1077,,Qu'est-ce que la micro-cogénération ?
 1082,,Comment fonctionne une chaudière d'appoint à la chaudière biomasse ?
 1083,,Quels sont les avantages du transport de la chaleur thermique via un réseau de chaleur ?
@@ -47,7 +46,6 @@ id_solution,Secteur,Description
 1506,,Quels sont les avantages d'une presse à injecter hybride par rapport à une presse hydraulique ?
 1602,,Quels sont les avantages d'une éolienne offshore flottante par rapport à une éolienne en mer posée ?
 1632,,Comment fonctionnent les panneaux solaires thermiques ?
-1636,,Quels sont les avantages du CESCAI ?
 1639,,Comment fonctionne la variation électronique de vitesse sur un réseau de chaleur ?
 1670,,Quels sont les avantages de l'optimisation du stockage des déchets ?
 1674,,Quels sont les bénéfices de la séparation des déchets ?
