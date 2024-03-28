@@ -139,7 +139,7 @@ const SolutionDetails = ({
           >
             <VBox
               mainBoxStyle={{ height: "100%" }}
-              customWraperStyles={[{}, { overflow: "hidden", flexGrow: 1 }]}
+              customWraperStyles={[{}, { overflow: "hidden" }]}
             >
               <ColorRect
                 backgroundColor={backgroundColor}
@@ -249,8 +249,10 @@ const SolutionDetails = ({
                 <div style={{ overflow: "hidden", height: "100%" }}>
                   <div
                     style={{
-                      height: "100%",
+                      height: "fit-content",
+                      maxHeight: "100%",
                       overflowY: "scroll",
+                      overflowX: "hidden",
                       marginRight: "-20px", // Adjust for scrollbar width
                     }}
                     onScroll={handleChildScroll}

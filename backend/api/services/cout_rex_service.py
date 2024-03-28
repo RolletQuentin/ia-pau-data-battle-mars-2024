@@ -52,6 +52,9 @@ def predict_cout_solution(code_solution, code_secteur):
     Args:
         code_solution (int): The code of the solution
     """
+    int(code_solution)
+    int(code_secteur)
+
     # Get all the couts for the given solution
     couts_solutions = get_all_for_one_solution(code_solution)
 
