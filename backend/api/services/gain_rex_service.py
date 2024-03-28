@@ -1,16 +1,12 @@
-#import matplotlib
+import matplotlib
 from api.services import energie_service
 from api.services import monnaie_service
 from api.repositories import gain_rex_repository
 from api.models.AverageGain import AverageGain
 from api.models.GainRex import GainRex
 from api.dependencies import weighted_mean
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from collections import Counter
-import pprint
-
-#pp = pprint.PrettyPrinter(indent=4)
-#matplotlib.use('TkAgg')
 
 
 def get_all_for_one_rex(code_rex, code_langue=2):
@@ -314,79 +310,81 @@ def predict_gain_solution(code_solution, code_secteur, code_langue=2, print_data
     # Plot the gains on a same frame
     ############################################################################
 
-    # if print_data:
+    if print_data:
 
-    #     # Begin the figure
-    #     figure, axis = plt.subplots(2, 2)
+        matplotlib.use('TkAgg')
 
-    #     ###############
-    #     # fiancier_gain
-    #     ###############
+        # Begin the figure
+        figure, axis = plt.subplots(2, 2)
 
-    #     # Prepare the data for the boxplots
-    #     boxplot_data = {}
-    #     if financier_gains_solution:
-    #         boxplot_data['Solution'] = financier_gains_solution
-    #     if financier_gains_sector:
-    #         boxplot_data['Sector'] = financier_gains_sector
+        ###############
+        # fiancier_gain
+        ###############
 
-    #     # Create the boxplots
-    #     if len(boxplot_data) > 0:
-    #         axis[0, 0].boxplot(boxplot_data.values(),
-    #                            labels=boxplot_data.keys())
-    #         axis[0, 0].set_title("Boxplot des gains financiers")
+        # Prepare the data for the boxplots
+        boxplot_data = {}
+        if financier_gains_solution:
+            boxplot_data['Solution'] = financier_gains_solution
+        if financier_gains_sector:
+            boxplot_data['Sector'] = financier_gains_sector
 
-    #     # Add the average line
-    #     if average_gain_financier:
-    #         axis[0, 0].axhline(y=average_gain_financier,
-    #                            color='r', linestyle='--')
+        # Create the boxplots
+        if len(boxplot_data) > 0:
+            axis[0, 0].boxplot(boxplot_data.values(),
+                               labels=boxplot_data.keys())
+            axis[0, 0].set_title("Boxplot des gains financiers")
 
-    #     ###############
-    #     # energie_gain
-    #     ###############
+        # Add the average line
+        if average_gain_financier:
+            axis[0, 0].axhline(y=average_gain_financier,
+                               color='r', linestyle='--')
 
-    #     # Prepare the data for the boxplots
-    #     boxplot_data = {}
-    #     if normalized_energie_gains_solution:
-    #         boxplot_data['Solution'] = normalized_energie_gains_solution
-    #     if normalized_energie_gains_sector:
-    #         boxplot_data['Sector'] = normalized_energie_gains_sector
+        ###############
+        # energie_gain
+        ###############
 
-    #     # Create the boxplots
-    #     if len(boxplot_data) > 0:
-    #         axis[0, 1].boxplot(boxplot_data.values(),
-    #                            labels=boxplot_data.keys())
-    #         axis[0, 1].set_title("Boxplot des gains énergétiques")
+        # Prepare the data for the boxplots
+        boxplot_data = {}
+        if normalized_energie_gains_solution:
+            boxplot_data['Solution'] = normalized_energie_gains_solution
+        if normalized_energie_gains_sector:
+            boxplot_data['Sector'] = normalized_energie_gains_sector
 
-    #     # Add the average line
-    #     if average_gain_energie:
-    #         axis[0, 1].axhline(y=average_gain_energie,
-    #                            color='r', linestyle='--')
+        # Create the boxplots
+        if len(boxplot_data) > 0:
+            axis[0, 1].boxplot(boxplot_data.values(),
+                               labels=boxplot_data.keys())
+            axis[0, 1].set_title("Boxplot des gains énergétiques")
 
-    #     ###############
-    #     # ges_gain
-    #     ###############
+        # Add the average line
+        if average_gain_energie:
+            axis[0, 1].axhline(y=average_gain_energie,
+                               color='r', linestyle='--')
 
-    #     # Prepare the data for the boxplots
-    #     boxplot_data = {}
-    #     if ges_gains_solution:
-    #         boxplot_data['Solution'] = ges_gains_solution
-    #     if ges_gains_sector:
-    #         boxplot_data['Sector'] = ges_gains_sector
+        ###############
+        # ges_gain
+        ###############
 
-    #     # Create the boxplots
-    #     if len(boxplot_data) > 0:
-    #         axis[1, 0].boxplot(boxplot_data.values(),
-    #                            labels=boxplot_data.keys())
-    #         axis[1, 0].set_title("Boxplot des gains GES")
+        # Prepare the data for the boxplots
+        boxplot_data = {}
+        if ges_gains_solution:
+            boxplot_data['Solution'] = ges_gains_solution
+        if ges_gains_sector:
+            boxplot_data['Sector'] = ges_gains_sector
 
-    #     # Add the average line
-    #     if average_gain_ges:
-    #         axis[1, 0].axhline(y=average_gain_ges,
-    #                            color='r', linestyle='--')
+        # Create the boxplots
+        if len(boxplot_data) > 0:
+            axis[1, 0].boxplot(boxplot_data.values(),
+                               labels=boxplot_data.keys())
+            axis[1, 0].set_title("Boxplot des gains GES")
 
-    #     # Combine all the operations and display
-    #     plt.show()
+        # Add the average line
+        if average_gain_ges:
+            axis[1, 0].axhline(y=average_gain_ges,
+                               color='r', linestyle='--')
+
+        # Combine all the operations and display
+        plt.show()
 
     ############################################################################
     # Return the average gains
