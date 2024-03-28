@@ -168,7 +168,7 @@ nlp = spacy.load("fr_core_news_sm")
 
 # Fonction appelé par notre utilisateur
 # Langue : 2 = Français, 3 = Anglais et 4 = Espagnol
-def model_find_solution(description, secteur, langage=2, seuil_similarite=0.8, min_sol=5):
+def model_find_solution(description, secteur, langage=2, seuil_similarite=0.90, min_sol=5):
     # Obtention du chemin absolu du répertoire contenant le script
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
