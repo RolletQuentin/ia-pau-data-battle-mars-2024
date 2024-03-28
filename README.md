@@ -7,48 +7,6 @@ cd backend
 venv/bin/uvicorn main:app --reload
 ```
 
-## API
-
-L'API est essentielle dans cette application. C'est elle qui va se connecter à la base de données et seulement elle, cela permet de factoriser le code, que l'on puisse tous bénéficier des données qu'un autre utilise en une seule fois sans avoir à écrire tous notre requête SQL. Cela permet aussi d'uniformiser les données et toujours avoir le même format JSON.
-
-### Lancer l'API en mode développement (1ère fois)
-
-1. Créer un environnement virtuel Python (à faire seulement la première fois):
-
-```shell
-cd backend
-python3 -m venv venv 
-```
-
-2. Activer l'environnement Python :
-```shell
-source venv/bin/activate
-```
-
-3. Installer les dépendances :
-```shell
-pip install -r requirements.txt
-```
-
-4. Installer le modèle spaCy pour le français :
-```shell
-python3 -m spacy download fr_core_news_sm
-```
-
-5. Lancer le serveur Python :
-```shell
-uvicorn main:app --reload
-```
-
-Cela va lancer un serveur Python grâce à Uvicorn sur le port 8000.
-
-### Lancer l'API en mode développement (! seulement si le fichier requirements.txt n'a pas changé !)
-
-```shell
-cd backend
-venv/bin/uvicorn main:app --reload
-```
-
 ## Connexion à la base de données
 
 Pour se connecter à la base de données, nous utilisons un conteneur Docker. Lors du développement, il suffit de run le conteneur Docker de MySQL. Voici comment faire.
@@ -99,6 +57,48 @@ Une fois sur l'application, connectez-vous à la database grâce au credentials 
 - password : mypassword
 
 Il faut ensuite aller dans l'onglet `Structures` et bienvenue sur la base de données !
+
+## API
+
+L'API est essentielle dans cette application. C'est elle qui va se connecter à la base de données et seulement elle, cela permet de factoriser le code, que l'on puisse tous bénéficier des données qu'un autre utilise en une seule fois sans avoir à écrire tous notre requête SQL. Cela permet aussi d'uniformiser les données et toujours avoir le même format JSON.
+
+### Lancer l'API en mode développement (1ère fois)
+
+1. Créer un environnement virtuel Python (à faire seulement la première fois):
+
+```shell
+cd backend
+python3 -m venv venv 
+```
+
+2. Activer l'environnement Python :
+```shell
+source venv/bin/activate
+```
+
+3. Installer les dépendances :
+```shell
+pip install -r requirements.txt
+```
+
+4. Installer le modèle spaCy pour le français :
+```shell
+python3 -m spacy download fr_core_news_sm
+```
+
+5. Lancer le serveur Python :
+```shell
+uvicorn main:app --reload
+```
+
+Cela va lancer un serveur Python grâce à Uvicorn sur le port 8000.
+
+### Lancer l'API en mode développement (! seulement si le fichier requirements.txt n'a pas changé !)
+
+```shell
+cd backend
+venv/bin/uvicorn main:app --reload
+```
 
 ## Frontend
 
