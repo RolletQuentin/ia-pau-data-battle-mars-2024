@@ -30,7 +30,7 @@ async def best_solutions(data: RequestBestSol = Body(...)) -> list[Solution]:
     if not sol_service.check_description(description):
         raise HTTPException(
             status_code=422, detail="Description vide ou taille > 2048 caractere")
-    solutions = model_find_solution(description, secteur_activite)
+    solutions = model_find_solution(description, secteur_activite,code_langue)
     data = sol_service.get_multiple_solution(solutions, secteur_activite, code_langue)
     return data
 
