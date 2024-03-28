@@ -1,11 +1,11 @@
 {
-    "best_accuracy": 0.6875,
+    "best_accuracy": 0.75,
     "best_weights": {
-        "Titre": 2,
-        "Description": 1.9,
-        "Application": 1.9,
-        "Bilan \u00e9nerg\u00e9tique": 1.7,
-        "Titre technologie": 0.7,
+        "Titre": 1.7,
+        "Description": 2,
+        "Application": 1.5,
+        "Bilan \u00e9nerg\u00e9tique": 0.5,
+        "Titre technologie": 1.9,
         "Description technologie": 1.5
     }
 }

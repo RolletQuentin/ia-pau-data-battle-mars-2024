@@ -9,20 +9,111 @@ from sentence_transformers import SentenceTransformer, util
 from sentence_transformers.quantization import quantize_embeddings
 import numpy as np
 import os
+import copy
 
 
+def load_and_merge_data(csv_file='../data/solutions.csv'):
+    # Obtention du chemin absolu du répertoire contenant le script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Construction du chemin d'accès au fichier relatif à l'emplacement du script
+    csv_file_path = os.path.join(script_dir, csv_file)
+    dictionnaire_solution = {1: "Titre", 2: "Description", 5: "Application", 6: "Bilan énergétique", 21: "Titre technologie", 22: "Description technologie"}
+    # Charger le fichier CSV en spécifiant le séparateur '|'
+    df = pd.read_csv(csv_file_path, sep='|', header=None)
+    # Initialiser une liste pour stocker les données de chaque solution
+    solutions_data = []
+    # Parcourir chaque ligne du DataFrame
+    for index, row in df.iterrows():
+        id_sol = row[0]
+        section = row[1]
+        texte = row[2]
+        # Vérifier si la section correspond à une clé dans le dictionnaire de solutions
+        if section in dictionnaire_solution:
+            # Récupérer le nom de la section
+            section_name = dictionnaire_solution[section]
+            # Chercher si la solution existe déjà dans la liste
+            solution_exists = False
+            for solution in solutions_data:
+                if solution[0] == id_sol:
+                    solution_exists = True
+                    solution[1][section_name] = texte
+                    break
+            # Si la solution n'existe pas encore, la créer
+            if not solution_exists:
+                new_solution = [id_sol, {section_name: texte}]
+                solutions_data.append(new_solution)
+    return solutions_data
 
+def clean_df_solutions(df_solutions):
+    cleaned_data = []
+    for item in df_solutions:
+        index = item[0]
+        solution = item[1]
+        cleaned_solution = {}
+        for key, value in solution.items():
+            if (key == 'Titre' or key == 'Titre technologie') :
+                # Pour les titres, ne pas enlever les chiffres
+                cleaned_solution[key] = clean_text(str(value), remove_numbers=False)
+            else:
+                # Pour les autres champs, enlever les chiffres
+                cleaned_solution[key] = clean_text(str(value), remove_numbers=True)
+        cleaned_data.append([index, cleaned_solution])
+    return cleaned_data
 
+def clean_text(text, remove_numbers=True):
+    # Nettoyer HTML Tags
+    text = BeautifulSoup(text, 'html.parser').get_text()
+    # Remplacer "&nbsp;." par rien
+    text = re.sub(r'&nbsp;\.', '', text)
+    # Supprimer les "l'"
+    text = re.sub(r"\bl'", '', text)
+    # Accents
+    text = unicodedata.normalize('NFD', text).encode('ascii', 'ignore').decode("utf-8")
+    if remove_numbers:
+        # Retirer les numéros
+        text = re.sub(r'\b\d+\b', '', text)
+    # Supprimer les caractères seuls
+    text = re.sub(r'\b\w\b', '', text)
+    # Tokenization, Lemmatization, Removing Stopwords, Lowercase
+    doc = nlp(text)
+    cleaned_sentences = []
+    for sentence in doc.sents:
+        tokens = [token.lemma_.lower() for token in sentence if not token.is_stop and not token.is_punct and not token.is_space]
+        clean_sentence = ' '.join(tokens)
+        if clean_sentence:
+            cleaned_sentences.append(clean_sentence)  # Ajouter un point à la fin de la phrase propre
+    # Joining the cleaned sentences back into a single string
+    cleaned_text = ' '.join(cleaned_sentences)
+    return cleaned_text
 
+def encoder_embeddings(data, model, output_file):
+    # Obtention du chemin absolu du répertoire contenant le script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_file_path = os.path.join(script_dir, output_file)
+    # Faire une copie de data
+    data = copy.deepcopy(data)
+    # Fonction pour encoder chaque texte
+    def encoder_texte(texte):
+        return model.encode(texte)
+    # Pour chaque entrée dans les données, encoder tous les champs texte
+    for entry in data:
+        # print("DEBUG : entry = ", entry)
+        for champ, valeur in entry[1].items():
+            # print("DEBUG : champ =", champ, ", valeur = ", valeur)
+            if isinstance(valeur, str):  # S'assurer que la valeur est une chaîne de caractères
+                # Calculer l'embedding
+                embedding = encoder_texte(valeur)
+                # Remplacer le texte par l'embedding
+                entry[1][champ] = embedding.tolist()
+    # Sauvegarder les embeddings dans un fichier
+    with open(output_file_path, 'wb') as file:
+        pickle.dump(data, file)
+    return data
 
-def calculate_average_embedding(text, quantize=False, precision="binary"):
+def calculate_average_embedding(text, model):
     # Diviser le texte en phrases
     sentences = [sentence.strip() for sentence in text.split('.') if sentence.strip()]
-    # Calculer l'embedding de chaque phrase
-    if quantize :
-        sentence_embeddings = model.encode(sentences, precision=precision)
-    else :
-        sentence_embeddings = model.encode(sentences)
+    sentence_embeddings = model.encode(sentences)
     # Prendre la moyenne des embeddings des phrases
     if len(sentence_embeddings) > 0:
         average_embedding = np.mean(sentence_embeddings, axis=0)
@@ -30,187 +121,106 @@ def calculate_average_embedding(text, quantize=False, precision="binary"):
         average_embedding = np.zeros(model.get_sentence_embedding_dimension())
     return average_embedding
 
-def pre_processing(texte):
-    # Nettoyer HTML Tags
-    texte = BeautifulSoup(texte, 'html.parser').get_text()
-    # Remplacer "&nbsp;." par rien
-    texte = re.sub(r'&nbsp;\.', '', texte)
-    # Accents
-    texte = unicodedata.normalize('NFD', texte).encode('ascii', 'ignore').decode("utf-8")
-    # Retirer les numéros
-    texte = re.sub(r'\b\d+\b', '', texte)
-    # Tokenization, Lemmatization, Removing Stopwords, Lowercase
-    doc = nlp(texte)
-    phrases_propres = []
-    for phrase in doc.sents:
-        tokens = [token.lemma_.lower() for token in phrase if not token.is_stop and not token.is_punct and not token.is_space]
-        phrase_propre = ' '.join(tokens)
-        if phrase_propre:
-            phrases_propres.append(phrase_propre + ".")  # Ajouter un point à la fin de la phrase propre
-    # Joining the cleaned sentences back into a single string
-    cleaned_text = ' '.join(phrases_propres)
-    return cleaned_text
+def encoder_embeddings_moyenne_sentences(data, model, output_file):
+    # Faire une copie de data
+    data = copy.deepcopy(data)
+    # Pour chaque entrée dans les données, encoder tous les champs texte
+    for entry in data:
+        # print("DEBUG : entry = ", entry)
+        for champ, valeur in entry[1].items():
+            # print("DEBUG : champ =", champ, ", valeur = ", valeur)
+            if isinstance(valeur, str):  # S'assurer que la valeur est une chaîne de caractères
+                # Calculer l'embedding en faisant la moyenne de l'embedding de chaque phrase.
+                embedding = calculate_average_embedding(valeur, model)
+                # Remplacer le texte par l'embedding
+                entry[1][champ] = embedding.tolist()
+    # Sauvegarder les embeddings dans un fichier
+    with open(output_file, 'wb') as file:
+        pickle.dump(data, file)
+    return data
 
-
-def pre_processing_sections(sections):
-    clean_sections = []
-    for texte in sections :
-        # Nettoyer HTML Tags
-        texte = BeautifulSoup(texte, 'html.parser').get_text()
-        # Remplacer "&nbsp;." par rien
-        texte = re.sub(r'&nbsp;\.', '', texte)
-        # Accents
-        texte = unicodedata.normalize('NFD', texte).encode('ascii', 'ignore').decode("utf-8")
-        # Retirer les numéros
-        texte = re.sub(r'\b\d+\b', '', texte)
-        # Tokenization, Lemmatization, Removing Stopwords, Lowercase
-        doc = nlp(texte)
-        phrases_propres = []
-        for phrase in doc.sents:
-            tokens = [token.lemma_.lower() for token in phrase if not token.is_stop and not token.is_punct and not token.is_space]
-            phrase_propre = ' '.join(tokens)
-            if phrase_propre:
-                phrases_propres.append(phrase_propre + "")
-        # Joining the cleaned sentences back into a single string
-        cleaned_text = ' '.join(phrases_propres)
-        clean_sections.append(cleaned_text)
-    return clean_sections
-
-
-
-
-def load_and_merge_data(csv_file = '../data/solutions.csv'):
-    # Obtention du chemin absolu du répertoire contenant le script
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    # Construction du chemin d'accès au fichier relatif à l'emplacement du script
-    csv_file_path = os.path.join(script_dir, csv_file)
-    # Charger le fichier CSV en spécifiant le séparateur '|'
-    df = pd.read_csv(csv_file_path, sep='|', header=None)
-    # Renommer les colonnes
-    df.columns = ['id_solution', 'categorie', 'texte']
-    # Filtrer les lignes pour les catégories spécifiées
-    categories_specifiees = [1, 2, 5, 6]
-    df_filtre = df[df['categorie'].isin(categories_specifiees)]
-    # Pivoter les données pour obtenir les colonnes 'titre', 'definition', 'application' et 'bilan énergie'
-    df_pivot = df_filtre.pivot(index='id_solution', columns='categorie', values='texte').reset_index()
-    # Renommer les colonnes
-    df_pivot.columns = ['id_solution', 'titre', 'definition', 'application', 'bilan_energie']
-    # Gérer les valeurs NaN lors de la fusion des colonnes
-    def combine_text(row):
-        text_parts = [row[col] for col in colonnes if pd.notnull(row[col])]
-        return text_parts
-    # Sélectionner uniquement les colonnes 'id_solution' et les champs requis
-    colonnes = ['titre', 'definition', 'application', 'bilan_energie']
-    df_pivot['champs'] = df_pivot.apply(combine_text, axis=1)
-    df_final = df_pivot[['id_solution', 'champs']]
-    # Convertir en liste de listes pour chaque ligne
-    result = df_final.values.tolist()
-    return result
-
-
-def calculate_section_embedding(sections):
-    embeddings = []
-    for section in sections :
-        section_average_embedding = calculate_average_embedding(section)
-        embeddings.append(section_average_embedding)
-    return embeddings
-
-
-def genere_embedding(data, output_file, quantize=False, precision="binary"):
-    # Obtention du chemin absolu du répertoire contenant le script
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    output_file_path = os.path.join(script_dir, output_file)
-    # Appliquer la fonction pour calculer l'embedding moyen à chaque texte
-    if quantize:
-        embeddings = data['clean_text'].apply(calculate_section_embedding, quantize=True)
-    else :
-        embeddings = data['clean_text'].apply(calculate_section_embedding)
-    # Créer un nouveau DataFrame avec id_solution et les embeddings
-    new_data = {
-        'id_solution': data['id_solution'],
-        'text_embedding': embeddings # Désormais mes embeddings sont des listes de solutions contenant chacune les vecteurs de toutes les phrases de la solution.
-    }
-    # Créer un DataFrame à partir des nouvelles données
-    df_embeddings = pd.DataFrame(new_data)
-    # Storer les embeddings dans un fichier
-    with open(output_file_path, "wb") as fOut:
-        pickle.dump(df_embeddings, fOut, protocol=pickle.HIGHEST_PROTOCOL)
-
-def find_solution(text_to_compare, embeddings_file, min_sol=10, seuil=0.80, quantize=False, precision="binary"):
-    # Calculer l'embedding moyen du texte à comparer
-    embedding_to_compare = calculate_average_embedding(text_to_compare, quantize, precision)
-    # Charger les embeddings à partir du fichier
-    with open(embeddings_file, "rb") as fIn:
-        df_embeddings = pickle.load(fIn)
-    list_similarities = []
-    # Pour chaque solution
-    for solution in df_embeddings['text_embedding'].values:
-        embeddings_array = np.stack(solution)
-        # Calculer la similarité cosinus entre l'embedding à comparer et les embeddings dans df_embeddings
-        similarities = util.pytorch_cos_sim(embedding_to_compare.reshape(1, -1).astype(np.float64), embeddings_array.astype(np.float64))
-        max_value, _ = similarities.max(dim=1)
-        list_similarities.append(max_value)
-    # Ajouter les similarités au DataFrame df_embeddings
-    df_embeddings['similarity'] = list_similarities
-    # Trier par similarité décroissante
-    df_sorted = df_embeddings.sort_values(by='similarity', ascending=False)
-    # Récupérer les id_solution et les similarités des 10 premières lignes
-    solution_info = df_sorted[['id_solution', 'similarity']].head(min_sol)
-    # Mettre toutes les autres solutions dans reste_info
-    reste_info = df_sorted[['id_solution', 'similarity']].iloc[min_sol:]
-    # Filtrer les lignes de reste_info où la similarité est supérieure au seuil
-    nouvelles_solutions = reste_info[reste_info['similarity'] > seuil]
-    # Ajouter ces nouvelles solutions à solution_info
-    solution_info = pd.concat([solution_info, nouvelles_solutions])
-    # Réinitialiser les index pour éviter les problèmes d'indexation
-    solution_info = solution_info.reset_index(drop=True)
-    # Convertir en liste de tuples (id_solution, similarity)
-    solution_list = list(zip(solution_info['id_solution'], solution_info['similarity']))
-    return solution_list
-
-
-# Charger le modèle spaCy pour le français
+# # --------------------------------- GENERER L EMBEDDING ----------------------------------------------------
+# # Charger le modèle de langue SpaCy
 nlp = spacy.load("fr_core_news_sm")
-# Charger le modèle
-model = SentenceTransformer("paraphrase-multilingual-mpnet-base-v2")
+# # Appel de la fonction pour obtenir les données
+# df_solutions = load_and_merge_data()
+# df_solutions_clean = clean_df_solutions(df_solutions)
+# path_embedding_file = "embeddings/FR_camembert_large_avec_moyenne_phrases.pkl"
+# solutions_embeddings = encoder_embeddings_moyenne_sentences(df_solutions_clean, model, path_embedding_file)
+# # ----------------------------------------------------------------------------------------------------------
+
+
+## ---------------------------------- INFERENCE --------------------------------------------------------------
 
 # Fonction appelé par notre utilisateur
-def model_find_solution(description, secteur) :
+# Langue : 2 = Français, 3 = Anglais et 4 = Espagnol
+def model_find_solution(description, secteur, langage=2, seuil_similarite=0.8, min_sol=5) :
+    # Obtention du chemin absolu du répertoire contenant le script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Si le langage est FR on prend camembert, sinon on prend l'mpnet-base-v2
+    if (langage == 2) :
+        # Charger le modèle
+        model = SentenceTransformer("dangvantuan/sentence-camembert-large")
+        # Définition du nom du fichier d'embeddings
+        embeddings_file = "FR_camembert_large_avec_moyenne_phrases.pkl"
+        weights = {"Titre":1.7, "Description":2, "Application":0.7, "Bilan énergétique":1.7, "Titre technologie":0.7, "Description technologie":2}
+    else :
+        # Charger le modèle
+        model = SentenceTransformer("paraphrase-multilingual-mpnet-base-v2")
+        embeddings_file = "model_final_magb_sans_somme_sentences.pkl"
+        weights = {"Titre":1, "Description":1, "Application":1, "Bilan énergétique":1, "Titre technologie":1, "Description technologie":1}
+
+
+    # Construction du chemin d'accès au fichier relatif à l'emplacement du script
+    embeddings_file_path = os.path.join(script_dir, embeddings_file)
+
     # !!!!!!!!!!!! ICI ON A CHOISI DE NE PAS INCLURE LE SECTEUR DANS NOTRE MODELE, COMMENTER LA LIGNE CI-DESOSUS POUR CHANGER CELA --------------
     secteur = ""
     # -------------------------
-
-    # Obtention du chemin absolu du répertoire contenant le script
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    # Définition du nom du fichier d'embeddings
-    embeddings_file = "Architecture-3_paraphrase-multilingual-mpnet-base-v2_embeddings.pkl"
-    # Construction du chemin d'accès au fichier relatif à l'emplacement du script
-    embeddings_file_path = os.path.join(script_dir, embeddings_file)
-    # Vérifier si le fichier d'embeddings existe
-    if not os.path.exists(embeddings_file_path):
-        print("Le fichier d'embeddings n'existe pas. Génération des embeddings en cours...")
-        df_solutions = load_and_merge_data()
-        # Convertir la liste de listes en DataFrame pandas
-        df_solutions = pd.DataFrame(df_solutions, columns=['id_solution', 'text'])
-        # Appliquer le traitement à la colonne "text" de notre df_solutions
-        df_solutions['clean_text'] = df_solutions['text'].apply(pre_processing_sections)
-        # Générer les embeddings et les sauvegarder dans le fichier
-        genere_embedding(df_solutions, embeddings_file_path)
-        print("Les embeddings ont été générés et sauvegardés avec succès.")
     # On commence par concaténer notre secteur et notre description.
-    text = secteur + ". " + description
+    requete = secteur + ". " + description
     # Ensuite on applique notre pré-processing
-    clean_text = pre_processing(text)
-    # Ensuite on cherche nos similarités 
-    solutions = find_solution(clean_text, embeddings_file_path)
-    # On return une liste contenant uniquement le numéros des solutions
-    id_solutions = []
-    for solution in solutions :
-        id_solutions.append(solution[0])
-    return id_solutions
+    clean_requete = clean_text(requete, remove_numbers=False)
+    clean_requete_vecteur =  model.encode(clean_requete)
+    # On va lire notre fichier d'embeddings 
+    with open(embeddings_file_path, "rb") as fIn:
+        solutions_embeddings = pickle.load(fIn)
+    solutions_similarities = []
+    # Maintenant pour chaque solution on va garder notre meilleur similarité cosinus avec notre requete. De plus nous ajouton un poids à chaque champs de notre solution,
+    # Description * 1.3, Titre * 0.7, et 1 pour tous les autres.
+    # On se retrouve donc avec une liste [[id_sol, max_similarité], ...]
+    # Pour chaque entrée dans les données, encoder tous les champs texte
+    for entry in solutions_embeddings:
+        max_similarity = 0
+        id_solution = entry[0]
+        for champ, valeur_vecteur in entry[1].items():
+            # Coeficient multiplicateur 
+            weight = weights[champ]
+            # On calcul la similarité
+            similarity = util.pytorch_cos_sim(valeur_vecteur, clean_requete_vecteur)*weight
+            # On met à jour le max de similarité
+            if similarity > max_similarity :
+                max_similarity = similarity
+        solution_similarity = [id_solution, max_similarity]
+        solutions_similarities.append(solution_similarity)
+    #print("DEBUG : ",solutions_similarities)
+    # On trie notre liste de solution par ordre croissant
+    solutions_similarities.sort(key=lambda x: x[1], reverse=True)
+    # On sélectionne les 5 meilleures solutions
+    top_min_sol_solutions = [sol[0] for sol in solutions_similarities[:min_sol]]
+    # On applique le seuil de similarité aux solutions restantes
+    remaining_solutions = [sol[0] for sol in solutions_similarities[min_sol:] if sol[1] > seuil_similarite]
+    # On concatène les deux listes de solutions
+    final_solutions = top_min_sol_solutions + remaining_solutions
+    # On retourne que les solutions et non la similarité
+    return final_solutions
+
 
 if __name__ == "__main__":
-    csv_file = "../studies/data/patrice_test_set.csv"
+    # csv_file = "../studies/data/patrice_test_set.csv"
+    csv_file = "../studies/data/dataset_test_Kerdos.csv"
+    
     # Obtention du chemin absolu du répertoire contenant le script
     script_dir = os.path.dirname(os.path.abspath(__file__))
     # Construction du chemin d'accès au fichier relatif à l'emplacement du script
