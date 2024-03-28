@@ -224,11 +224,9 @@ def model_find_solution(description, secteur, langage=2, seuil_similarite=0.8, m
     # On trie notre liste de solution par ordre croissant
     solutions_similarities.sort(key=lambda x: x[1], reverse=True)
     # On sélectionne les 5 meilleures solutions
-    top_min_sol_solutions = [sol[0]
-                             for sol in solutions_similarities[:min_sol]]
+    top_min_sol_solutions = [sol[0] for sol in solutions_similarities[:min_sol]]
     # On applique le seuil de similarité aux solutions restantes
-    remaining_solutions = [
-        sol[0] for sol in solutions_similarities[min_sol:] if sol[1] > seuil_similarite]
+    remaining_solutions = [sol[0] for sol in solutions_similarities[min_sol:] if sol[1] > seuil_similarite]
     # On concatène les deux listes de solutions
     final_solutions = top_min_sol_solutions + remaining_solutions
     # On retourne que les solutions et non la similarité
