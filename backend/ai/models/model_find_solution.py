@@ -175,7 +175,7 @@ nlp = spacy.load("fr_core_news_sm")
 model = SentenceTransformer("paraphrase-multilingual-mpnet-base-v2")
 
 # Fonction appelé par notre utilisateur
-def model_find_solution(description, secteur) :
+def model_find_solution(description, secteur, langage) :
     # !!!!!!!!!!!! ICI ON A CHOISI DE NE PAS INCLURE LE SECTEUR DANS NOTRE MODELE, COMMENTER LA LIGNE CI-DESOSUS POUR CHANGER CELA --------------
     secteur = ""
     # -------------------------

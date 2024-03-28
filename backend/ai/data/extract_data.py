@@ -38,7 +38,7 @@ def getSolutions():
     )
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    output_file_path = os.path.join(script_dir, "solutions2.csv")
+    output_file_path = os.path.join(script_dir, "solutions.csv")
 
     cursor = mydb.cursor(dictionary=True)  # Use a dictionary cursor
 
