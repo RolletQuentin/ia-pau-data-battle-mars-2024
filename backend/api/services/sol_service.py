@@ -150,7 +150,6 @@ def check_description(description):
 
 
 def update_data_from_results(data, results, codes):
-    print(codes)
     for result in results:
         content = result["traductiondictionnaire"]
         match result["indexdictionnaire"]:
