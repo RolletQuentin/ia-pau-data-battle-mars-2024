@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from fastapi import HTTPException
 
 from api.repositories import sol_repository
 from api.repositories import sec_repository
@@ -149,6 +150,7 @@ def check_description(description):
 
 
 def update_data_from_results(data, results, codes):
+    print(codes)
     for result in results:
         content = result["traductiondictionnaire"]
         match result["indexdictionnaire"]:
@@ -158,21 +160,42 @@ def update_data_from_results(data, results, codes):
             case 6: data.bilanEnergie = getTabHTML(content)
             case 9:
                 if codes.get("minRDP") is not None and codes.get("maxRDP") is not None:
-                    data.estimGen.cout.pouce = f"{int(codes['minRDP'])} - {int(codes['maxRDP'])} % {cleanHTML(content)}"
+                    if codes.get("minRDP") != 0 and codes.get("maxRDP") != 0:
+                        data.estimGen.cout.pouce = f"{int(codes['minRDP'])} - {int(codes['maxRDP'])} % {cleanHTML(content)}"
+                    elif codes.get("minRDP") != 0:
+                        data.estimGen.cout.pouce = f"min {int(codes['minRDP'])} % {cleanHTML(content)}"
+                    elif codes.get("maxRDP") != 0:
+                        data.estimGen.cout.pouce = f"max {int(codes['maxRDP'])} % {cleanHTML(content)}"
+                    else:
+                        data.estimGen.cout.pouce = f"{cleanHTML(content)}"
+                else :
+                    data.estimGen.cout.pouce = f"{cleanHTML(content)}"
             case 10:
-                for difficulte in content.split('</LI>'):
-                    cleaned_difficulte = cleanHTML(difficulte)
-                    if cleaned_difficulte:
-                        data.estimGen.cout.difficulte.append(
-                            cleaned_difficulte)
+                for split1 in content.split('</li>'):
+                    for difficulte in split1.split('</LI>'):
+                        cleaned_difficulte = cleanHTML(difficulte)
+                        if cleaned_difficulte:
+                            data.estimGen.cout.difficulte.append(
+                                cleaned_difficulte)
             case 11:
                 if codes.get("minGain") is not None and codes.get("maxGain") is not None:
-                    data.estimGen.gain.gain = f"{int(codes['minGain'])} - {int(codes['maxGain'])} % {cleanHTML(content)}"
+                    if codes.get("minGain") != 0 and codes.get("maxGain") != 0:
+                        data.estimGen.gain.gain = f"{int(codes['minGain'])} - {int(codes['maxGain'])} % {cleanHTML(content)}"
+                    elif codes.get("minGain") != 0:
+                        data.estimGen.gain.gain = f"min {int(codes['minGain'])} % {cleanHTML(content)}"
+                    elif codes.get("maxGain") != 0:
+                        data.estimGen.gain.gain = f"max {int(codes['maxGain'])} % {cleanHTML(content)}"
+                    else:
+                        data.estimGen.gain.gain = f"{cleanHTML(content)}"
+                else :
+                    data.estimGen.gain.gain = f"{cleanHTML(content)}"
             case 12:
-                for positif in content.split('</LI>'):
-                    cleaned_positif = cleanHTML(positif)
-                    if cleaned_positif:
-                        data.estimGen.gain.positif.append(cleaned_positif)
+                for split1 in content.split('</li>'):
+                    for positif in split1.split('</LI>'):
+                        cleaned_positif = cleanHTML(positif)
+                        if cleaned_positif:
+                            data.estimGen.gain.positif.append(
+                                cleaned_positif)
 
 
 def get_data_solution(code_solution, code_sector, code_langue):
@@ -203,10 +226,10 @@ def get_data_solution(code_solution, code_sector, code_langue):
         data.technologie = tec_repository.get_technologie(
             codes["codeTechnologie"], code_langue)
 
-    if (codes["jaugeCout"] is not None):
+    if (codes["jaugeCout"] is not None and codes["jaugeCout"] != 0):
         data.estimGen.cout.jaugeCout = codes["jaugeCout"]
 
-    if (codes["jaugeGain"] is not None):
+    if (codes["jaugeGain"] is not None and codes["jaugeGain"] != 0):
         data.estimGen.gain.jaugeGain = codes["jaugeGain"]
 
     if ((codes["codeParent"] is not None) and (codes["codeParent"] != code_solution)):
