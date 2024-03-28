@@ -168,7 +168,7 @@ nlp = spacy.load("fr_core_news_sm")
 
 # Fonction appelé par notre utilisateur
 # Langue : 2 = Français, 3 = Anglais et 4 = Espagnol
-def model_find_solution(description, secteur, langage=2, seuil_similarite=0.90, min_sol=5):
+def model_find_solution(description, secteur, langage=2, seuil_similarite=0.90, min_sol=5, max_sol=20):
     # Obtention du chemin absolu du répertoire contenant le script
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -226,7 +226,7 @@ def model_find_solution(description, secteur, langage=2, seuil_similarite=0.90, 
     # On sélectionne les 5 meilleures solutions
     top_min_sol_solutions = [sol[0] for sol in solutions_similarities[:min_sol]]
     # On applique le seuil de similarité aux solutions restantes
-    remaining_solutions = [sol[0] for sol in solutions_similarities[min_sol:] if sol[1] > seuil_similarite]
+    remaining_solutions = [sol[0] for sol in solutions_similarities[min_sol:max_sol] if sol[1] > seuil_similarite]
     # On concatène les deux listes de solutions
     final_solutions = top_min_sol_solutions + remaining_solutions
     # On retourne que les solutions et non la similarité
